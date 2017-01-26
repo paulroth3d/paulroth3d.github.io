@@ -1,1 +1,283 @@
-Hello world
+
+
+<!DOCTYPE HTML>
+
+<html><head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta charset="utf-8" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Salesforce Bookmarklets</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" />
+    
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <style type="text/css">
+    .center {
+         float: none;
+         margin-left: auto;
+         margin-right: auto;
+    }
+    </style>
+  </head>
+  <body>
+    
+	<!--
+	CONGRATULATIONS AT LOOKING AT THE CODE.
+    
+	These are a bunch of additional bookmarklets that are helpful,
+	but would require a bit of customizing to make them useful for you:
+	
+	Once you have the javascript updated, create your own bookmarklet at:
+	http://ted.mielczarek.org/code/mozilla/bookmarklet.html
+	
+	Allows you to very quickly and easily search rally
+	Note: you need to use your rally project id
+	ex:
+	if the url is:
+	https://rally1.rallydev.com/#/58107682671d/detail/defect/88105490928/tasks
+	then the project id is:
+	58107682671d
+	
+	javascript: (function() {
+		var rallyProject = 'rallyProjectId';
+		var searchQuery = prompt('Rally Search');
+		if (!searchQuery) {
+			return;
+		}
+		window.open('https://rally1.rallydev.com/#/' + rallyProject + '/search?keywords=' + searchQuery, '_blank');
+	})();
+	
+    Find a particular user:
+    (works in SF1, standard salesforce and LEX:
+    
+    javascript: (function() {
+	var whichType = prompt('Which user should we use?\n\n' + '(NOTE: types in parentheses or 0-5 work)\n\n' + '0: (type1) Jane Doe\n' + '1: (type2) John Doh\n'\n');
+	var userId = null;
+	if (window.location.href.indexOf('/lne--dev0') & gt; 0) {
+		switch (whichType) {
+			case 'jane':
+			case 'doe':
+			case '0':
+			case 'type1':
+				userId = '005R00000026DCp';
+				break;
+			case 'john':
+			case 'doh':
+			case '1':
+			case 'type2':
+				userId = '005R0000002OPhH';
+				break;
+			default:
+				alert('Did not understand:' + whichType + '. Please try again');
+				break;
+		}
+	} else if (window.location.href.indexOf('/something') & gt; 0) {
+		switch (whichType) {
+			case 'jane':
+			case 'doe':
+			case '0':
+			case 'type1':
+				userId = '005R00000026DCp';
+				break;
+			case 'john':
+			case 'doh':
+			case '1':
+			case 'type2':
+				userId = '005R0000002OPhH';
+				break;
+			default:
+				alert('Did not understand:' + whichType + '. Please try again');
+				break;
+		}
+	} else {
+		alert('Unknown domain');
+	}
+	if (userId) {
+		var url = window.location.protocol + '//' + window.location.host + '/' + userId + '?noredirect=1';
+		window.open(url, '_blank');
+	}
+	})();
+	
+	//-- actually logs in as the user - similar to the one above:
+	javascript: (function() {
+		var whichType = prompt('Which user should we use?\n\n' + '(NOTE: types in parentheses or 0-5 work)\n\n' + '0: (type1) Jane Doe\n' + '1: (type2) John Doh\n'\n');
+	var userId = null;
+		var orgId = null;
+		if (window.location.href.indexOf('/org1Indicator') & gt; 0) {
+			orgId = 'salesforceIdOfOrg1'; // used in the redirect
+			switch (whichType) {
+				case 'jane':
+				case 'doe':
+				case '0':
+				case 'type1':
+					userId = '005R00000026DCp';
+					break;
+				case 'john':
+				case 'doh':
+				case '1':
+				case 'type2':
+					userId = '005R0000002OPhH';
+					break;
+				default:
+					alert('Did not understand:' + whichType + '. Please try again');
+					break;
+			}
+		} else if (window.location.href.indexOf('/lne--qa0') & gt; 0) {
+			orgId = '00D6C0000000MTC';
+			switch (whichType) {
+				case 'jane':
+				case 'doe':
+				case '0':
+				case 'type1':
+					userId = '005R00000026DCp';
+					break;
+				case 'john':
+				case 'doh':
+				case '1':
+				case 'type2':
+					userId = '005R0000002OPhH';
+					break;
+				default:
+					alert('Did not understand:' + whichType + '. Please try again');
+					break;
+			}
+		} else {
+			alert('Unknown domain');
+		}
+		if (userId) {
+			var url = window.location.protocol + '//' + window.location.host + '/servlet/servlet.su?oid=' + orgId + '&amp;suorgadminid=' + userId + '&amp;targetURL=%2Fhome%2Fhome.jsp&amp;retURL=%2F005%3FisUserEntityOverride%3D1%26retURL%3D%252Fsetup%252Fhome%26isdtp%3Dp1%26sfdcIFrameOrigin%3Dhttps%253A%252F%252F' + window.location.host + '%26sfdcIFrameHost%3Dweb';
+			window.open(url, '_blank');
+		}
+	})();
+	-->
+	
+	
+	
+    
+    <div class="jumbotron">
+        <a id="SEARCH_SFDC" name="SEARCH_SFDC"></a>
+        <div class="container">
+            <h1><a href="#SEARCH_SFDC">Search Salesforce Data</a></h1>
+            <p>Searches Salesforce for your environment</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var searchTerm=prompt('what should we search for?');window.open(window.location.protocol+'//'+window.location.host+'/_ui/search/ui/UnifiedSearchResults?searchType=2&amp;str='+searchTerm,'_blank');})();" role="button">Search SFDC</a></p>
+        </div>
+    </div>
+    
+    
+    
+    
+    <div class="jumbotron">
+        <a id="SEARCH_SETUP" name="SEARCH_SETUP"></a>
+        <div class="container">
+            <h1><a href="#SEARCH_SETUP">Search Setup</a></h1>
+            <p>Searches Salesforce Setup for terms</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var searchTerm=prompt('what should we search for?');window.open(window.location.protocol+'//'+window.location.host+'/ui/setup/SetupSearchResultsPage?setupSearch='+searchTerm,'_blank');})();" role="button">Search Setup</a></p>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    <div class="jumbotron">
+        <a id="SETUP" name="SETUP"></a>
+        <div class="container">
+            <h1><a href="#SETUP">Classic Setup</a></h1>
+            <p>Navigates to the classic settings</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p>Then simply tap the bookmarklet and enter your search term</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/p/setup/custent/CustomObjectsPage?setupid=CustomObjects';var win=window.open(url,'_blank');function checkWin(){if(win.document){win.document.title=UserContext.userName;}else{setTimeout(checkWin,5000);}}setTimeout(checkWin,5000);})();" role="button">Classic Setup</a></p>
+        </div>
+    </div>
+    
+    
+    
+    <div class="jumbotron">
+        <a id="LIGHTNING_SETUP" name="LIGHTNING_SETUP"></a>
+        <div class="container">
+            <h1><a href="#LIGHTNING_SETUP">Lightning Setup</a></h1>
+            <p>Navigates to the Lightning Experience settings - assuming you're in Lightning Experience</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p>Then simply tap the bookmarklet and enter your search term</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/one/one.app#/setup/home';var win=window.open(url,'_blank');})();" role="button">Lightning Setup</a></p>
+        </div>
+    </div>
+    
+    
+    
+    <div class="jumbotron">
+        <a id="LIGHTNING_SETUP" name="LIGHTNING_APP_BUILDER"></a>
+        <div class="container">
+            <h1><a href="#LIGHTNING_APP_BUILDER">Lightning App Builder</a></h1>
+            <p>Navigates to the Lightning App Builder</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p>Then navigate to an area in Salesforce with Lightning Experience enabled, and simply tap the bookmarklet</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/one/one.app#/setup/FlexiPageList/home';var win=window.open(url,'_blank');})();" role="button">App Builder</a></p>
+        </div>
+    </div>
+    
+    
+    
+    
+    <div class="jumbotron">
+        <a id="RALLY_TASK_STORY" name="SEARCH_RALLY"></a>
+        <div class="container">
+            <h1><a href="#RALLY_TASK_STORY">Rally Task Fix</a></h1>
+            <h1>UPDATE: this may not be needed anymore with recent rally update 1/24/2017. YAY!</h1>
+            <p>Rally Tasks and Story<br />at the SAME TIME</p>
+            <h3>Its a magical concept.</h3>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p>Then, when you're on a rally story detail, click the button</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function()%7Burl2%3D&quot;http://mm-proth.s3.amazonaws.com/bookmarklets/rallyFixTarget.html&quot;%3BopenWindow%3Dwindow.open(url2%2B&quot;%3Ff1%3D&quot;%2Bwindow.location.href%2B&quot;%26f2%3D&quot;%2Bwindow.location.href%2B&quot;/tasks&quot;,&quot;RallyFix&quot;,&quot;&quot;)%3B%7D)()%3B" role="button">Rally Task Fix</a></p>
+        </div>
+    </div>
+    
+    
+    
+    <div class="jumbotron">
+        <a id="SWAP_SFDC_USER" name="SWAP_SFDC_USER"></a>
+        <div class="container">
+            <h1><a href="#SWAP_SFDC_USER">Swap SFDC User</a></h1>
+            <p>Swaps betten the User Chatter page and their User Info page (used for login)</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p>Then simply tap the bookmarklet and enter your search term</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){originalLocation = window.location.href.replace( '/UserProfilePage?', '/upp?' ); newLocation1=originalLocation.replace( /\/([a-zA-Z0-9]{15,18})[?&amp;].*/, '/_ui/core/userprofile/UserProfilePage?u=$1' ); newLocation2=originalLocation.replace( /[?&amp;]u=([a-zA-Z0-9]{15,})\&amp;.+/g, '%E2%80%A0$1?noredirect=1' ).replace( /\/_ui\/core\/[^%E2%80%A0]+%E2%80%A0/g, '/' ); if( newLocation1 != originalLocation ){   window.location.href=newLocation1; } else if( newLocation2 != originalLocation ){ window.location.href=newLocation2; } })()" role="button">Swap SFDC User</a></p>
+        </div>
+    </div>
+    
+    
+    <div class="jumbotron">
+        <a id="RENAME_WINDOW" name="RENAME_WINDOW"></a>
+        <div class="container">
+            <h1><a href="#RENAME_WINDOW">Rename Window</a></h1>
+            <p>Helpful link to allow you to rename windows, so expos&eacute; shows windows in a way that you can tell what is what</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p>Then simply tap the bookmarklet and enter your search term</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){window.document.title=window.prompt('New window title?');})()" role="button">Rename Window</a></p>
+        </div>
+    </div>
+    
+    <div class="jumbotron">
+        <a id="SFDC_ID" name="SFDC_ID"></a>
+        <div class="container">
+            <h1><a href="#SFDC_ID">Open SalesForce ID</a></h1>
+            <h3>Opens SalesForce to a particular SalesForce ID</h3>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p>Then simply tap the bookmarklet and enter your search term</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var isLightning=(window.location.href.indexOf('/one/one.app')&gt;-1);var sfdcId=prompt('What is the SalesForce.com ID?');if(!sfdcId){return;}var apexPage=null;var apexMatches=apexMatches=sfdcId.match('(^|/)apex/([a-zA-Z0-9_+]+)');var targetURL='/'+sfdcId;if(isLightning){if(apexMatches){targetURL='/one/one.app#/n/'+apexMatches[2];}else{targetURL='/one/one.app#/sObject/'+sfdcId+'/view'}}var resultURL=window.location.protocol+'//'+window.location.host+targetURL;window.open(resultURL,'_blank');})();" role="button">Open SFDC ID</a></p>
+        </div>
+    </div>
+    
+    
+    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</body></html>
