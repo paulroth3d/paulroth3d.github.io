@@ -272,7 +272,7 @@
             <h3>Opens SalesForce to a particular SalesForce ID</h3>
             <p>To install, drag the link below to your bookmarks bar</p>
             <p>Then simply tap the bookmarklet and enter your search term</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var isLightning=(window.location.href.indexOf('/one/one.app')&gt;-1);var sfdcId=prompt('What is the SalesForce.com ID?');if(!sfdcId){return;}var apexPage=null;var apexMatches=apexMatches=sfdcId.match('(^|/)apex/([a-zA-Z0-9_+]+)');var targetURL='/'+sfdcId;if(isLightning){if(apexMatches){targetURL='/one/one.app#/n/'+apexMatches[2];}else{targetURL='/one/one.app#/sObject/'+sfdcId+'/view'}}var resultURL=window.location.protocol+'//'+window.location.host+targetURL;window.open(resultURL,'_blank');})();" role="button">Open SFDC ID</a></p>
+            <p class='bkmklt'><a class="btn btn-primary btn-lg" role="button" href="javascript:(function(){var isLightning=(window.location.href.indexOf('/one/one.app')>-1);var isLEX=(typeof $A!=='undefined');var sfdcId=prompt('What is the SalesForce.com ID?');if(!sfdcId){return;}var apexPage=null;var apexMatches=apexMatches=sfdcId.match('(^|/)apex/([a-zA-Z0-9_+]+)');var targetURL='/'+sfdcId;if(isLEX){try{targetURL=targetURL.replace('//','/');var evt=$A.get('e.force:navigateToURL');evt.setParams({'url':targetURL});evt.fire();return;}catch(err){alert('In LEX, but cannot navigate to URL:'+targetURL);return;}}if(isLightning){if(apexMatches){targetURL='/one/one.app#/n/'+apexMatches[2];}else{targetURL='/one/one.app#/sObject/'+sfdcId+'/view'}}var resultURL=window.location.protocol+'//'+window.location.host+targetURL;window.open(resultURL,'_blank');})();">Open SFDC ID</a></p>
         </div>
     </div>
     
