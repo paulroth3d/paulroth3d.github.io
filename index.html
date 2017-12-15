@@ -160,6 +160,21 @@
 	
     
     <div class="jumbotron">
+        <a id="SEARCH_LEX" name="SEARCH_LEX"></a>
+        <div class="container">
+            <h1><a href="#SEARCH_SFDC">Search Lightning Experience</a></h1>
+			<p>Searches within LEX of your current Salesforce org</p>
+			<p>Sometimes you want to do a search within Lightning Experience but don&apos;t want to lose your current screen.</p>
+			<p>Launching this bookmarklet while on a Salesforce org will search for that topic in LEX in a new window.</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+			<p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var searchReq=prompt('what do you want to search?');var searchObj={'componentDef':'forceSearch:search','attributes':{'term':searchReq,'scopeMap':{'type':'TOP_RESULTS'},'context':{'disableSpellCorrection':false,'permsAndPrefs':{'lvmEnabledForSearchResultsOn':true}}}};var searchStr=btoa(JSON.stringify(searchObj));window.open(window.location.protocol+'//'+window.location.host+'/one/one.app#'+searchStr,'_blank');})();" role="button">Search LEX</a></p>
+        </div>
+    </div>
+	
+	
+	
+    
+    <div class="jumbotron">
         <a id="SEARCH_SFDC" name="SEARCH_SFDC"></a>
         <div class="container">
             <h1><a href="#SEARCH_SFDC">Search Salesforce Data</a></h1>
