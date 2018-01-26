@@ -229,6 +229,19 @@
     
     
     <div class="jumbotron">
+        <a id="AC_STUDIO" name="AC_STUDIO"></a>
+        <div class="container">
+            <h1><a href="#AC_STUDIO">Open AC Studio</a></h1>
+            <p>Navigates to Salesforce Analytics Studio - assuming it is available in your org</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p>Then simply tap the bookmarklet when somewhere in your salesforce org.</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/analytics/wave/wave.apexp#home';var win=window.open(url,'_blank');function checkWin(){if(win.document){win.document.title=UserContext.userName;}else{setTimeout(checkWin,5000);}}setTimeout(checkWin,5000);})();" role="button">Open AC Studio</a></p>
+        </div>
+    </div>
+    
+    
+    
+    <div class="jumbotron">
         <a id="LIGHTNING_SETUP" name="LIGHTNING_APP_BUILDER"></a>
         <div class="container">
             <h1><a href="#LIGHTNING_APP_BUILDER">Lightning App Builder</a></h1>
