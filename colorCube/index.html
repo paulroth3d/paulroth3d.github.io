@@ -1,0 +1,115 @@
+<!doctype html>
+
+<meta charset="utf-8">
+
+<canvas id="webgl" width="512" height="512">
+  Please use a browser that supports canvas.
+</canvas>
+
+<script type="text/javascript" src="./webgl-utils.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.3.2/gl-matrix-min.js"></script>
+
+<script>
+  let canvas = document.getElementById('webgl');
+  let gl = getWebGLContext(canvas);
+
+  let VSHADER_SOURCE = null;
+  let FSHADER_SOURCE = null;
+
+  loadShaderFromFile(gl, 'vshader.glsl', gl.VERTEX_SHADER, onLoadShader);
+  loadShaderFromFile(gl, 'fshader.glsl', gl.FRAGMENT_SHADER, onLoadShader);
+
+  function onLoadShader(gl, fileString, type) {
+    if (type === gl.VERTEX_SHADER) {
+      VSHADER_SOURCE = fileString;
+    }
+    else if (type === gl.FRAGMENT_SHADER) {
+      FSHADER_SOURCE = fileString;
+    }
+
+    if (VSHADER_SOURCE && FSHADER_SOURCE) {
+      start();
+    }
+  }
+
+  function initVertexBuffers(gl) {
+    let positionsAndColors = new Float32Array([
+      1.0,  1.0,  1.0,     1.0,  1.0,  1.0,  // v0 White
+     -1.0,  1.0,  1.0,     1.0,  0.0,  1.0,  // v1 Magenta
+     -1.0, -1.0,  1.0,     1.0,  0.0,  0.0,  // v2 Red
+      1.0, -1.0,  1.0,     1.0,  1.0,  0.0,  // v3 Yellow
+      1.0, -1.0, -1.0,     0.0,  1.0,  0.0,  // v4 Green
+      1.0,  1.0, -1.0,     0.0,  1.0,  1.0,  // v5 Cyan
+     -1.0,  1.0, -1.0,     0.0,  0.0,  1.0,  // v6 Blue
+     -1.0, -1.0, -1.0,     0.0,  0.0,  0.0   // v7 Black
+    ]);
+
+    let indices = new Uint8Array([
+      0, 1, 2,   0, 2, 3,    // front
+      0, 3, 4,   0, 4, 5,    // right
+      0, 5, 6,   0, 6, 1,    // up
+      1, 6, 7,   1, 7, 2,    // left
+      7, 4, 3,   7, 3, 2,    // down
+      4, 7, 6,   4, 6, 5     // back
+    ]);
+
+    // Create buffer objects.
+    let positionsAndColorsBuffer = gl.createBuffer();
+    let indexBuffer = gl.createBuffer();
+
+    // Write the vertex positions and color to the buffer object.
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionsAndColorsBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, positionsAndColors, gl.STATIC_DRAW);
+
+    // Bytes per element in positions and color buffer.
+    let FSIZE = positionsAndColors.BYTES_PER_ELEMENT;
+
+    // Assign position coords to attrib and enable it.
+    let a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+    gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, FSIZE * 6, 0);
+    gl.enableVertexAttribArray(a_Position);
+
+    // Assign color coords to attrib and enable it.
+    let a_Color = gl.getAttribLocation(gl.program, 'a_Color');
+    gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, FSIZE * 6, FSIZE * 3);
+    gl.enableVertexAttribArray(a_Color);
+
+    // Pass index buffer data to element array buffer.
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+
+    return indices.length;
+  }
+
+  function start() {
+    // Init vertex and fragment shaders.
+    initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE);
+
+    // Init vertex buffers (position, color, and index data).
+    let n = initVertexBuffers(gl);
+
+    // Set up clear color and enable depth testing.
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.enable(gl.DEPTH_TEST);
+
+    // Create projection matrix.
+    let projection = mat4.create();
+    mat4.perspective(projection, Math.PI/6, 1.0, 1.0, 200.0);
+
+    // Create model-view matrix.
+    let modelView = mat4.create();
+    mat4.lookAt(modelView, [3.0, 6.0, 7.0], [0.0, 0.0 , 0.0], [0.0, 1.0, 0.0]);
+
+    // Multiply the projection matrix by the model-view matrix to create the mvpMatrix.
+    let mvpMatrix = mat4.create();
+    mat4.multiply(mvpMatrix, projection, modelView);
+
+    // Pass the mvpMatrix into the shader.
+    let u_MvpMatrix = gl.getUniformLocation(gl.program, 'u_MvpMatrix');
+    gl.uniformMatrix4fv(u_MvpMatrix, false, mvpMatrix);
+
+    // Clear & draw.
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
+  }
+</script>
