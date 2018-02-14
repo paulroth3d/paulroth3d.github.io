@@ -315,6 +315,18 @@
             <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){ try { window.prompt('Shareable link to this event:','https://www.google.com/calendar/event?eid='+document.getElementsByClassName('ep')[0].getAttribute('data-eid')) } catch (e) {alert('Use this bookmarklet to get a shareable link to a Google Calendar event when editing its Details page.')}})()" role="button">Share GCal Event</a></p>
         </div>
     </div>
+	
+    
+    <div class="jumbotron">
+        <a id="VIDYARD_TIMESTAMP" name="VIDYARD_TIMESTAMP"></a>
+        <div class="container">
+            <h1><a href="#VIDYARD_TIMESTAMP">Vidyard Timestamp</a></h1>
+            <p>Navigates to a specific seconds offset in a vidyard video.</p>
+			<p>To install, drag the link below to your bookmarks bar</p>
+			<p>Then, click the bookmark when on a vidyard video, fill in the seconds offset</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var explorer=null;function getVidyardVideo(v){var result=null;for(var prop in v){if(v.hasOwnProperty(prop)&&typeof(v[prop])=='object'){return(v[prop]);}}return(null);}try{var vidPlayer=new Vidyard.players();window.vidyardExplorer=getVidyardVideo(vidPlayer);explorer=window.vidyardExplorer;}catch(err){alert('could not find vidyard explorer');}if(explorer){try{var timecodeStr=prompt('Video timestamp');var timecode=parseInt(timecodeStr);if(timecode){explorer.seek(timecode);}else{alert('invalid timecode:'+timecode);}}catch(err){alert('could not navigate video');}}})();" role="button">Vidyard Timestamp</a></p>
+        </div>
+    </div>
     
     
     <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
