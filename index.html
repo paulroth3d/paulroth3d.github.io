@@ -306,6 +306,21 @@
 	
     
     <div class="jumbotron">
+        <a id="VIEW_ALL_PER_PAGE" name="VIEW_ALL_PER_PAGE"></a>
+        <div class="container">
+            <h1><a href="#VIEW_ALL_PER_PAGE">View All per Page</a></h1>
+            <p>If on a page that says 'see more', you want to see 1k per page instead - this bookmarklet is for you.</p>
+			<p>To install, drag the link below to your bookmarks bar</p>
+			<p>For now, you will have to click on the 'see more' link at least once before clicking,
+				as a couple pages in salesforce have special parameters (like the rowsperpage attribute)
+				that aren't shown until then.</p>
+			<p>This bookmarklet needs that parameter (and all the other hidden special ones) to work correctly</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var loc=window.location.href;var rowsPerPagePattern=/([%][2][6]rowsperpage[%][3][D])(\d+)([%][2][6])/i;var loc2=loc.replace(rowsPerPagePattern,function(matchStr,p1,p2,p3,offset,fullStr){return(p1+1000+p3);});window.location.href=loc2;})();" role="button">View All per Page</a></p>
+        </div>
+    </div>
+	
+    
+    <div class="jumbotron">
         <a id="SHARE_GCAL_EVENT" name="SHARE_GCAL_EVENT"></a>
         <div class="container">
             <h1><a href="#SHARE_GCAL_EVENT">Share GCal Event</a></h1>
