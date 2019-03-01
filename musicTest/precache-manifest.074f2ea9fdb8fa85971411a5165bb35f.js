@@ -4,19 +4,19 @@ self.__precacheManifest = [
     "url": "/musicTest/static/js/runtime~main.0cf311f6.js"
   },
   {
-    "revision": "acd7e93006ce8ac9df63",
-    "url": "/musicTest/static/js/main.acd7e930.chunk.js"
+    "revision": "cb19c3a05bd2490d8f1a",
+    "url": "/musicTest/static/js/main.cb19c3a0.chunk.js"
   },
   {
     "revision": "cb44f0887f76d3c87540",
     "url": "/musicTest/static/js/2.cb44f088.chunk.js"
   },
   {
-    "revision": "acd7e93006ce8ac9df63",
-    "url": "/musicTest/static/css/main.0e0efc35.chunk.css"
+    "revision": "cb19c3a05bd2490d8f1a",
+    "url": "/musicTest/static/css/main.ba01cc9a.chunk.css"
   },
   {
-    "revision": "abfb16f7f1a1852e6375b9b1683184df",
+    "revision": "72a67a710a63f37b11cab7d2559cb86e",
     "url": "/musicTest/index.html"
   }
 ];
