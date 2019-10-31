@@ -36,6 +36,33 @@
   <script type='text/javascript'>
 
     /**
+     * Gets a list of all the url params and their values
+     * and returns it as a map.
+     * @return {Object}
+     **/
+    function getUrlVars() {
+      var vars = {};
+      var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+      });
+      return vars;
+    }
+
+    /**
+     * Determines a very specific url parameter
+     * @param {string} parameter
+     * @param {string} defaultValue
+     * @return {string} - value
+     **/
+    function getUrlParam(parameter, defaultValue){
+      var urlparameter = defaultValue;
+      if(window.location.href.indexOf(parameter) > -1){
+        urlparameter = getUrlVars()[parameter];
+      }
+      return urlparameter;
+    }
+
+    /**
      * Converts a character with a nato phoenetic spelling equivalent
      * @param {string} char
      * @returns {string} - nato phonetic spelling equivalent
@@ -131,6 +158,14 @@
       }
       return result;
     }
+
+    document.addEventListener("DOMContentLoaded", function(){
+      console.log('getting the document content');
+      var textParam = getUrlParam('text');
+      if (textParam) {
+        document.getElementById('inputText').value=textParam;
+      }
+    });
 
     document.getElementById('btnSubmit').addEventListener("click", function(evt){
       console.log('you clicked the submit button');
