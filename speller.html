@@ -1,0 +1,157 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Phoenetic Speller</title>
+  <meta name="description" content="A simple phonetic alphabet tool">
+  <meta name="author" content="Paul Roth">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <style type="text/css">
+    body {
+      background-color: #f5f5f5;
+    }
+    .form-signin {
+      width: 100%;
+      max-width: 330px;
+      padding: 15px;
+      margin:auto;
+    }
+  </style>
+</head>
+
+<body class="text-center">
+  <form class="form-signin">
+    <h1 class="h3 mb-3 font-weight-normal">Phoenetic Speller</h1>
+    <label for="inputText" class="sr-only">What should we spell?</label>
+    <input type="text" id="inputText" class="form-control" placeholder="abcdefg" required="" autofocus="" autocomplete="off">
+    
+    <button class="btn btn-lg btn-primary btn-block" id='btnSubmit' type="submit">Phoenetically spell</button>
+  </form>
+  <p class="mt-2 mb-3 text-muted" id='results'></p>
+
+  <script type='text/javascript'>
+
+    /**
+     * Converts a character with a nato phoenetic spelling equivalent
+     * @param {string} char
+     * @returns {string} - nato phonetic spelling equivalent
+     **/
+    function replaceCharacter(char){
+      var result = char;
+      if (char) {
+        var charI = char.toUpperCase();
+        switch (charI){
+          case 'A': result = 'Alpha'; break;
+          case 'B': result = 'Bravo'; break;
+          case 'C': result = 'Charlie'; break;
+          case 'D': result = 'Delta'; break;
+          case 'E': result = 'Echo'; break;
+          case 'F': result = 'Foxtrot'; break;
+          case 'G': result = 'Golf'; break;
+          case 'H': result = 'Hotel'; break;
+          case 'I': result = 'India'; break;
+          case 'J': result = 'Juliett'; break;
+          case 'K': result = 'Kilo'; break;
+          case 'L': result = 'Lima'; break;
+          case 'M': result = 'Mike'; break;
+          case 'N': result = 'November'; break;
+          case 'O': result = 'Oscar'; break;
+          case 'P': result = 'Papa'; break;
+          case 'Q': result = 'Quebec'; break;
+          case 'R': result = 'Romeo'; break;
+          case 'S': result = 'Sierra'; break;
+          case 'T': result = 'Tango'; break;
+          case 'U': result = 'Uniform'; break;
+          case 'V': result = 'Victor'; break;
+          case 'W': result = 'Whisky'; break;
+          case 'X': result = 'X-Ray'; break;
+          case 'Y': result = 'Yankee'; break;
+          case 'Z': result = 'Zulu'; break;
+          case '0': result = 'Nadazero - nah-dah-zero'; break;
+          case '1': result = 'unaone - oo-na-one'; break;
+          case '2': result = 'bissotwo - Bees-Soh-Two'; break;
+          case '3': result = 'terrathree - Tay-Rah-Tree'; break;
+          case '4': result = 'katefour - kar-Tay-Four'; break;
+          case '5': result = 'pantafive - Pan-Tah-Five'; break;
+          case '6': result = 'soxisix - Sok-See-Six'; break;
+          case '7': result = 'setseven - Say-Tay-Seven'; break;
+          case '8': result = 'oktoeight - Ok-To-Eight'; break;
+          case '9': result = 'noveniner - No-Vay-Niner'; break;
+          case '-': result = 'hyphen'; break;
+          case '&': result = 'ampersand'; break;
+          case ',': result = 'comma'; break;
+          case ':': result = 'colon'; break;
+          case ';': result = 'semi-colon'; break;
+          case '\'': result = 'single-quote'; break;
+          case '"': result = 'double-quote'; break;
+          case '(': result = 'open-parentheses'; break;
+          case ')': result = 'close-parentheses'; break;
+          case '!': result = 'exclaimation-mark'; break;
+          case '@': result = 'at-sign'; break;
+          case '#': result = 'pound-sign'; break;
+          case '$': result = 'dollar-sign'; break;
+          case '%': result = 'percent-sign'; break;
+          case '^': result = 'carrot'; break;
+          case '*': result = 'asterisk'; break;
+          case '+': result = 'plus'; break;
+          case '=': result = 'equals'; break;
+          case '~': result = 'tilde'; break;
+          case '`': result = 'tick-mark'; break;
+          case ' ': result = 'space'; break;
+          case '  ': result = 'tab'; break;
+          case '<': result = 'less-than'; break;
+          case '>': result = 'greater-than'; break;
+          case '.': result = 'period'; break;
+          case '?': result = 'question-mark'; break;
+          case '/': result = 'forward-slash'; break;
+          case '\\': result = 'back-slash'; break;
+          case '[': result = 'open-hard-bracket'; break;
+          case ']': result = 'close-hard-bracket'; break;
+          case '{': result = 'open-curly-brace'; break;
+          case '}': result = 'close-curly-brace'; break;
+          case '|': result = 'vertical-pipe'; break;
+        }
+      }
+      return result;
+    }
+
+    /**
+     * Converts a text to characters
+     * @param {string} str
+     * @returns {string[]} - list of characters
+     **/
+    function textToChars(str) {
+      var result = [];
+      if (str) {
+        result = str.split('');
+      }
+      return result;
+    }
+
+    document.getElementById('btnSubmit').addEventListener("click", function(evt){
+      console.log('you clicked the submit button');
+      evt.preventDefault();
+      evt.stopPropagation();
+      evt.stopImmediatePropagation();
+
+      var textToSpell = document.getElementById('inputText').value;
+      if (!textToSpell) {
+        return;
+      }
+
+      var newStr = textToChars(textToSpell).reduce(function(collection, currentValue){
+        collection += replaceCharacter(currentValue) + '<br />';
+        return collection;
+      }, '');
+
+      console.log(newStr);
+
+      document.getElementById('results').innerHTML = newStr;
+    });
+  </script>
+</body>
+</html>
