@@ -158,12 +158,40 @@
       }
       return result;
     }
+    
+    /**
+     * Apply the result html
+     * @param {string} spellingHTML
+     **/
+    function showResults(spellingHTML) {
+    	document.getElementById('results').innerHTML = spellingHTML;
+    }
+    
+    /**
+     * Convert a text into an html list of phonetic spellings
+     * @param {string} textToSpell
+     * @returns {string} - html text
+     **/
+    function textToSpellingHTML(textToSpell){
+    	var result = '';
+    	if (textToSpell){
+				result = textToChars(textToSpell).reduce(function(collection, currentValue){
+					collection += replaceCharacter(currentValue) + '<br />';
+					return collection;
+				}, '');
+			}
+			return result;
+    }
 
     document.addEventListener("DOMContentLoaded", function(){
       console.log('getting the document content');
       var textParam = getUrlParam('text');
       if (textParam) {
         document.getElementById('inputText').value=textParam;
+        
+        var newStr = textToSpellingHTML(textParam);
+				console.log(newStr);
+				showResults(newStr);
       }
     });
 
@@ -178,14 +206,11 @@
         return;
       }
 
-      var newStr = textToChars(textToSpell).reduce(function(collection, currentValue){
-        collection += replaceCharacter(currentValue) + '<br />';
-        return collection;
-      }, '');
+      var newStr = textToSpellingHTML(textToSpell);
 
       console.log(newStr);
 
-      document.getElementById('results').innerHTML = newStr;
+      showResults(newStr);
     });
   </script>
 </body>
