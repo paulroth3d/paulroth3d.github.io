@@ -19,6 +19,13 @@
             text-align: center;
         }
         .info-container {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #AAA;
+        }
+        .description {
+            color: #AAA;
+            margin: 0px;
         }
     </style>
 
@@ -34,6 +41,8 @@
 <body>
     <div class="my-container row justify-content-center">
         <div class="info-container align-self-center centered-text" hidden>
+            <p class='description'>(Click on your Phone to dial)</p>
+            <p class='description'></p>
             <div class='info-phone'></div>                
             <button class='btn-phone btn btn-primary' onclick="handleButtonClicked(); false;">Connect to call</button>
         </div>
@@ -44,7 +53,6 @@
          * When the document has finished loading
          **/
         function handleDocumentLoaded() {
-            debugger;
             const phoneNumber = getPhoneNumber();
             applyPhoneNumber(phoneNumber);
         }
