@@ -101,7 +101,7 @@
         function handleButtonClicked() {
             let phoneNumber = getPhoneNumber();
             if (phoneNumber) {
-                phoneNumber = phoneNumber.replace(/[^0-9#;,]/g, '');
+                phoneNumber = phoneNumber.replace(/[^0-9#+;,]/g, '');
             }
 
             // window.setTimeout(function() {
