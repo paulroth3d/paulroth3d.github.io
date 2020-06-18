@@ -1,0 +1,108 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    
+    <title>Phone Call Launcher</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+
+    <style type='text/css'>
+        body, .my-container {
+            width: 100vw;
+            height: 100vh;
+        }
+        .centered-text {
+            text-align: center;
+        }
+        .info-container {
+        }
+    </style>
+
+    <!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" />
+    -->
+
+    <!--[if lt IE 9]>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script>window.html5 || document.write('<script src="js/vendor/html5shiv.js"><\/script>')</script>
+    <![endif]-->
+</head>
+<body>
+    <div class="my-container row justify-content-center">
+        <div class="info-container align-self-center centered-text" hidden>
+            <div class='info-phone'></div>                
+            <button class='btn-phone btn btn-primary' onclick="handleButtonClicked(); false;">Connect to call</button>
+        </div>
+    </div>
+
+    <script type='text/javascript'>
+        /**
+         * When the document has finished loading
+         **/
+        function handleDocumentLoaded() {
+            debugger;
+            const phoneNumber = getPhoneNumber();
+            applyPhoneNumber(phoneNumber);
+        }
+        window.addEventListener('load', handleDocumentLoaded);
+
+        /**
+         * Set the phone number
+         * @param {String} the phone number to use
+         **/
+        function applyPhoneNumber(phoneNumber) {
+            console.log(`phone captured:${phoneNumber}`);
+
+            const infoContainer = getInfoContainer();
+            const phoneDiv = getPhoneDiv();
+            const phoneBtn = getButton();
+
+            infoContainer.hidden = false;
+            if (!phoneNumber) {
+                phoneDiv.innerHTML = 'Please provide the ?phone= URL parameter.';
+                phoneBtn.hidden = true;
+            } else {
+                phoneDiv.innerHTML = `Phone #: ${phoneNumber}`;
+                phoneBtn.hidden = false;
+            }
+        }
+
+        function getPhoneNumber() {
+            const params = new URLSearchParams(document.location.search);
+            const phone = params.get('phone') || null;
+            return phone;
+        }
+
+        function getInfoContainer() {
+            return document.querySelector('div.info-container');
+        }
+        function getPhoneDiv() {
+            return document.querySelector('div.info-phone');
+        }
+        function getButton() {
+            return document.querySelector('button.btn-phone');
+        }
+
+        /**
+         * Handle when the user clicks the button
+         **/
+        function handleButtonClicked() {
+            let phoneNumber = getPhoneNumber();
+            if (phoneNumber) {
+                phoneNumber = phoneNumber.replace(/[^0-9#;,]/g, '');
+            }
+
+            // window.setTimeout(function() {
+            //     alert('Does this device not handle phone calls?');
+            // }, 1000);
+
+            const targetAddress = `tel://${phoneNumber}`;
+            window.location.href = targetAddress;
+        }
+    </script>
+</body>
+</html>
