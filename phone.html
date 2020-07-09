@@ -18,6 +18,8 @@
     <meta name="msapplication-wide310x150logo" content="https://paulroth3d.github.io/img/Phone-Icon-rect-310.png">
     <!-- Windows tile theme color -->
     <meta name="msapplication-TileColor" content="#2e2e2e">
+
+    <script src="/lib/qrcode.js" type="text/javascript"></script>
     
     <title>Phone Call Launcher</title>
 
@@ -41,6 +43,9 @@
             color: #AAA;
             margin: 0px;
         }
+        #qrcode {
+            padding-top: 5px;
+        }
     </style>
 
     <!--
@@ -57,8 +62,10 @@
         <div class="info-container align-self-center centered-text" hidden>
             <p class='description'>(Click on your Phone to dial)</p>
             <p class='description'></p>
-            <div class='info-phone'></div>                
+            <div class='info-phone'></div>
             <button class='btn-phone btn btn-primary' onclick="handleButtonClicked(); false;">Connect to call</button>
+            <hr />
+            <div id="qrcode"></div>
         </div>
     </div>
 
@@ -90,6 +97,12 @@
             } else {
                 phoneDiv.innerHTML = `Phone #: ${phoneNumber}`;
                 phoneBtn.hidden = false;
+
+                const targetAddress = `tel://${phoneNumber}`;
+                console.log(`applying qr code:${targetAddress}`);
+                new QRCode(document.getElementById('qrcode'), {
+                    text:targetAddress
+                });
             }
         }
 
