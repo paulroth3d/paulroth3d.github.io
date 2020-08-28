@@ -46,6 +46,10 @@
         #qrcode {
             padding-top: 5px;
         }
+
+        #qrcode > img {
+            display: inline !important;
+        }
     </style>
 
     <!--
@@ -79,12 +83,39 @@
         }
         window.addEventListener('load', handleDocumentLoaded);
 
+        function getPhoneNumber() {
+            const params = new URLSearchParams(document.location.search);
+            const phone = params.get('phone') || null;
+            return phone;
+        }
+
+        function cleanPhoneNumber(phoneNumber) {
+            let result = phoneNumber;
+            if (result) {
+                result = result.replace(/\bpin:(.+)/i, ',,,$1#')
+                    .replace(/[^0-9#+;,]/g, '');
+            }
+            return result;
+        }
+
+        function getInfoContainer() {
+            return document.querySelector('div.info-container');
+        }
+        function getPhoneDiv() {
+            return document.querySelector('div.info-phone');
+        }
+        function getButton() {
+            return document.querySelector('button.btn-phone');
+        }
+
         /**
          * Set the phone number
          * @param {String} the phone number to use
          **/
         function applyPhoneNumber(phoneNumber) {
             console.log(`phone captured:${phoneNumber}`);
+
+            const numberToDial = cleanPhoneNumber(phoneNumber);
 
             const infoContainer = getInfoContainer();
             const phoneDiv = getPhoneDiv();
@@ -100,26 +131,13 @@
 
                 const targetAddress = `tel://${phoneNumber}`;
                 console.log(`applying qr code:${targetAddress}`);
-                new QRCode(document.getElementById('qrcode'), {
+
+                const qrcodeEl = document.getElementById('qrcode');
+                qrcodeEl.setAttribute('data-phone', numberToDial);
+                new QRCode(qrcodeEl, {
                     text:targetAddress
                 });
             }
-        }
-
-        function getPhoneNumber() {
-            const params = new URLSearchParams(document.location.search);
-            const phone = params.get('phone') || null;
-            return phone;
-        }
-
-        function getInfoContainer() {
-            return document.querySelector('div.info-container');
-        }
-        function getPhoneDiv() {
-            return document.querySelector('div.info-phone');
-        }
-        function getButton() {
-            return document.querySelector('button.btn-phone');
         }
 
         /**
@@ -127,9 +145,7 @@
          **/
         function handleButtonClicked() {
             let phoneNumber = getPhoneNumber();
-            if (phoneNumber) {
-                phoneNumber = phoneNumber.replace(/[^0-9#+;,]/g, '');
-            }
+            phoneNumber = cleanPhoneNumber(phoneNumber);
 
             // window.setTimeout(function() {
             //     alert('Does this device not handle phone calls?');
