@@ -93,7 +93,8 @@
             let result = phoneNumber;
             if (result) {
                 result = result.replace(/\bpin:(.+)/i, ',,,$1#')
-                    .replace(/[^0-9#+;,]/g, '');
+                    .replace(/[^0-9#+;,]/g, '')
+                    .replace(/#+/, '#');
             }
             return result;
         }
@@ -129,7 +130,7 @@
                 phoneDiv.innerHTML = `Phone #: ${phoneNumber}`;
                 phoneBtn.hidden = false;
 
-                const targetAddress = `tel://${phoneNumber}`;
+                const targetAddress = `tel://${numberToDial}`;
                 console.log(`applying qr code:${targetAddress}`);
 
                 const qrcodeEl = document.getElementById('qrcode');
