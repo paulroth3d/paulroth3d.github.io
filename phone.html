@@ -34,7 +34,7 @@
         .centered-text {
             text-align: center;
         }
-        .info-container {
+        .info-container, .form-container {
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #AAA;
@@ -42,6 +42,18 @@
         .description {
             color: #AAA;
             margin: 0px;
+        }
+        .app-form label {
+            display:block;
+        }
+        .edit-btn {
+            width: 100%;
+            border: 1px solid #DDD;
+            border-radius: 3px;
+        }
+        .phone-input {
+            width: 80%;
+            height: 5em;
         }
         #qrcode {
             padding-top: 5px;
@@ -70,6 +82,30 @@
             <button class='btn-phone btn btn-primary' onclick="handleButtonClicked(); false;">Connect to call</button>
             <hr />
             <div id="qrcode"></div>
+            <div class='edit-container'>
+                <hr />
+                <div class='edit-btn' onclick="handleEditButtonClicked(); false;">- Edit -</div>
+                <form action="" method="GET" class="app-form edit-form" hidden>
+                    <div class="form-input">
+                        <label for="phone">Please enter a phone number to dial.</label>
+                        <textarea class="phone-input" name="phone" required></textarea>
+                    </div>
+                    <div class="form-button">
+                        <input type="submit" value="Submit" class="btn btn-secondary"></input>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="form-container align-self-center centered-text" hidden>
+            <form action="" method="GET" class="app-form create-form">
+                <div class="form-input">
+                    <label for="phone">Please enter a phone number to dial.</label>
+                    <textarea class="phone-input" name="phone" required></textarea>
+                </div>
+                <div class="form-button">
+                    <input type="submit" value="Submit" class="btn btn-secondary"></input>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -89,6 +125,12 @@
             return phone;
         }
 
+        function getIsEditable() {
+            const params = new URLSearchParams(document.location.search);
+            const editable = params.has('editable');
+            return editable;
+        }
+
         function cleanPhoneNumber(phoneNumber) {
             let result = phoneNumber;
             if (result) {
@@ -99,8 +141,14 @@
             return result;
         }
 
+        function getEditContainer() {
+            return document.querySelector('div.edit-container');
+        }
         function getInfoContainer() {
             return document.querySelector('div.info-container');
+        }
+        function getFormContainer() {
+            return document.querySelector('div.form-container');
         }
         function getPhoneDiv() {
             return document.querySelector('div.info-phone');
@@ -117,18 +165,29 @@
             console.log(`phone captured:${phoneNumber}`);
 
             const numberToDial = cleanPhoneNumber(phoneNumber);
+            // const isEditable = getIsEditable();
 
             const infoContainer = getInfoContainer();
+            const formContainer = getFormContainer();
             const phoneDiv = getPhoneDiv();
             const phoneBtn = getButton();
 
-            infoContainer.hidden = false;
             if (!phoneNumber) {
+                infoContainer.hidden = true;
+                formContainer.hidden = false;
                 phoneDiv.innerHTML = 'Please provide the ?phone= URL parameter.';
                 phoneBtn.hidden = true;
             } else {
+                infoContainer.hidden = false;
+                formContainer.hidden = true;
                 phoneDiv.innerHTML = `Phone #: ${phoneNumber}`;
                 phoneBtn.hidden = false;
+
+                // getEditContainer().hidden = !isEditable;
+
+                document.querySelectorAll('.app-form .phone-input').forEach((phoneInput) => {
+                    phoneInput.value = phoneNumber;
+                });
 
                 const targetAddress = `tel://${numberToDial}`;
                 console.log(`applying qr code:${targetAddress}`);
@@ -154,6 +213,14 @@
 
             const targetAddress = `tel://${phoneNumber}`;
             window.location.href = targetAddress;
+        }
+
+        /**
+         * Handle if the edit button was clicked
+         **/
+        function handleEditButtonClicked() {
+            const editForm = document.querySelector('.edit-container .edit-form');
+            editForm.hidden = !editForm.hidden;
         }
     </script>
 </body>
