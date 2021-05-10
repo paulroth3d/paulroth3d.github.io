@@ -348,9 +348,24 @@
         <div class="container">
             <h1><a href="#RAMDA">Inject Ramda</a></h1>
             <p>Injects <a href='https://ramdajs.com/docs/'>Ramda</a></p>
-            <p><a target='_blank' href='https://raw.githubusercontent.com/ramda/ramda/master/BOOKMARKLET.md'>From Here</a></p>
+            <p><a target='_blank' href='https://github.com/ramda/ramda/blob/master/BOOKMARKLET.md'>From Here</a></p>
         </div>
     </div>
+	
+    
+    <div class="jumbotron">
+        <a id="CONFIRM_CLOSE" name="CONFIRM_CLOSE"></a>
+        <div class="container">
+            <h1><a href="#CONFIRM_CLOSE">Confirm Closing this Tab</a></h1>
+			<p>After clicking this bookmarklet, you&apos;ll be asked to confirm when moving away.</p>
+			<p>This can be quite nice to remember to do something before finishing for the day.</p>
+            <p>Such as, you got a notification on certs you should handle later today...</p>
+            <p>Even if you try closing the whole window and it is buried in one of the tabs, it can confirm before it does anything.</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+			<p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){window.onbeforeunload=(evt)=>{return 'discard changes?';}})();" role="button">Search LEX</a></p>
+        </div>
+    </div>
+
     
     <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
     
