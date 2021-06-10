@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta content="IE=edge" http-equiv="X-UA-Compatible" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <title>Salesforce Bookmarklets</title>
+    <title>Useful Bookmarklets</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" />
     
@@ -157,6 +157,19 @@
 	-->
 	
 	
+    
+    <div class="jumbotron">
+        <a id="COPY_TABLE" name="COPY_TABLE"></a>
+        <div class="container">
+            <h1><a href="#COPY_TABLE">Copy Table To Clipboard</a></h1>
+            <p>Places a selected HTML Table into your clipboard</p>
+			<p>To use, simply select somewhere within a table you wish to copy (used to identify which table)</p>
+			<p>Then click the bookmarklet</p>
+			<p>Then go to a spreadsheet and paste. TADAH!</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+			<p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function()%7Bfunction getSelectedNode()%7Bif(document.selection)return document.selection.createRange().parentElement()%3Belse%7Bvar selection%3Dwindow.getSelection()%3Bif(selection.rangeCount>0)return selection.getRangeAt(0).startContainer.parentNode%3B%7D%7Dfunction copyToClipboard(text)%7Bif(window.clipboardData%26%26window.clipboardData.setData)%7Breturn clipboardData.setData(%27Text%27,text)%3B%7Delse if(document.queryCommandSupported%26%26document.queryCommandSupported(%27copy%27))%7Bvar textarea%3Ddocument.createElement(%27textarea%27)%3Btextarea.textContent%3Dtext%3Btextarea.style.position%3D%27fixed%27%3Bdocument.body.appendChild(textarea)%3Btextarea.select()%3Btry%7Bnavigator.clipboard.writeText(text)%3B%7Dcatch(ex)%7Bconsole.warn(%27Copy to clipboard failed.%27,ex)%3Breturn false%3B%7Dfinally%7Bdocument.body.removeChild(textarea)%3B%7D%7D%7Dfunction tableToTSV(currentTable)%7Breturn Array.from(currentTable.querySelectorAll(%27tr%27)).map(trEl%3D>Array.from(trEl.querySelectorAll(%27td,th%27)).map(tdEl%3D>tdEl.innerText).join(%27%5Ct%27)).join(%27%5Cn%27)%3B%7Dvar selectedElement%3DgetSelectedNode()%3Bif(!selectedElement)%7Balert(%27No selection found. Please select within the table to copy%27)%3Breturn%3B%7DcopyToClipboard(tableToTSV(selectedElement.closest(%27table%27)))%3B%7D)()%3B" role="button">Copy Table</a></p>
+        </div>
+    </div>
 	
     
     <div class="jumbotron">
