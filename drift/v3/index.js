@@ -142,7 +142,7 @@ SVG.on(document, 'DOMContentLoaded', function() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
 
-  const density = urlParams.get('density') || 100;
+  const density = urlParams.get('density') || 20;
 
   const data = {
     //-- number of indicators along x and y axis
