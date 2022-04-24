@@ -155,7 +155,7 @@ SVG.on(document, 'DOMContentLoaded', function() {
     minLength: urlParams.get('min-length') || 10,
     maxLength: urlParams.get('max-length') || 50,
     //-- opacity and width of line
-    width: urlParams.get('line-width') || 4,
+    width: urlParams.get('width') || urlParams.get('line-width') || 4,
     // opacity: 0.2, //-- not used
   };
 
@@ -179,6 +179,7 @@ SVG.on(document, 'DOMContentLoaded', function() {
 * {Integer} time-period - number of milliseconds between simplex apex
 * {Integer} min-length - minimum length of an indicator
 * {Integer} max-length - maximum length of an indicator
+* {Integer} width - width of the lines
 
 ${window.location.href.split('?')[0]}?density=${density}&background=${data.backgroundColor}&initial-color=${data.initialColor}&final-color=${data.finalColor}&time-period=${data.timePeriod}&min-length=${data.minLength}&max-length=${data.maxLength}&line-width=${data.width}
 `);
