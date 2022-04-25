@@ -183,8 +183,8 @@ SVG.on(document, 'DOMContentLoaded', function() {
     SVG
   };
 
-  //-- make the background black
-  el.node.setAttribute('style', `background-color: ${data.backgroundColor}`);
+  const cleanBackground = utilityFunctions.cleanColor(data.backgroundColor);
+  el.node.setAttribute('style', `background-color: ${cleanBackground}`);
 
   console.log(`urlParameters:
 * {Integer} density - number of pixels between indicators

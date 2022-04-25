@@ -54,7 +54,7 @@ window.onReady = function onReady() {
       let zY = lib.mapTime(nowTime + data.timeOffset, data.timePeriod);
       let zColor = lib.mapTime(nowTime + data.timeOffset + data.timeOffset, data.timePeriod);
 
-      ctx.fillStyle = '#000000';
+      ctx.fillStyle = lib.cleanColor(data.backgroundColor);
       ctx.fillRect(0, 0, width, height);
 
       for ( let lineObj of lines) {
@@ -192,7 +192,7 @@ SVG.on(document, 'DOMContentLoaded', function() {
     xCount: Math.round(width / density),
     yCount: Math.round(height / density),
     //-- background color
-    backgroundColor: urlParams.get('background') || urlParams.get('background-color') || '#000',
+    backgroundColor: urlParams.get('background') || urlParams.get('background-color') || '000',
     //-- color range: 0: startingColor, 1: ending color
     initialColor: (urlParams.get('initial') || urlParams.get('initial-color') || 'F0F'),
     finalColor: (urlParams.get('final') || urlParams.get('final-color') || '0FF'),

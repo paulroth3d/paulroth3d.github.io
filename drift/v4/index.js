@@ -178,7 +178,7 @@ SVG.on(document, 'DOMContentLoaded', function() {
     xCount: Math.round(width / density),
     yCount: Math.round(height / density),
     //-- background color
-    backgroundColor: urlParams.get('background') || urlParams.get('background-color') || '#000',
+    backgroundColor: urlParams.get('background') || urlParams.get('background-color') || '000',
     //-- color range: 0: startingColor, 1: ending color
     initialColor: urlParams.get('initial') || urlParams.get('initial-color') || 'F0F',
     finalColor: urlParams.get('final') || urlParams.get('final-color') || '0FF',
@@ -204,7 +204,8 @@ SVG.on(document, 'DOMContentLoaded', function() {
   };
 
   //-- make the background black
-  el.node.setAttribute('style', `background-color: ${data.backgroundColor}`);
+  const cleanBackground = utilityFunctions.cleanColor(data.backgroundColor);
+  el.node.setAttribute('style', `background-color: ${cleanBackground}`);
 
   const encode = (property, value) => `${property}=${encodeURIComponent(value)}`;
 
