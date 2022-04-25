@@ -79,7 +79,7 @@ window.onReady = function onReady() {
           console.log('animation noticed stop');
           window.currentAnimation = null;
       } else {
-          window.currentAnimation = window.requestAnimationFrame(renderLines);
+          window.currentAnimation = requestAnimationFrame(renderLines);
       }
   };
   renderLines();

@@ -23,8 +23,31 @@ window.onReady = function onReady() {
   const colorRange = new SVG.Color(data.initialColor).to(data.finalColor);
   
   //-- initialize lines
-  const lines = lib.size(yCount)
-      .map(() => lib.size(xCount, () => el.line()));
+  const lines = lib.size(yCount, (yIndex) =>
+    lib.size(xCount, (xIndex) => ({
+        line: el.line(),
+        xPos: xIndex * xInc,
+        xNoise: xIndex * xRangeInc,
+        yPos: yIndex * yInc,
+        yNoise: yIndex * yRangeInc
+    })))
+    .flat();
+
+  //-- initialize all the lines
+  lines.forEach(({ line, xPos, yPos }) => {
+    line.plot(
+        xPos,
+        yPos,
+        xPos,
+        yPos
+    );
+
+    line.stroke({
+        width: data.width,
+        opacity: 0,
+        linecap: 'round'
+    });
+  });
   
   const [ requestAnimationFrame, cancelAnimationFrame ] = lib.animationFrameCalls();
   
@@ -36,37 +59,52 @@ window.onReady = function onReady() {
       cancelAnimationFrame(window.currentAnimation);
       window.currentAnimation = null;
   }
+
+  //-- initialize variables in higher scope to avoid GC
+  let nowMilli;
+  let zX;
+  let zY;
+  
+  let forceX;
+  let forceY;
+  let length;
+  let mappedLength;
+  let rotatedX;
+  let rotatedY;
+  let colorC;
+  let lineObj;
   
   const renderLines = () => {
       //-- render line
-      let zX = lib.mapTime(new Date().getTime(), data.timePeriod);
-      let zY = lib.mapTime(new Date().getTime() + data.timeOffset, data.timePeriod);
-      lines.forEach((row, rowIndex) => {
-          row.forEach((line, colIndex) => {
-              const forceX = noise.simplex3(
-                  colIndex * xRangeInc,
-                  rowIndex * yRangeInc,
-                  zX
-              );
-              const forceY = noise.simplex3(
-                  colIndex * xRangeInc,
-                  rowIndex * yRangeInc,
-                  zY
-              );
-              // const length = Math.sqrt(forceX * forceX + forceY * forceY);
-              const length = ( Math.abs(forceX) + Math.abs(forceY) ) / 2;
-              const mappedLength = lib.mapDomain(length, [0, 1], [data.minLength, data.maxLength]);
-              
-              const rotatedX = Math.cos(forceX * Math.PI) * mappedLength;
-              const rotatedY = Math.sin(forceY * Math.PI) * mappedLength;
-              
-              lib.plotLine(line, xInc, yInc, colIndex, rowIndex, rotatedX, rotatedY);
-
-              const colorC = length; // lib.mapDomain(length, [0, 1], [0, 1]);
-              
-              lib.styleLine(line, colorRange, colorC, data.width, colorC);
-          })
-      });
+      nowMilli = Date.now();
+      zX = lib.timePeriod(data.timePeriod, nowMilli);
+      zY = lib.timePeriod(data.timePeriod, nowMilli + data.timeOffset);
+      
+      for( lineObj of lines ) {
+          forceX = noise.simplex3(
+              lineObj.xNoise,
+              lineObj.yNoise,
+              zX
+          );
+          forceY = noise.simplex3(
+              lineObj.xNoise,
+              lineObj.yNoise,
+              zX
+          );
+          
+          length = ( Math.abs(forceX) + Math.abs(forceY) ) / 2;
+          mappedLength = lib.mapDomain(length, [0, 1], [data.minLength, data.maxLength]);
+          
+          rotatedX = Math.cos(forceX * Math.PI) * mappedLength;
+          rotatedY = Math.sin(forceY * Math.PI) * mappedLength;
+          
+          colorC = length;
+          
+          lineObj.line.node.setAttribute('x2', lineObj.xPos + rotatedX);
+          lineObj.line.node.setAttribute('y2', lineObj.yPos + rotatedY);
+          lineObj.line.node.setAttribute('stroke-opacity', colorC);
+          lineObj.line.node.setAttribute('stroke', colorRange.at(colorC).toHex())
+      }
       
       //-- stop the animation
       if (window.stopAnimation == true) {
@@ -103,27 +141,9 @@ window.utilityFunctions = {
       // (val - origMin) * (newMax - newMin) / (origMax - origMin) + newMin = result
       return (val - origMin) * (newMax - newMin) / (origMax - origMin) + newMin;
   },
-  mapTime: (t, period) => {
-      return t / period;
+  timePeriod: (period, timeMilli) => {
+      return timeMilli / period;
       // return (t.getTime() % period) / period;
-  },
-  plotLine: (line, xInc, yInc, x, y, forceX, forceY) => {
-      const xOff = xInc * x;
-      const yOff = yInc * y;
-      line.plot(
-          xOff,
-          yOff,
-          xOff + forceX,
-          yOff + forceY
-      )
-  },
-  styleLine: (line, colorRange, c, width = 1, opacity = 1) => {
-      line.stroke({
-          color: colorRange.at(c).toHex(),
-          width,
-          opacity,
-          linecap: 'round'
-      });
   }
 };
 
@@ -145,15 +165,15 @@ SVG.on(document, 'DOMContentLoaded', function() {
     //-- background color
     backgroundColor: urlParams.get('background') || urlParams.get('background-color') || '#000',
     //-- color range: 0: startingColor, 1: ending color
-    initialColor: urlParams.get('initial-color') || '#F0F',
-    finalColor: urlParams.get('final-color') || '#0FF',
+    initialColor: urlParams.get('initial-color') || urlParams.get('initial') || '#F0F',
+    finalColor: urlParams.get('final-color') || urlParams.get('final') || '#0FF',
     //-- how fast or slow the period resets, simplex provides 1 cycle per period
-    timePeriod: urlParams.get('time-period') || 10000,
+    timePeriod: urlParams.get('time-period') || urlParams.get('period') || 10000,
     //-- how closely related the direction and length are in time
     timeOffset: 5000,
     //-- the minimum / maximum lengths of the indicators
-    minLength: urlParams.get('min-length') || 10,
-    maxLength: urlParams.get('max-length') || 50,
+    minLength: urlParams.get('min-length') || urlParams.get('min') || 10,
+    maxLength: urlParams.get('max-length') || urlParams.get('max') || 50,
     //-- opacity and width of line
     width: urlParams.get('width') || urlParams.get('line-width') || 4,
     // opacity: 0.2, //-- not used
@@ -171,6 +191,8 @@ SVG.on(document, 'DOMContentLoaded', function() {
   //-- make the background black
   el.node.setAttribute('style', `background-color: ${data.backgroundColor}`);
 
+  const encode = (property, value) => `${property}=${encodeURIComponent(value)}`;
+
   console.log(`urlParameters:
 * {Integer} density - number of pixels between indicators
 * {Color | Hex} background - color of the background
@@ -179,9 +201,17 @@ SVG.on(document, 'DOMContentLoaded', function() {
 * {Integer} time-period - number of milliseconds between simplex apex
 * {Integer} min-length - minimum length of an indicator
 * {Integer} max-length - maximum length of an indicator
-* {Integer} width - width of the lines
+* {Integer} width - width of the line
 
-${window.location.href.split('?')[0]}?density=${density}&background=${data.backgroundColor}&initial-color=${data.initialColor}&final-color=${data.finalColor}&time-period=${data.timePeriod}&min-length=${data.minLength}&max-length=${data.maxLength}&line-width=${data.width}
+${window.location.href.split('?')[0]}?` +
+  `${encode('density', density)}` +
+  `&${encode('background',data.backgroundColor)}` +
+  `&${encode('initial-color', data.initialColor)}` +
+  `&${encode('final-color', data.finalColor)}` +
+  `&${encode('time-period', data.timePeriod)}` +
+  `&${encode('min-length', data.minLength)}` +
+  `&${encode('max-length', data.maxLength)}` +
+  `&${encode('line-width', data.width)}
 `);
 
   window.onReady(0);
