@@ -20,7 +20,11 @@ window.onReady = function onReady() {
   const PI2 = Math.EI * 2;
   const RT2 = Math.sqrt(2);
   
-  const colorRange = new SVG.Color(data.initialColor).to(data.finalColor);
+  const colorRange = new SVG.Color(
+    lib.cleanColor(data.initialColor)
+  ).to(
+    lib.cleanColor(data.finalColor)
+  );
   
   //-- initialize lines
   const lines = lib.size(yCount)
@@ -107,6 +111,17 @@ window.utilityFunctions = {
       return t / period;
       // return (t.getTime() % period) / period;
   },
+  cleanColor: (colorString) => {
+    //-- assume colorString is either rgb(r, g, b) or hex
+    // https://svgjs.dev/docs/3.0/classes/#svg-color
+
+    //-- for now, fail if the color is not accepted.
+    // try { new SVG.Color(colorString); } ...
+
+    return (colorString.length === 3 || colorString.length === 6)
+      ? `#${colorString}`
+      : colorString;
+  },
   plotLine: (line, xInc, yInc, x, y, forceX, forceY) => {
       const xOff = xInc * x;
       const yOff = yInc * y;
@@ -145,15 +160,15 @@ SVG.on(document, 'DOMContentLoaded', function() {
     //-- background color
     backgroundColor: urlParams.get('background') || urlParams.get('background-color') || '#000',
     //-- color range: 0: startingColor, 1: ending color
-    initialColor: urlParams.get('initial-color') || '#F0F',
-    finalColor: urlParams.get('final-color') || '#0FF',
+    initialColor: urlParams.get('initial') ||  urlParams.get('initial-color') || 'F0F',
+    finalColor: urlParams.get('final') || urlParams.get('final-color') || '0FF',
     //-- how fast or slow the period resets, simplex provides 1 cycle per period
-    timePeriod: urlParams.get('time-period') || 10000,
+    timePeriod: urlParams.get('period') ||  urlParams.get('time-period') || 10000,
     //-- how closely related the direction and length are in time
-    timeOffset: 5000,
+    timeOffset: urlParams.get('offset') ||  5000,
     //-- the minimum / maximum lengths of the indicators
-    minLength: urlParams.get('min-length') || 10,
-    maxLength: urlParams.get('max-length') || 50,
+    minLength: urlParams.get('min') ||  urlParams.get('min-length') || 10,
+    maxLength: urlParams.get('max') ||  urlParams.get('max-length') || 50,
     //-- opacity and width of line
     width: urlParams.get('width') || urlParams.get('line-width') || 4,
     // opacity: 0.2, //-- not used
