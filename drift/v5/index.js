@@ -207,6 +207,10 @@ SVG.on(document, 'DOMContentLoaded', function() {
     width: urlParams.get('width') || urlParams.get('line-width') || 4,
   };
 
+  if (typeof data.timeOffset === 'string') {
+    data.timeOffset = Number.parseInt(data.timeOffset);
+  }
+
   window.context = {
     el,
     ctx,
