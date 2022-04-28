@@ -23,8 +23,32 @@
     <meta property="og:image" content="../wavesDark.svg">
     <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
     <script src="https://cdn.rawgit.com/josephg/noisejs/master/perlin.js"></script>
+
+    <style type="text/css">
+      .sidebar {
+
+      }
+      .btn-sidebar {
+        position: absolute;
+        margin: 20px;
+        color: #FFF;
+      }
+    </style>
+    <script type="text/javascript">
+
+    </script>
   </head>
   <body>
+    <div class="sidebar">
+      <form method="GET">
+        <h1>Drift</h1>
+        <label>Width: <input name="width" type="number" value="10" /></label>
+        <label>Density: <input name="density" type="number" value="10" /></label>
+        <button type="submit">Update</button>
+      </form>
+    </div>
+    <span id="btn-sidebar">☰</span>
+    
     <canvas id="target"></canvas>
     <style>
       body {
