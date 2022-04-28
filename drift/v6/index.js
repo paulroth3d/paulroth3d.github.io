@@ -88,24 +88,38 @@ window.onReady = function onReady() {
         const rotatedY = Math.sin(forceY * Math.PI) * mappedLength;
 
         let rotatedLength = (Math.abs(rotatedX) + Math.abs(rotatedY)) / 2;
-        rotatedLength = lib.clampDomain(rotatedLength / data.minWidth, [0, 1]);
+
+        let initialTransparency;
+        if (minMaxMatch) {
+          //-- we want to see full color circles / no gradient
+          initialTransparency = 1;
+        } else {
+          //-- make the gradient appear more opaque if closer to 0
+          //-- as it appears more 'overhead'
+          initialTransparency = lib.mapDomain(
+            rotatedLength,
+            [ 0, data.minLength ],
+            [ 1, 0 ]
+          );
+        }
         
         //-- map the color to a place on the colorRange
         const colorVal = lib.mapDomain(noiseColor, [-1, 1], [0, 1]);
         const color = colorRange.at(colorVal);
         //-- note length is used for the alpha
         // const colorStr = `rgb(${color.r},${color.g},${color.b})`;
-        const colorStr = `rgb(${color.r},${color.g},${color.b},${rotatedLength})`;
 
+        //-- direction of the gradient (x1, y1, x2, y2)
+        //-- as it is in the center of the circle
         const gradient = ctx.createLinearGradient(
         	lineObj.xPos, lineObj.yPos,
         	lineObj.xPos + rotatedX, lineObj.yPos + rotatedY
         );
-        gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
-        gradient.addColorStop(1, colorStr);
+        gradient.addColorStop(0, `rgba(${color.r},${color.g},${color.b},${initialTransparency})`);
+        gradient.addColorStop(1, `rgba(${color.r},${color.g},${color.b},1)`);
 
-				ctx.strokeStyle = gradient; // colorStr;
-        ctx.lineWidth = minMaxMatch ? data.width : data.width * length;
+				ctx.strokeStyle = gradient;
+        ctx.lineWidth = data.width;
         ctx.lineCap = 'round';
         ctx.beginPath();
         ctx.moveTo(lineObj.xPos, lineObj.yPos);
@@ -153,6 +167,11 @@ window.utilityFunctions = {
       // (val - origMin) / (origMax - origMin) = (result - newMin) / (newMax - newMin)
       // (val - origMin) * (newMax - newMin) / (origMax - origMin) = result - newMin;
       // (val - origMin) * (newMax - newMin) / (origMax - origMin) + newMin = result
+      if ( val < origMin) {
+        return newMin;
+      } else if (val > origMax) {
+        return newMax;
+      }
       return (val - origMin) * (newMax - newMin) / (origMax - origMin) + newMin;
   },
   // see jupyter-ijavascript-utils/format.timePeriod
@@ -214,9 +233,9 @@ SVG.on(document, 'DOMContentLoaded', function() {
     timeOffset: urlParams.get('offset') || 5000,
     //-- the minimum / maximum lengths of the indicators
     minLength: urlParams.get('min') || urlParams.get('min-length') || 10,
-    maxLength: urlParams.get('max') || urlParams.get('max-length') || 50,
+    maxLength: urlParams.get('max') || urlParams.get('max-length') || 100,
     //-- opacity and width of line
-    width: urlParams.get('width') || urlParams.get('line-width') || 20,
+    width: urlParams.get('width') || urlParams.get('line-width') || 10,
     minWidth: urlParams.get('min-width') || 20
   };
 
