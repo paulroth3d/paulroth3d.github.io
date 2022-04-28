@@ -2,15 +2,24 @@ window.onReady = function onReady() {
   const {
     el,
     ctx,
-    width,
-    height,
     utilityFunctions: lib,
     data,
     SVG
   } = window.context;
+
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  //-- make the background black
+  el.setAttribute('style', `background-color: ${data.backgroundColor};`);
+  el.width = width;
+  el.height = height;
+
+  el.setAttribute('style', `width: ${width}px; height: ${height}px;`);
   
-  const xCount = data.xCount;
-  const yCount = data.yCount;
+  //-- number of indicators along x and y axis
+  const xCount = Math.round(width / data.density);
+  const yCount = Math.round(height / data.density);
   
   const xRangeInc = 1 / xCount;
   const yRangeInc = 1 / yCount;
@@ -205,23 +214,17 @@ window.utilityFunctions = {
 };
 
 SVG.on(document, 'DOMContentLoaded', function() {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
 
   const el = document.querySelector('#target');
-  el.setAttribute('style', `width: ${width}px; height: ${height}px;`);
 
   const ctx = el.getContext('2d');
 
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
 
-  const density = Number.parseInt(urlParams.get('density') || 20);
-
   const data = {
-    //-- number of indicators along x and y axis
-    xCount: Math.round(width / density),
-    yCount: Math.round(height / density),
+    //-- number of pixels between indicators
+    density: urlParams.get('density') || 20,
     //-- background color
     backgroundColor: urlParams.get('background') || urlParams.get('background-color') || '000',
     //-- color range: 0: startingColor, 1: ending color
@@ -239,6 +242,7 @@ SVG.on(document, 'DOMContentLoaded', function() {
     minWidth: urlParams.get('min-width') || 20
   };
 
+  data.density = Number.parseInt(data.density);
   data.timePeriod = Number.parseInt(data.timePeriod);
   data.timeOffset = Number.parseInt(data.timeOffset);
   data.minLength = Number.parseInt(data.minLength);
@@ -253,17 +257,10 @@ SVG.on(document, 'DOMContentLoaded', function() {
   window.context = {
     el,
     ctx,
-    width,
-    height,
     utilityFunctions,
     data,
     SVG
   };
-
-  //-- make the background black
-  el.setAttribute('style', `background-color: ${data.backgroundColor};`);
-  el.width = width;
-  el.height = height;
 
   const encode = (property, value) => `${property}=${encodeURIComponent(value)}`;
 
@@ -284,7 +281,7 @@ https://jupyter-ijavascript-utils.onrender.com/tutorial-noiseVisualization.html
 * {Integer} min-width - width of line before considered 'overhead'
 
 ${window.location.href.split('?')[0]}?` +
-  `${encode('density', density)}` +
+  `${encode('density', data.density)}` +
   `&${encode('background',data.backgroundColor)}` +
   `&${encode('initial-color', data.initialColor)}` +
   `&${encode('final-color', data.finalColor)}` +
