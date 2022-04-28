@@ -1,5 +1,8 @@
 body {
 	overflow: hidden;
+    background-color: rgb(50, 50, 50);
+    margin: 0;
+    padding: 0;
 }
 .sidebar {
 	/* height: 100%; */
