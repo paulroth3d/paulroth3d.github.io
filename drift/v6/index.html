@@ -25,29 +25,102 @@
     <script src="https://cdn.rawgit.com/josephg/noisejs/master/perlin.js"></script>
 
     <style type="text/css">
-      .sidebar {
-
+      body {
+        overflow: hidden;
       }
-      .btn-sidebar {
-        position: absolute;
-        margin: 20px;
+      .sidebar {
+        /* height: 100%; */
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: row;
+      }
+      .sidebar .content {
+        overflow-x: hidden;
+        background: rgb(45, 45, 45);
+        color: #DDD;
+        transition: 0.5s;
+        font-family: sans-serif;
+        width: 150px;
+      }
+      .sidebar .btn-toggle {
+        margin: 5px;
         color: #FFF;
+        font-size: 30px;
+        text-decoration: none;
+        width: 50px;
+        height: 50px;
+        background: none;
+        border: none;
+      }
+      .sidebar form {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+      }
+      .sidebar h1 {
+        font-size: 1.5em;
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .sidebar hr {
+        width: 100%;
+      }
+      .sidebar label {
+        width: auto;
+        display: block;
+        padding: 5px;
+      }
+      .sidebar input {
+        width: 100%;
+      }
+      .sidebar .btn-close {
+        position: absolute;
+        top: 0;
+        right: 0px;
+      }
+      .sidebar .btn-submit {
+        margin-top: 10px;
       }
     </style>
     <script type="text/javascript">
-
+      function toggleSidebar() {
+        const content = document.querySelector('nav.sidebar > div.content');
+    
+        const isOpen = content && content.getAttribute('aria-expanded') === 'true';
+        if (isOpen) {
+            content.setAttribute('style', 'width: 0px');
+            content.setAttribute('aria-expanded', false);
+        } else {
+            content.setAttribute('style', 'width: 150px');
+            content.setAttribute('aria-expanded', true);
+        }
+        false;
+    }
     </script>
   </head>
   <body>
-    <div class="sidebar">
-      <form method="GET">
-        <h1>Drift</h1>
-        <label>Width: <input name="width" type="number" value="10" /></label>
-        <label>Density: <input name="density" type="number" value="10" /></label>
-        <button type="submit">Update</button>
-      </form>
-    </div>
-    <span id="btn-sidebar">☰</span>
+    <nav class="sidebar">
+      <div class="content" style="width: 0px" aria-expanded="false">
+        <form method="GET">
+          <h1>Drift</h1>
+          <hr />
+          <label>Width: <input name="width" type="number" /></label>
+          <label>Density: <input name="density" type="number" /></label>
+          <label>Min Length: <input name="min" type="number" /></label>
+          <label>Max Length: <input name="max" type="number" /></label>
+          <label>Background Color: <input name="background" type="color" /></label>
+          <label>Negative Color: <input name="initial" type="color" /></label>
+          <label>Positive Color: <input name="final" type="color" /></label>
+          <hr />
+          <button class="btn-submit" type="submit">Update</button>
+        </form>
+      </div>
+      <button onclick="toggleSidebar(); false" class="btn-toggle">☰</button>
+    </nav>
     
     <canvas id="target"></canvas>
     <style>

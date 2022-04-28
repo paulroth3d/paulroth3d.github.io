@@ -63,7 +63,7 @@ window.onReady = function onReady() {
       let zY     = lib.timePeriod(data.timePeriod, nowTime + data.timeOffset);
       let zColor = lib.timePeriod(data.timePeriod, nowTime + data.timeOffset + data.timeOffset);
 
-      ctx.fillStyle = lib.cleanColor(data.backgroundColor);
+      ctx.fillStyle = data.backgroundColor;
       ctx.fillRect(0, 0, width, height);
 
       for ( let lineObj of lines) {
@@ -200,16 +200,20 @@ window.utilityFunctions = {
     return value;
   },
 
-  cleanColor: (colorString) => {
+  cleanColor: (colorString, defaultColor) => {
     //-- assume colorString is either rgb(r, g, b) or hex
     // https://svgjs.dev/docs/3.0/classes/#svg-color
 
-    //-- for now, fail if the color is not accepted.
-    // try { new SVG.Color(colorString); } ...
-
-    return (colorString.length === 3 || colorString.length === 6)
-      ? `#${colorString}`
-      : colorString;
+    try {
+      return new SVG.Color(colorString).toHex();
+    } catch (err) {
+      //-- try one more time by appending #
+      try {
+        return new SVG.Color('#' + colorString).toHex();        
+      } catch (err) {
+        console.error(`unable to parse color: ${colorString}, using default instead: ${defaultValue}`)
+      }
+    }
   }
 };
 
@@ -238,8 +242,7 @@ SVG.on(document, 'DOMContentLoaded', function() {
     minLength: urlParams.get('min') || urlParams.get('min-length') || 10,
     maxLength: urlParams.get('max') || urlParams.get('max-length') || 100,
     //-- opacity and width of line
-    width: urlParams.get('width') || urlParams.get('line-width') || 10,
-    minWidth: urlParams.get('min-width') || 20
+    width: urlParams.get('width') || urlParams.get('line-width') || 10
   };
 
   data.density = Number.parseInt(data.density);
@@ -248,7 +251,10 @@ SVG.on(document, 'DOMContentLoaded', function() {
   data.minLength = Number.parseInt(data.minLength);
   data.maxLength = Number.parseInt(data.maxLength);
   data.width = Number.parseInt(data.width);
-  data.minWidth = Number.parseInt(data.minWidth);
+
+  data.backgroundColor = data.backgroundColor;
+  data.initialColor =    data.initialColor;
+  data.finalColor =      data.finalColor;
 
   if (typeof data.timeOffset === 'string') {
     data.timeOffset = Number.parseInt(data.timeOffset);
@@ -288,9 +294,24 @@ ${window.location.href.split('?')[0]}?` +
   `&${encode('time-period', data.timePeriod)}` +
   `&${encode('min-length', data.minLength)}` +
   `&${encode('max-length', data.maxLength)}` +
-  `&${encode('line-width', data.width)}` +
-  `&${encode('min-width', data.minWidth)}
+  `&${encode('line-width', data.width)}
 `);
+
+  const form = document.querySelector('nav.sidebar > div.content > form');
+  const initializeInput = (form, inputName, value) => {
+    const input = form.querySelector(`input[name="${inputName}"]`);
+    if (input) {
+      input.value = value;
+    }
+  }
+
+  initializeInput(form, 'width', data.width);
+  initializeInput(form, 'density', data.density);
+  initializeInput(form, 'min', data.minLength);
+  initializeInput(form, 'max', data.maxLength);
+  initializeInput(form, 'background', data.backgroundColor);
+  initializeInput(form, 'initial', data.initialColor);
+  initializeInput(form, 'final', data.finalColor);
 
   window.onReady(0);
 });
