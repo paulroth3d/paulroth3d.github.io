@@ -204,7 +204,7 @@ SVG.on(document, 'DOMContentLoaded', function() {
     minLength: urlParams.get('min') || urlParams.get('min-length') || 10,
     maxLength: urlParams.get('max') || urlParams.get('max-length') || 50,
     //-- opacity and width of line
-    width: urlParams.get('width') || urlParams.get('line-width') || 4,
+    width: urlParams.get('width') || urlParams.get('line-width') || 10,
   };
 
   if (typeof data.timeOffset === 'string') {
