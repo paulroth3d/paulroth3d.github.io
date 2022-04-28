@@ -24,89 +24,16 @@
     <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
     <script src="https://cdn.rawgit.com/josephg/noisejs/master/perlin.js"></script>
 
-    <style type="text/css">
-      body {
-        overflow: hidden;
-      }
-      .sidebar {
-        /* height: 100%; */
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        display: flex;
-        flex-direction: row;
-      }
-      .sidebar .content {
-        overflow-x: hidden;
-        background: rgb(45, 45, 45);
-        color: #DDD;
-        transition: 0.5s;
-        font-family: sans-serif;
-        width: 150px;
-      }
-      .sidebar .btn-toggle {
-        margin: 5px;
-        color: #FFF;
-        font-size: 30px;
-        text-decoration: none;
-        width: 50px;
-        height: 50px;
-        background: none;
-        border: none;
-      }
-      .sidebar form {
-        display: flex;
-        flex-direction: column;
-        padding: 10px;
-      }
-      .sidebar h1 {
-        font-size: 1.5em;
-        font-family: sans-serif;
-        margin: 0;
-        padding: 0;
-      }
-      .sidebar hr {
-        width: 100%;
-      }
-      .sidebar label {
-        width: auto;
-        display: block;
-        padding: 5px;
-      }
-      .sidebar input {
-        width: 100%;
-      }
-      .sidebar .btn-close {
-        position: absolute;
-        top: 0;
-        right: 0px;
-      }
-      .sidebar .btn-submit {
-        margin-top: 10px;
-      }
-    </style>
-    <script type="text/javascript">
-      function toggleSidebar() {
-        const content = document.querySelector('nav.sidebar > div.content');
-    
-        const isOpen = content && content.getAttribute('aria-expanded') === 'true';
-        if (isOpen) {
-            content.setAttribute('style', 'width: 0px');
-            content.setAttribute('aria-expanded', false);
-        } else {
-            content.setAttribute('style', 'width: 150px');
-            content.setAttribute('aria-expanded', true);
-        }
-        false;
-    }
-    </script>
+    <link rel="stylesheet" href="./sidebar.css">
   </head>
   <body>
     <nav class="sidebar">
       <div class="content" style="width: 0px" aria-expanded="false">
         <form method="GET">
-          <h1>Drift</h1>
+          <h1><a href="/drift">Drift</a></h1>
+          <div>A Simplex Noise Visualization
+            <a href="https://jupyter-ijavascript-utils.onrender.com/tutorial-noiseVisualization.html">See here for more</a>
+          </div>
           <hr />
           <label>Width: <input name="width" type="number" /></label>
           <label>Density: <input name="density" type="number" /></label>

@@ -315,3 +315,17 @@ ${window.location.href.split('?')[0]}?` +
 
   window.onReady(0);
 });
+
+function toggleSidebar() {
+  const content = document.querySelector('nav.sidebar > div.content');
+
+  const isOpen = content && content.getAttribute('aria-expanded') === 'true';
+  if (isOpen) {
+      content.setAttribute('style', 'width: 0px');
+      content.setAttribute('aria-expanded', false);
+  } else {
+      content.setAttribute('style', 'width: 250px');
+      content.setAttribute('aria-expanded', true);
+  }
+  false;
+}
