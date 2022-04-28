@@ -29,11 +29,7 @@ window.onReady = function onReady() {
 
   const minMaxMatch = data.minLength === data.maxLength;
   
-  const colorRange = new SVG.Color(
-      lib.cleanColor(data.initialColor)
-    ).to(
-      lib.cleanColor(data.finalColor)
-    );
+  const colorRange = new SVG.Color(data.initialColor).to(data.finalColor);
   
   //-- initialize lines
   const lines = lib.size(yCount, (yIndex) =>
@@ -214,9 +210,30 @@ window.utilityFunctions = {
         console.error(`unable to parse color: ${colorString}, using default instead: ${defaultValue}`)
       }
     }
+  },
+
+  /**
+   * Keep a running stopwatch, so the function is only called after millisecondsToWait.
+   * 
+   * If the function is requested again, restart the timer.
+   * 
+   * (This is called `debounce` and helpful to avoid calling it repeatedly on screen resize)
+   * 
+   * @param {Integer} millisecondsToWait - number of milliseconds to wait before debounce
+   * @param {Function} functionToCall - the function to call when ready
+   */
+  debounce: function debounce(millisecondsToWait, functionToCall){
+    var timer;
+    return function(event){
+      if(timer) clearTimeout(timer);
+      timer = setTimeout(functionToCall, millisecondsToWait, event);
+    };
   }
 };
 
+/**
+ * Initialize from the GET Parameters sent.
+ */
 SVG.on(document, 'DOMContentLoaded', function() {
 
   const el = document.querySelector('#target');
@@ -245,6 +262,7 @@ SVG.on(document, 'DOMContentLoaded', function() {
     width: urlParams.get('width') || urlParams.get('line-width') || 10
   };
 
+  //-- clean the values someone has sent
   data.density = Number.parseInt(data.density);
   data.timePeriod = Number.parseInt(data.timePeriod);
   data.timeOffset = Number.parseInt(data.timeOffset);
@@ -252,9 +270,9 @@ SVG.on(document, 'DOMContentLoaded', function() {
   data.maxLength = Number.parseInt(data.maxLength);
   data.width = Number.parseInt(data.width);
 
-  data.backgroundColor = data.backgroundColor;
-  data.initialColor =    data.initialColor;
-  data.finalColor =      data.finalColor;
+  data.backgroundColor = utilityFunctions.cleanColor(data.backgroundColor);
+  data.initialColor =    utilityFunctions.cleanColor(data.initialColor);
+  data.finalColor =      utilityFunctions.cleanColor(data.finalColor);
 
   if (typeof data.timeOffset === 'string') {
     data.timeOffset = Number.parseInt(data.timeOffset);
@@ -316,6 +334,9 @@ ${window.location.href.split('?')[0]}?` +
   window.onReady(0);
 });
 
+/**
+ * Toggle the sidebar on click
+ */
 function toggleSidebar() {
   const content = document.querySelector('nav.sidebar > div.content');
 
@@ -329,3 +350,10 @@ function toggleSidebar() {
   }
   false;
 }
+
+/**
+ * If resizing, wait x milliseconds, before trying to adjust the size again
+ */
+window.addEventListener('resize', utilityFunctions.debounce(500, () => {
+  window.onReady(0);
+}));
