@@ -37,13 +37,42 @@
             <a href="https://jupyter-ijavascript-utils.onrender.com/tutorial-noiseVisualization.html">See here for more</a>
           </div>
           <hr />
-          <label>Width: <input name="width" type="number" /></label>
-          <label>Density: <input name="density" type="number" /></label>
-          <label>Min Length: <input name="min" type="number" /></label>
-          <label>Max Length: <input name="max" type="number" /></label>
-          <label>Background Color: <input name="background" type="color" /></label>
-          <label>Negative Color: <input name="initial" type="color" /></label>
-          <label>Positive Color: <input name="final" type="color" /></label>
+          <label>Width: 
+            <br /><span class='help'>(Width of the line)</span>
+            <input name="width" type="number" />
+          </label>
+          <label>Density: 
+            <br /><span class='help'>(# of pixels between indicators)</span>
+          	<input name="density" type="number" />
+          </label>
+          <label>Min Length: 
+            <br /><span class='help'>(minimum indicator length)</span>
+          	<input name="min" type="number" />
+          </label>
+          <label>Max Length: 
+            <br /><span class='help'>(maximum indicator length)</span>
+          	<input name="max" type="number" />
+          </label>
+          <label>Background Color: 
+            <br /><span class='help'>(HEX color of the background)</span>
+          	<input name="background" type="color" />
+          </label>
+          <label>Negative Color: 
+            <br /><span class='help'>(HEX color indicating a negative value)</span>
+          	<input name="initial" type="color" />
+          </label>
+          <label>Positive Color: 
+            <br /><span class='help'>(HEX color indicating a positive value)</span>
+          	<input name="final" type="color" />
+          </label>
+          <label>Millisecond Period: 
+            <br /><span class='help'>(lower number - faster changes)</span>
+          	<input name="period" type="number" />
+          </label>
+          <label>Rotation Offset: 
+            <br /><span class='help'>(If 0, then rotation amounts are tied)</span>
+          	<input name="offset" type="number" />
+          </label>
           <hr />
           <button class="btn-submit" type="submit">Update</button>
         </form>

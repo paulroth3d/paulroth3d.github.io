@@ -330,6 +330,8 @@ ${window.location.href.split('?')[0]}?` +
   initializeInput(form, 'background', data.backgroundColor);
   initializeInput(form, 'initial', data.initialColor);
   initializeInput(form, 'final', data.finalColor);
+  initializeInput(form, 'period', data.timePeriod);
+  initializeInput(form, 'offset', data.timeOffset);
 
   window.onReady(0);
 });
