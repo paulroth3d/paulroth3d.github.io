@@ -23,8 +23,32 @@
     <meta property="og:image" content="../wavesDark.svg">
     <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
     <script src="https://cdn.rawgit.com/josephg/noisejs/master/perlin.js"></script>
+
+    <link rel="stylesheet" href="./sidebar.css">
   </head>
   <body>
+    <nav class="sidebar">
+      <div class="content" style="width: 0px" aria-expanded="false">
+        <form method="GET">
+          <h1><a href="/drift">Drift</a></h1>
+          <div>A Simplex Noise Visualization
+            <a href="https://jupyter-ijavascript-utils.onrender.com/tutorial-noiseVisualization.html">See here for more</a>
+          </div>
+          <hr />
+          <label>Width: <input name="width" type="number" /></label>
+          <label>Density: <input name="density" type="number" /></label>
+          <label>Min Length: <input name="min" type="number" /></label>
+          <label>Max Length: <input name="max" type="number" /></label>
+          <label>Background Color: <input name="background" type="color" /></label>
+          <label>Negative Color: <input name="initial" type="color" /></label>
+          <label>Positive Color: <input name="final" type="color" /></label>
+          <hr />
+          <button class="btn-submit" type="submit">Update</button>
+        </form>
+      </div>
+      <button onclick="toggleSidebar(); false" class="btn-toggle">☰</button>
+    </nav>
+    
     <canvas id="target"></canvas>
     <style>
       body {

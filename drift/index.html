@@ -1,15 +1,62 @@
 <!DOCTYPE html>
 <html>
-  <head> </head>
+  <head>
+    <title>Drift v6</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Exploration of Perlin Noise with SVG">
+    <meta name="author" content="Paul Roth">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1000">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=1000">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=1000">
+    <link rel="manifest" href="/site.webmanifest?v=1000">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg?v=1000" color="#4f747e">
+    <link rel="shortcut icon" href="/favicon.ico?v=1000">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+	    
+    <meta property="og:title" content="Exploration of Perlin Noise with SVG">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://paulroth3d.github.io/drift/v2">
+    <meta property="og:description" content="Exploration of Perlin Noise with SVG">
+    <meta property="og:image" content="../wavesDark.svg">
+    <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
+    <script src="https://cdn.rawgit.com/josephg/noisejs/master/perlin.js"></script>
+
+    <link rel="stylesheet" href="./sidebar.css">
+  </head>
   <body>
-    <canvas id="c"></canvas>
+    <nav class="sidebar">
+      <div class="content" style="width: 0px" aria-expanded="false">
+        <form method="GET">
+          <h1><a href="/drift">Drift</a></h1>
+          <div>A Simplex Noise Visualization
+            <a href="https://jupyter-ijavascript-utils.onrender.com/tutorial-noiseVisualization.html">See here for more</a>
+          </div>
+          <hr />
+          <label>Width: <input name="width" type="number" /></label>
+          <label>Density: <input name="density" type="number" /></label>
+          <label>Min Length: <input name="min" type="number" /></label>
+          <label>Max Length: <input name="max" type="number" /></label>
+          <label>Background Color: <input name="background" type="color" /></label>
+          <label>Negative Color: <input name="initial" type="color" /></label>
+          <label>Positive Color: <input name="final" type="color" /></label>
+          <hr />
+          <button class="btn-submit" type="submit">Update</button>
+        </form>
+      </div>
+      <button onclick="toggleSidebar(); false" class="btn-toggle">☰</button>
+    </nav>
+    
+    <canvas id="target"></canvas>
     <style>
       body {
+        background-color: rgb(50, 50, 50);
         margin: 0;
         padding: 0;
       }
     </style>
-    <script src="https://cdn.rawgit.com/josephg/noisejs/master/perlin.js"></script>
     <script src="./index.js"></script>
   </body>
 </html>

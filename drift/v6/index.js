@@ -2,15 +2,24 @@ window.onReady = function onReady() {
   const {
     el,
     ctx,
-    width,
-    height,
     utilityFunctions: lib,
     data,
     SVG
   } = window.context;
+
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  //-- make the background black
+  el.setAttribute('style', `background-color: ${data.backgroundColor};`);
+  el.width = width;
+  el.height = height;
+
+  el.setAttribute('style', `width: ${width}px; height: ${height}px;`);
   
-  const xCount = data.xCount;
-  const yCount = data.yCount;
+  //-- number of indicators along x and y axis
+  const xCount = Math.round(width / data.density);
+  const yCount = Math.round(height / data.density);
   
   const xRangeInc = 1 / xCount;
   const yRangeInc = 1 / yCount;
@@ -20,11 +29,7 @@ window.onReady = function onReady() {
 
   const minMaxMatch = data.minLength === data.maxLength;
   
-  const colorRange = new SVG.Color(
-      lib.cleanColor(data.initialColor)
-    ).to(
-      lib.cleanColor(data.finalColor)
-    );
+  const colorRange = new SVG.Color(data.initialColor).to(data.finalColor);
   
   //-- initialize lines
   const lines = lib.size(yCount, (yIndex) =>
@@ -54,7 +59,7 @@ window.onReady = function onReady() {
       let zY     = lib.timePeriod(data.timePeriod, nowTime + data.timeOffset);
       let zColor = lib.timePeriod(data.timePeriod, nowTime + data.timeOffset + data.timeOffset);
 
-      ctx.fillStyle = lib.cleanColor(data.backgroundColor);
+      ctx.fillStyle = data.backgroundColor;
       ctx.fillRect(0, 0, width, height);
 
       for ( let lineObj of lines) {
@@ -191,37 +196,56 @@ window.utilityFunctions = {
     return value;
   },
 
-  cleanColor: (colorString) => {
+  cleanColor: (colorString, defaultColor) => {
     //-- assume colorString is either rgb(r, g, b) or hex
     // https://svgjs.dev/docs/3.0/classes/#svg-color
 
-    //-- for now, fail if the color is not accepted.
-    // try { new SVG.Color(colorString); } ...
+    try {
+      return new SVG.Color(colorString).toHex();
+    } catch (err) {
+      //-- try one more time by appending #
+      try {
+        return new SVG.Color('#' + colorString).toHex();        
+      } catch (err) {
+        console.error(`unable to parse color: ${colorString}, using default instead: ${defaultValue}`)
+      }
+    }
+  },
 
-    return (colorString.length === 3 || colorString.length === 6)
-      ? `#${colorString}`
-      : colorString;
+  /**
+   * Keep a running stopwatch, so the function is only called after millisecondsToWait.
+   * 
+   * If the function is requested again, restart the timer.
+   * 
+   * (This is called `debounce` and helpful to avoid calling it repeatedly on screen resize)
+   * 
+   * @param {Integer} millisecondsToWait - number of milliseconds to wait before debounce
+   * @param {Function} functionToCall - the function to call when ready
+   */
+  debounce: function debounce(millisecondsToWait, functionToCall){
+    var timer;
+    return function(event){
+      if(timer) clearTimeout(timer);
+      timer = setTimeout(functionToCall, millisecondsToWait, event);
+    };
   }
 };
 
+/**
+ * Initialize from the GET Parameters sent.
+ */
 SVG.on(document, 'DOMContentLoaded', function() {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
 
   const el = document.querySelector('#target');
-  el.setAttribute('style', `width: ${width}px; height: ${height}px;`);
 
   const ctx = el.getContext('2d');
 
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
 
-  const density = Number.parseInt(urlParams.get('density') || 20);
-
   const data = {
-    //-- number of indicators along x and y axis
-    xCount: Math.round(width / density),
-    yCount: Math.round(height / density),
+    //-- number of pixels between indicators
+    density: urlParams.get('density') || 20,
     //-- background color
     backgroundColor: urlParams.get('background') || urlParams.get('background-color') || '000',
     //-- color range: 0: startingColor, 1: ending color
@@ -235,16 +259,20 @@ SVG.on(document, 'DOMContentLoaded', function() {
     minLength: urlParams.get('min') || urlParams.get('min-length') || 10,
     maxLength: urlParams.get('max') || urlParams.get('max-length') || 100,
     //-- opacity and width of line
-    width: urlParams.get('width') || urlParams.get('line-width') || 10,
-    minWidth: urlParams.get('min-width') || 20
+    width: urlParams.get('width') || urlParams.get('line-width') || 10
   };
 
+  //-- clean the values someone has sent
+  data.density = Number.parseInt(data.density);
   data.timePeriod = Number.parseInt(data.timePeriod);
   data.timeOffset = Number.parseInt(data.timeOffset);
   data.minLength = Number.parseInt(data.minLength);
   data.maxLength = Number.parseInt(data.maxLength);
   data.width = Number.parseInt(data.width);
-  data.minWidth = Number.parseInt(data.minWidth);
+
+  data.backgroundColor = utilityFunctions.cleanColor(data.backgroundColor);
+  data.initialColor =    utilityFunctions.cleanColor(data.initialColor);
+  data.finalColor =      utilityFunctions.cleanColor(data.finalColor);
 
   if (typeof data.timeOffset === 'string') {
     data.timeOffset = Number.parseInt(data.timeOffset);
@@ -253,17 +281,10 @@ SVG.on(document, 'DOMContentLoaded', function() {
   window.context = {
     el,
     ctx,
-    width,
-    height,
     utilityFunctions,
     data,
     SVG
   };
-
-  //-- make the background black
-  el.setAttribute('style', `background-color: ${data.backgroundColor};`);
-  el.width = width;
-  el.height = height;
 
   const encode = (property, value) => `${property}=${encodeURIComponent(value)}`;
 
@@ -284,16 +305,55 @@ https://jupyter-ijavascript-utils.onrender.com/tutorial-noiseVisualization.html
 * {Integer} min-width - width of line before considered 'overhead'
 
 ${window.location.href.split('?')[0]}?` +
-  `${encode('density', density)}` +
+  `${encode('density', data.density)}` +
   `&${encode('background',data.backgroundColor)}` +
   `&${encode('initial-color', data.initialColor)}` +
   `&${encode('final-color', data.finalColor)}` +
   `&${encode('time-period', data.timePeriod)}` +
   `&${encode('min-length', data.minLength)}` +
   `&${encode('max-length', data.maxLength)}` +
-  `&${encode('line-width', data.width)}` +
-  `&${encode('min-width', data.minWidth)}
+  `&${encode('line-width', data.width)}
 `);
+
+  const form = document.querySelector('nav.sidebar > div.content > form');
+  const initializeInput = (form, inputName, value) => {
+    const input = form.querySelector(`input[name="${inputName}"]`);
+    if (input) {
+      input.value = value;
+    }
+  }
+
+  initializeInput(form, 'width', data.width);
+  initializeInput(form, 'density', data.density);
+  initializeInput(form, 'min', data.minLength);
+  initializeInput(form, 'max', data.maxLength);
+  initializeInput(form, 'background', data.backgroundColor);
+  initializeInput(form, 'initial', data.initialColor);
+  initializeInput(form, 'final', data.finalColor);
 
   window.onReady(0);
 });
+
+/**
+ * Toggle the sidebar on click
+ */
+function toggleSidebar() {
+  const content = document.querySelector('nav.sidebar > div.content');
+
+  const isOpen = content && content.getAttribute('aria-expanded') === 'true';
+  if (isOpen) {
+      content.setAttribute('style', 'width: 0px');
+      content.setAttribute('aria-expanded', false);
+  } else {
+      content.setAttribute('style', 'width: 250px');
+      content.setAttribute('aria-expanded', true);
+  }
+  false;
+}
+
+/**
+ * If resizing, wait x milliseconds, before trying to adjust the size again
+ */
+window.addEventListener('resize', utilityFunctions.debounce(500, () => {
+  window.onReady(0);
+}));
