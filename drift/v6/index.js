@@ -50,9 +50,9 @@ window.onReady = function onReady() {
   const renderLines = () => {
       //-- render line
       const nowTime = Date.now();
-      let zX = lib.mapTime(nowTime, data.timePeriod);
-      let zY = lib.mapTime(nowTime + data.timeOffset, data.timePeriod);
-      let zColor = lib.mapTime(nowTime + data.timeOffset + data.timeOffset, data.timePeriod);
+      let zX     = lib.timePeriod(data.timePeriod, nowTime);
+      let zY     = lib.timePeriod(data.timePeriod, nowTime + data.timeOffset);
+      let zColor = lib.timePeriod(data.timePeriod, nowTime + data.timeOffset + data.timeOffset);
 
       ctx.fillStyle = lib.cleanColor(data.backgroundColor);
       ctx.fillRect(0, 0, width, height);
@@ -78,21 +78,24 @@ window.onReady = function onReady() {
         );
 
         //-- use shortcut to avoid Math.sqrt
-        // const length = Math.sqrt(forceX * forceX + forceY * forceY);
-        let length = ( Math.abs(forceX) + Math.abs(forceY) ) / 2;
-        if (length > 1) length = 1;
+        // const forceLength = Math.sqrt(forceX * forceX + forceY * forceY);
+        let forceLength = ( Math.abs(forceX) + Math.abs(forceY) ) / 2;
+        if (forceLength > 1) forceLength = 1;
 
-        const mappedLength = lib.mapDomain(length, [0, 1], [data.minLength, data.maxLength]);
+        const mappedLength = lib.mapDomain(forceLength, [0, 1], [data.minLength, data.maxLength]);
         
         const rotatedX = Math.cos(forceX * Math.PI) * mappedLength;
         const rotatedY = Math.sin(forceY * Math.PI) * mappedLength;
+
+        let rotatedLength = (Math.abs(rotatedX) + Math.abs(rotatedY)) / 2;
+        rotatedLength = lib.clampDomain(rotatedLength / data.minWidth, [0, 1]);
         
         //-- map the color to a place on the colorRange
         const colorVal = lib.mapDomain(noiseColor, [-1, 1], [0, 1]);
         const color = colorRange.at(colorVal);
         //-- note length is used for the alpha
         // const colorStr = `rgb(${color.r},${color.g},${color.b})`;
-        const colorStr = `rgb(${color.r},${color.g},${color.b},${length})`;
+        const colorStr = `rgb(${color.r},${color.g},${color.b},${rotatedLength})`;
 
         const gradient = ctx.createLinearGradient(
         	lineObj.xPos, lineObj.yPos,
@@ -123,6 +126,8 @@ window.onReady = function onReady() {
 };
 
 window.utilityFunctions = {
+  // see jupyter-ijavascript-utils/svg/utilityFunctions.animationFrameCalls
+  // see https://jupyter-ijavascript-utils.onrender.com/module-svg_utilityFunctions.html#.animationFrameCalls
   animationFrameCalls: () => {
       const requestAnimationFrame = window.requestAnimationFrame
           || window.mozRequestAnimationFrame
@@ -133,12 +138,16 @@ window.utilityFunctions = {
       
       return [requestAnimationFrame, cancelAnimationFrame];
   },
+  // see jupyter-ijavascript-utils/array.size
+  // https://jupyter-ijavascript-utils.onrender.com/module-array.html#.size
   size: function size(length, defaultValue) {
     if (typeof defaultValue === 'function') {
       return new Array(length).fill(null).map((_, index) => defaultValue(index));
     }
     return  new Array(length).fill(defaultValue);
   },
+  // see jupyter-ijavascript-utils/format.mapDomain
+  // https://jupyter-ijavascript-utils.onrender.com/module-format.html#.mapDomain
   mapDomain: (val, [origMin, origMax], [newMin, newMax]) => {
       // origMin / val / origMax = newMin / result / newMax
       // (val - origMin) / (origMax - origMin) = (result - newMin) / (newMax - newMin)
@@ -146,10 +155,23 @@ window.utilityFunctions = {
       // (val - origMin) * (newMax - newMin) / (origMax - origMin) + newMin = result
       return (val - origMin) * (newMax - newMin) / (origMax - origMin) + newMin;
   },
-  mapTime: (t, period) => {
-      return t / period;
+  // see jupyter-ijavascript-utils/format.timePeriod
+  // https://jupyter-ijavascript-utils.onrender.com/module-format.html#.timePeriod
+  timePeriod: (millisecondPeriod, timeMilli) => {
+      return timeMilli / millisecondPeriod;
       // return (t.getTime() % period) / period;
   },
+  // see jupyter-ijavascript-utils/format.clampDomain
+  // https://jupyter-ijavascript-utils.onrender.com/module-format.html#.clampDomain
+  clampDomain: (value, [min, max]) => {
+    if (value < min) {
+      return min;
+    } else if (value > max) {
+      return max;
+    }
+    return value;
+  },
+
   cleanColor: (colorString) => {
     //-- assume colorString is either rgb(r, g, b) or hex
     // https://svgjs.dev/docs/3.0/classes/#svg-color
@@ -160,8 +182,7 @@ window.utilityFunctions = {
     return (colorString.length === 3 || colorString.length === 6)
       ? `#${colorString}`
       : colorString;
-  },
-  cleanInt: (numberVal) => Number.parseInt(numberVal)
+  }
 };
 
 SVG.on(document, 'DOMContentLoaded', function() {
@@ -196,6 +217,7 @@ SVG.on(document, 'DOMContentLoaded', function() {
     maxLength: urlParams.get('max') || urlParams.get('max-length') || 50,
     //-- opacity and width of line
     width: urlParams.get('width') || urlParams.get('line-width') || 20,
+    minWidth: urlParams.get('min-width') || 20
   };
 
   data.timePeriod = Number.parseInt(data.timePeriod);
@@ -203,6 +225,7 @@ SVG.on(document, 'DOMContentLoaded', function() {
   data.minLength = Number.parseInt(data.minLength);
   data.maxLength = Number.parseInt(data.maxLength);
   data.width = Number.parseInt(data.width);
+  data.minWidth = Number.parseInt(data.minWidth);
 
   if (typeof data.timeOffset === 'string') {
     data.timeOffset = Number.parseInt(data.timeOffset);
@@ -239,6 +262,7 @@ https://jupyter-ijavascript-utils.onrender.com/tutorial-noiseVisualization.html
 * {Integer} min-length - minimum length of an indicator
 * {Integer} max-length - maximum length of an indicator
 * {Integer} width - width of the line
+* {Integer} min-width - width of line before considered 'overhead'
 
 ${window.location.href.split('?')[0]}?` +
   `${encode('density', density)}` +
@@ -248,7 +272,8 @@ ${window.location.href.split('?')[0]}?` +
   `&${encode('time-period', data.timePeriod)}` +
   `&${encode('min-length', data.minLength)}` +
   `&${encode('max-length', data.maxLength)}` +
-  `&${encode('line-width', data.width)}
+  `&${encode('line-width', data.width)}` +
+  `&${encode('min-width', data.minWidth)}
 `);
 
   window.onReady(0);
