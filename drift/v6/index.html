@@ -25,6 +25,11 @@
     <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
     <script src="https://cdn.rawgit.com/josephg/noisejs/master/perlin.js"></script>
 
+    <!-- tooltips -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6.3.7/themes/light-border.css">
+
     <link rel="stylesheet" href="./sidebar.css">
     <script src="./index.js"></script>
   </head>
@@ -38,39 +43,39 @@
           </div>
           <hr />
           <label>Width: 
-            <br /><span class='help'>(Width of the line)</span>
+            <span id="info-width" data-tippy-content="(# pixels wide for each indicator)">ⓘ</span>
             <input name="width" type="number" />
           </label>
           <label>Density: 
-            <br /><span class='help'>(# of pixels between indicators)</span>
+            <span id="info-width" data-tippy-content="(# of pixels between indicators)">ⓘ</span>
           	<input name="density" type="number" />
           </label>
           <label>Min Length: 
-            <br /><span class='help'>(minimum indicator length)</span>
+            <span id="info-width" data-tippy-content="(minimum indicator length)">ⓘ</span>
           	<input name="min" type="number" />
           </label>
           <label>Max Length: 
-            <br /><span class='help'>(maximum indicator length)</span>
+            <span id="info-width" data-tippy-content="(maximum indicator length)">ⓘ</span>
           	<input name="max" type="number" />
           </label>
           <label>Background Color: 
-            <br /><span class='help'>(HEX color of the background)</span>
+            <span id="info-width" data-tippy-content="(HEX color of the background)">ⓘ</span>
           	<input name="background" type="color" />
           </label>
           <label>Negative Color: 
-            <br /><span class='help'>(HEX color indicating a negative value)</span>
+            <span id="info-width" data-tippy-content="(HEX color indicating a negative value)">ⓘ</span>
           	<input name="initial" type="color" />
           </label>
           <label>Positive Color: 
-            <br /><span class='help'>(HEX color indicating a positive value)</span>
+            <span id="info-width" data-tippy-content="(HEX color indicating a positive value)">ⓘ</span>
           	<input name="final" type="color" />
           </label>
-          <label>Millisecond Period: 
-            <br /><span class='help'>(lower number - faster changes)</span>
+          <label>Change Frequency: 
+            <span id="info-width" data-tippy-content="(lower number - faster changes)">ⓘ</span>
           	<input name="period" type="number" />
           </label>
-          <label>Rotation Offset: 
-            <br /><span class='help'>(If 0, then rotation amounts are tied)</span>
+          <label>Color Rotation Offset: 
+            <span id="info-width" data-tippy-content="(If 0, then rotation amounts are tied, other integers make it more random)">ⓘ</span>
           	<input name="offset" type="number" />
           </label>
           <hr />

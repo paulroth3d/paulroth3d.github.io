@@ -20,9 +20,10 @@ window.onReady = function onReady() {
   //-- number of indicators along x and y axis
   const xCount = Math.round(width / data.density);
   const yCount = Math.round(height / data.density);
-  
-  const xRangeInc = 1 / xCount;
-  const yRangeInc = 1 / yCount;
+
+  const rangeInc = width <= height
+    ? 1 / xCount
+    : 1 / yCount;
   
   const xInc = width / xCount;
   const yInc = height / yCount;
@@ -35,9 +36,9 @@ window.onReady = function onReady() {
   const lines = lib.size(yCount, (yIndex) =>
     lib.size(xCount, (xIndex) => ({
         xPos: xIndex * xInc,
-        xNoise: xIndex * xRangeInc,
+        xNoise: xIndex * rangeInc,
         yPos: yIndex * yInc,
-        yNoise: yIndex * yRangeInc
+        yNoise: yIndex * rangeInc
     })))
     .flat();
   
@@ -232,6 +233,18 @@ window.utilityFunctions = {
 };
 
 /**
+ * Initialization for tippy tooltips
+ */
+window.tippySetup = function tippySetup() {
+  tippy('[data-tippy-content]', {
+    animation: 'fade',
+    delay: [100, null],
+    theme: 'light-border',
+    placement: 'right'
+  });
+};
+
+/**
  * Initialize from the GET Parameters sent.
  */
 SVG.on(document, 'DOMContentLoaded', function() {
@@ -334,6 +347,7 @@ ${window.location.href.split('?')[0]}?` +
   initializeInput(form, 'offset', data.timeOffset);
 
   window.onReady(0);
+  window.tippySetup();
 });
 
 /**
