@@ -240,7 +240,7 @@ window.tippySetup = function tippySetup() {
     animation: 'fade',
     delay: [100, null],
     theme: 'light-border',
-    placement: 'right'
+    placement: 'top'
   });
 };
 
