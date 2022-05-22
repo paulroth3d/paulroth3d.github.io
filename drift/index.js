@@ -270,7 +270,7 @@ SVG.on(document, 'DOMContentLoaded', function() {
     timeOffset: urlParams.get('offset') || 5000,
     //-- the minimum / maximum lengths of the indicators
     minLength: urlParams.get('min') || urlParams.get('min-length') || 10,
-    maxLength: urlParams.get('max') || urlParams.get('max-length') || 100,
+    maxLength: urlParams.get('max') || urlParams.get('max-length') || 150,
     //-- opacity and width of line
     width: urlParams.get('width') || urlParams.get('line-width') || 25
   };
