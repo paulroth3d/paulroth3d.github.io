@@ -258,7 +258,7 @@ SVG.on(document, 'DOMContentLoaded', function() {
 
   const data = {
     //-- number of pixels between indicators
-    density: urlParams.get('density') || 20,
+    density: urlParams.get('density') || 30,
     //-- background color
     backgroundColor: urlParams.get('background') || urlParams.get('background-color') || '000',
     //-- color range: 0: startingColor, 1: ending color
@@ -272,7 +272,7 @@ SVG.on(document, 'DOMContentLoaded', function() {
     minLength: urlParams.get('min') || urlParams.get('min-length') || 10,
     maxLength: urlParams.get('max') || urlParams.get('max-length') || 100,
     //-- opacity and width of line
-    width: urlParams.get('width') || urlParams.get('line-width') || 10
+    width: urlParams.get('width') || urlParams.get('line-width') || 25
   };
 
   //-- clean the values someone has sent
