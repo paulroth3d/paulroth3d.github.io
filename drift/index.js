@@ -275,6 +275,19 @@ SVG.on(document, 'DOMContentLoaded', function() {
     width: urlParams.get('width') || urlParams.get('line-width') || 25
   };
 
+	let demo = urlParams.has('demo')
+		? urlParams.get('demo')
+		: 0;
+
+	if (demo === '1') {
+		data.minLength = 1;
+		data.maxLength = 1;
+		data.width = data.density * 1.2;
+	} else if (demo === '2') {
+		data.density = 100;
+		data.timeOffset = 0;
+	}
+
   //-- clean the values someone has sent
   data.density = Number.parseInt(data.density);
   data.timePeriod = Number.parseInt(data.timePeriod);
