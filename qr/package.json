@@ -1,0 +1,36 @@
+{
+  "name": "qrcode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "esw .",
+    "lint:watch": "esw --watch .",
+    "server": "http-server ..",
+    "open": "open http://localhost:8080/qr"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulroth3d/paulroth3d.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paulroth3d/paulroth3d.github.io/issues"
+  },
+  "homepage": "https://github.com/paulroth3d/paulroth3d.github.io#readme",
+  "dependencies": {
+    "eslint-watch": "^8.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.18.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
+  }
+}
