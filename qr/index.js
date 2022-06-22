@@ -49,7 +49,11 @@ function handleSubmit(event) {
   // console.log('submit about to take place');
 
   const input = event.target.querySelector('.address-input');
-  const val = input.value;
+  let val = input.value || '';
+
+  if (!val.includes(':')) {
+  	val = 'https://' + val;
+  }
 
   const newValue = btoa(val);
   input.value = newValue;
@@ -83,7 +87,7 @@ function applyAddress(address) {
     infoContainer.hidden = false;
     formContainer.hidden = true;
 
-    addressDiv.innerHTML = `Target Address:<br />${address}`;
+    addressDiv.innerHTML = `${address}`;
 
     visitBtn.hidden = false;
 
@@ -135,6 +139,6 @@ function handleButtonClicked() {
  * */
 // eslint-disable-next-line no-unused-vars
 function handleEditButtonClicked() {
-  const editForm = document.querySelector('.edit-container .edit-form');
+  const editForm = document.querySelector('.form-container');
   editForm.hidden = !editForm.hidden;
 }

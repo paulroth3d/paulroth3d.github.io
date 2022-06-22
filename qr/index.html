@@ -27,13 +27,26 @@
             height: 100vh;
             margin: 0px;
         }
+        .my-container {
+        	display: flex;
+        	align-items: center;
+        	justify-content: center;
+        }
+        .outer-frame {
+        	border-radius: 5px;
+        	border: 1px solid #AAA;
+        	padding: 10px;
+        }
+        .outer-frame > div ~ div {
+        	margin-top: 10px;
+        }
+        .container {
+        	  -ms-flex-item-align: center!important;
+        	  align-self: center!important;
+        	  text-align: center;
+        }
         .centered-text {
             text-align: center;
-        }
-        .info-container, .form-container {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #AAA;
         }
         .info-address {
         	max-width: 500px;
@@ -68,7 +81,6 @@
         }
 
         .qr-inspector {
-        	padding-top: 10px;
         }
     </style>
 
@@ -82,42 +94,52 @@
     <![endif]-->
 </head>
 <body>
-    <div class="my-container row justify-content-center">
-        <div class="info-container align-self-center centered-text" hidden>
-            <div class='info-address'></div>
-            <button class='btn-visit btn btn-primary' onclick="handleButtonClicked(); false;">Visit Link</button>
-            <hr />
-            <div id="qrcode"></div>
-            <div class='edit-container'>
-                <hr />
-                <div class='edit-btn' onclick="handleEditButtonClicked(); false;">- Edit -</div>
-                <form action="" method="GET" class="app-form edit-form" hidden>
-                    <div class="form-input">
+	<div class="my-container">
+		<div class="outer-frame">
+			<div class="info-container container" hidden>
+				<div class="info-address-label">Target Address:</div>
+	        	<div class='info-address'></div>
+	            <button class='btn-visit btn btn-primary' onclick="handleButtonClicked(); false;">Visit Link</button>
+	            <hr />
+	            <div id="qrcode"></div>
+	            <div class='edit-container'>
+	                <hr />
+	                <div class='edit-btn' onclick="handleEditButtonClicked(); false;">- Edit -</div>
+	            </div>
+	        </div>
+	        <div class="form-container container" hidden>
+	            <form action="" method="GET" class="app-form create-form">
+	                <div class="form-input">
 	                    <label for="address">Please provide the address to go to.</label>
 	                    <textarea class="address-input" name="address" required></textarea>
-                    </div>
-                    <div class="form-button">
-                        <input type="submit" value="Submit" class="btn btn-secondary"></input>
-                    </div>
-                </form>
-            </div>
-		    <div class="qr-inspector align-self-center centered-text">
-			  Inspect QR Codes:
-			  <a href="https://www.icloud.com/shortcuts/e0a60ae927b44dfd8c34e810cc9b449d">iOS Shortcut</a>
+	                </div>
+	                <div class="form-button">
+	                    <input type="submit" value="Submit" class="btn btn-secondary"></input>
+	                </div>
+	            </form>
+	        </div>
+		    <div class="inspector-container container">
+		    	<hr />
+			    	<div>
+				  	Inspect QR Codes:
+				  	<a href="https://www.icloud.com/shortcuts/e0a60ae927b44dfd8c34e810cc9b449d">iOS Shortcut</a>
+				</div>
+			</div>
+			<div class="bookmarklet-container container">
+				<div>
+					Bookmarklet:
+					<a href="javascript:(function(){document.location.href='https://paulroth3d.github.io/qr'})();">
+						Create QR Code
+					</a>
+					<!--
+					<br />
+					(Bookmark link above <br />
+					or add to Bookmark Bar)
+					-->
+				</div>
 		    </div>
-        </div>
-        <div class="form-container align-self-center centered-text" hidden>
-            <form action="" method="GET" class="app-form create-form">
-                <div class="form-input">
-                    <label for="address">Please provide the address to go to.</label>
-                    <textarea class="address-input" name="address" required></textarea>
-                </div>
-                <div class="form-button">
-                    <input type="submit" value="Submit" class="btn btn-secondary"></input>
-                </div>
-            </form>
-        </div>
-    </div>
+		</div>
+	</div>
 
     <script type="text/javascript" src="./index.js" ></script>
 </body>
