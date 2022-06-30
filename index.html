@@ -35,22 +35,6 @@
 	Once you have the javascript updated, create your own bookmarklet at:
 	http://ted.mielczarek.org/code/mozilla/bookmarklet.html
 	
-	Allows you to very quickly and easily search rally
-	Note: you need to use your rally project id
-	ex:
-	if the url is:
-	https://rally1.rallydev.com/#/58107682671d/detail/defect/88105490928/tasks
-	then the project id is:
-	58107682671d
-	
-	javascript: (function() {
-		var rallyProject = 'rallyProjectId';
-		var searchQuery = prompt('Rally Search');
-		if (!searchQuery) {
-			return;
-		}
-		window.open('https://rally1.rallydev.com/#/' + rallyProject + '/search?keywords=' + searchQuery, '_blank');
-	})();
 	
     Find a particular user:
     (works in SF1, standard salesforce and LEX:
@@ -330,20 +314,7 @@
 			<p>This bookmarklet needs that parameter (and all the other hidden special ones) to work correctly</p>
             <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var loc=window.location.href;var rowsPerPagePattern=/([%][2][6]rowsperpage[%][3][D])(\d+)([%][2][6])/i;var loc2=loc.replace(rowsPerPagePattern,function(matchStr,p1,p2,p3,offset,fullStr){return(p1+1000+p3);});window.location.href=loc2;})();" role="button">View All per Page</a></p>
         </div>
-    </div>
-	
-    
-    <div class="jumbotron">
-        <a id="SHARE_GCAL_EVENT" name="SHARE_GCAL_EVENT"></a>
-        <div class="container">
-            <h1><a href="#SHARE_GCAL_EVENT">Share GCal Event</a></h1>
-            <p>Provides a link for a gCal Event for other participants to directly navigate to.</p>
-			<p>To install, drag the link below to your bookmarks bar</p>
-			<p>Then, click the bookmark when on the Details page of a Calendar Event</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){ try { window.prompt('Shareable link to this event:','https://www.google.com/calendar/event?eid='+document.getElementsByClassName('ep')[0].getAttribute('data-eid')) } catch (e) {alert('Use this bookmarklet to get a shareable link to a Google Calendar event when editing its Details page.')}})()" role="button">Share GCal Event</a></p>
-        </div>
-    </div>
-	
+    </div>	
     
     <div class="jumbotron">
         <a id="VIDYARD_TIMESTAMP" name="VIDYARD_TIMESTAMP"></a>
@@ -378,19 +349,73 @@
 			<p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){window.onbeforeunload=(evt)=>{return 'discard changes?';}})();" role="button">Confirm Close</a></p>
         </div>
     </div>
-	
+
+    <div class="jumbotron">
+        <a id="SHARE_GCAL_EVENT" name="SHARE_GCAL_EVENT"></a>
+        <div class="container">
+            <h1><a href="#SHARE_GCAL_EVENT">Share GCal Event</a></h1>
+            <p>Provides a link for a gCal Event for other participants to directly navigate to.</p>
+			<p>To install, drag the link below to your bookmarks bar</p>
+			<p>Then, click the bookmarklet when the Calendar Event is open, and copy the link</p>
+			<p>(either with details shown or in the edit screen)</p>
+    		<p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){loc%3Dwindow.location.href%2CopenPanel%3Ddocument.querySelector%28%22%5Bisfullscreen%5D%22%29%2CeventId%3D%22%22%2Cloc.indexOf%28%22%2Feventedit%2F%22%29%3E-1%3F%28eventId%3Dloc.split%28%22%2Feventedit%2F%22%29%5B1%5D%2CeventId%3DeventId.split%28%22%3F%22%29%5B0%5D%2CeventId%3DeventId.split%28%22%26%22%29%5B0%5D%29%3AopenPanel%26%26openPanel.querySelector%28%22%5Bdata-eventid%5D%22%29%3FeventId%3DopenPanel.querySelector%28%22%5Bdata-eventid%5D%22%29.getAttribute%28%22data-eventid%22%29%3Aalert%28%22Select%20an%20event%20in%20Google%20Calendar%20to%20begin%22%29%2CeventId%26%26%28address%3D%60https%3A%2F%2Fwww.google.com%2Fcalendar%2Fevent%3Feid%3D%24%7BeventId%7D%60%2Cwindow.prompt%28%22Share%20this%20URL%3A%22%2Caddress%29%29%3B})();">Share GCal Event</a></p>
+        </div>
+    </div>
+
+    <!--
+    // gcal
+	loc = window.location.href;
+
+	openPanel = document.querySelector('[isfullscreen]');
+	eventId = '';
+
+	if (loc.indexOf("/eventedit/") > -1) {
+	  eventId = loc.split("/eventedit/")[1];
+	  eventId = eventId.split('?')[0];
+	  eventId = eventId.split('&')[0];
+	} else if (openPanel && openPanel.querySelector('[data-eventid]')) {
+	  eventId = openPanel.querySelector('[data-eventid]').getAttribute('data-eventid');
+	} else {
+	  alert('Select an event in Google Calendar to begin');
+	}
+
+	if (eventId) {
+	  address = `https://www.google.com/calendar/event?eid=${eventId}`;
+	  window.prompt('Share this URL:', address);
+	}
+    -->
+
     
     <div class="jumbotron">
-        <a id="Link to GMail" name="LINK_TO_GMAIL"></a>
+        <a id="SHARE_GMAIL_THREAD" name="SHARE_GMAIL_THREAD"></a>
         <div class="container">
-        	<h1><a href="javascript:(function(){if(window.location.host!=='mail.google.com'){alert('Please go to an email within GMail to use.');return;}messageIdEl=document.querySelector('td.message_id');if(messageIdEl){}else if(!document.querySelector('h2[data-thread-perm-id]')){alert('Navigate to an Email > Show Original page to continue');return;}else{alert('Within the Menu, click SHOW ORIGINAL to continue');return;}messageId=messageIdEl.innerText.replace(/[<>]/g,'');address='https://mail.google.com/mail/u/0/#search/'+encodeURIComponent('rfc822msgid:'+messageId);alert(%60Link%20to%20share:${address}\n\n(It%20is%20effectively%20a%20search%20for%20this%20email%20to%20avoid%20security%20leaks)\n\nPeople%20that%20can%20see%20the%20thread%20will%20see%20it%20as%20the%20only%20result.\n\nOpening%20window%20to%20location%20to%20make%20copying%20easier.%60);window.open(address,'_blank');})();">Link to GMail</a></h1>
+            <h1><a href="#SHARE_GMAIL_THREAD">Link to GMail Thread</a></h1>        	
         	<p>Sometimes you want to bookmark an email thread to come back to it</p>
         	<p>Or you want to tell someone to go look for an email thread</p>
         	<p>This bookmark creates / navigates you to a search page url you can forward</p>
         	<p>This keeps security in mind, as the search will only find something if someone can see it.</p>
-   	        <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){if(window.location.host!=='mail.google.com'){alert('Please go to an email within GMail to use.');return;}messageIdEl=document.querySelector('td.message_id');if(messageIdEl){}else if(!document.querySelector('h2[data-thread-perm-id]')){alert('Navigate to an Email > Show Original page to continue');return;}else{alert('Within the Menu, click SHOW ORIGINAL to continue');return;}messageId=messageIdEl.innerText.replace(/[<>]/g,'');address='https://mail.google.com/mail/u/0/#search/'+encodeURIComponent('rfc822msgid:'+messageId);alert(%60Link%20to%20share:${address}\n\n(It%20is%20effectively%20a%20search%20for%20this%20email%20to%20avoid%20security%20leaks)\n\nPeople%20that%20can%20see%20the%20thread%20will%20see%20it%20as%20the%20only%20result.\n\nOpening%20window%20to%20location%20to%20make%20copying%20easier.%60);window.open(address,'_blank');})();">Link to GMail</a></p>
+        	<p>(In other words, you can't link to an email someone can't see otherwise)</p>
+   	        <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){messageId%3D%22%22%2CmessageIdEl%3Ddocument.querySelector%28%22td.message_id%22%29%2C%22mail.google.com%22%21%3D%3Dwindow.location.host%3Falert%28%22Please%20go%20to%20an%20email%20within%20GMail%20to%20use.%22%29%3AmessageIdEl%3F%28messageId%3DmessageIdEl.innerText.replace%28%2F%5B%3C%3E%5D%2Fg%2C%22%22%29%2Caddress%3D%22https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F%23search%2F%22%2BencodeURIComponent%28%22rfc822msgid%3A%22%2BmessageId%29%2Cwindow.prompt%28%22Share%20this%20URL%5Cn%28NOTE%3A%20it%20is%20effectively%20a%20search%20link%2C%20to%20avoid%20security%20leaks%29%22%2Caddress%29%29%3Adocument.querySelector%28%22h2%5Bdata-thread-perm-id%5D%22%29%3Falert%28%22Within%20the%20%28%E2%8B%AE%29%20Menu%2C%20click%20SHOW%20ORIGINAL%20to%20continue%22%29%3Aalert%28%22Navigate%20to%20an%20Email%2C%20then%20Show%20Original%20to%20continue%22%29%3B})();">Share GMail</a></a>
         </div>
     </div>
+
+    <!--
+    // gmail
+    messageId = '';
+    messageIdEl = document.querySelector('td.message_id');
+    if (window.location.host !== 'mail.google.com') {
+        alert('Please go to an email within GMail to use.');
+    } else if(messageIdEl) {
+        messageId = messageIdEl.innerText.replace(/[<>]/g, '');
+        address = 'https://mail.google.com/mail/u/0/#search/' + encodeURIComponent('rfc822msgid:' + messageId);
+    
+        window.prompt('Share this URL\n(NOTE: it is effectively a search link, to avoid security leaks)', address);
+    } else if(!document.querySelector('h2[data-thread-perm-id]')) {
+        alert('Navigate to an Email, then Show Original to continue');
+    } else {
+        alert('Within the (⋮) Menu, click SHOW ORIGINAL to continue');
+    }
+    -->
 
     
     <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
