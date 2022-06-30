@@ -417,6 +417,38 @@
     }
     -->
 
+    <div class="jumbotron">
+        <a id="SEARCH_WITHIN_GDRIVE" name="SEARCH_WITHIN_GDRIVE"></a>
+        <div class="container">
+            <h1><a href="#SEARCH_WITHIN_GDRIVE">Search within GDrive Folder</a></h1>
+            <p>Sometimes you just want to find README.MD within a specific google drive folder</p>
+            <p>And not have the search include every README.MD file ever to exist</p>
+            <p>Navigate to a Google Drive Folder, and click the bookmarklet</p>
+            <p>The search it takes you to filters to only that folder</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){loc%3Dwindow.location.href%2Cloc.indexOf%28%22%2Fdrive%2F%22%29%3C0%3Falert%28%22Navigate%20to%20a%20Google%20Drive%20Folder%20to%20begin%22%29%3Aloc.indexOf%28%22%2Ffolders%2F%22%29%3C0%3Falert%28%22Navigate%20to%20a%20Google%20Drive%20Folder%20to%20begin%22%29%3A%28fileName%3Dprompt%28%22Search%20within%20this%20Google%20Drive%20Folder%3A%22%2C%22%22%29%2Cnull%21%3D%3DfileName%26%26%28folderId%3Dloc.split%28%22%2Ffolders%2F%22%29%5B1%5D%2CfolderId%3DfolderId.split%28%22%3F%22%29%5B0%5D%2CfolderId%3DfolderId.split%28%22%26%22%29%5B0%5D%2Caddress%3D%22https%3A%2F%2Fdrive.google.com%2Fdrive%2Fsearch%3Fq%3D%22%2BencodeURIComponent%28%22parent%3A%22%2BfolderId%2B%22%20%22%2BfileName%29%2Cwindow.location.href%3Daddress%29%29%3B})();">Search GFolder</a></p>
+        </div>
+    </div>
+
+    <!--
+	loc = window.location.href;
+	if (loc.indexOf('/drive/') < 0) {
+	    alert('Navigate to a Google Drive Folder to begin');
+	} else if (loc.indexOf('/folders/') < 0) {
+	    alert('Navigate to a Google Drive Folder to begin');
+	} else {
+	    fileName = prompt('Search within this Google Drive Folder:', '');
+	
+	    if (fileName !== null) {
+	        folderId = loc.split('/folders/')[1];
+	        folderId = folderId.split('?')[0];
+	        folderId = folderId.split('&')[0];    
+	    
+	        address = 'https://drive.google.com/drive/search?q=' + encodeURIComponent('parent:' + folderId + ' ' + fileName);
+	    
+	        window.location.href = address;
+	    }
+	}
+    -->
     
     <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
     
