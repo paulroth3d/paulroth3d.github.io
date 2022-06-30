@@ -378,6 +378,19 @@
 			<p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){window.onbeforeunload=(evt)=>{return 'discard changes?';}})();" role="button">Confirm Close</a></p>
         </div>
     </div>
+	
+    
+    <div class="jumbotron">
+        <a id="Link to GMail" name="LINK_TO_GMAIL"></a>
+        <div class="container">
+        	<h1><a href="javascript:(function(){if(window.location.host!=='mail.google.com'){alert('Please go to an email within GMail to use.');return;}messageIdEl=document.querySelector('td.message_id');if(messageIdEl){}else if(!document.querySelector('h2[data-thread-perm-id]')){alert('Navigate to an Email > Show Original page to continue');return;}else{alert('Within the Menu, click SHOW ORIGINAL to continue');return;}messageId=messageIdEl.innerText.replace(/[<>]/g,'');address='https://mail.google.com/mail/u/0/#search/'+encodeURIComponent('rfc822msgid:'+messageId);alert(%60Link%20to%20share:${address}\n\n(It%20is%20effectively%20a%20search%20for%20this%20email%20to%20avoid%20security%20leaks)\n\nPeople%20that%20can%20see%20the%20thread%20will%20see%20it%20as%20the%20only%20result.\n\nOpening%20window%20to%20location%20to%20make%20copying%20easier.%60);window.open(address,'_blank');})();">Link to GMail</a></h1>
+        	<p>Sometimes you want to bookmark an email thread to come back to it</p>
+        	<p>Or you want to tell someone to go look for an email thread</p>
+        	<p>This bookmark creates / navigates you to a search page url you can forward</p>
+        	<p>This keeps security in mind, as the search will only find something if someone can see it.</p>
+   	        <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){if(window.location.host!=='mail.google.com'){alert('Please go to an email within GMail to use.');return;}messageIdEl=document.querySelector('td.message_id');if(messageIdEl){}else if(!document.querySelector('h2[data-thread-perm-id]')){alert('Navigate to an Email > Show Original page to continue');return;}else{alert('Within the Menu, click SHOW ORIGINAL to continue');return;}messageId=messageIdEl.innerText.replace(/[<>]/g,'');address='https://mail.google.com/mail/u/0/#search/'+encodeURIComponent('rfc822msgid:'+messageId);alert(%60Link%20to%20share:${address}\n\n(It%20is%20effectively%20a%20search%20for%20this%20email%20to%20avoid%20security%20leaks)\n\nPeople%20that%20can%20see%20the%20thread%20will%20see%20it%20as%20the%20only%20result.\n\nOpening%20window%20to%20location%20to%20make%20copying%20easier.%60);window.open(address,'_blank');})();">Link to GMail</a></p>
+        </div>
+    </div>
 
     
     <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
