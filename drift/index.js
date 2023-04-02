@@ -7,8 +7,9 @@ window.onReady = function onReady() {
     SVG
   } = window.context;
 
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+  const screenMargin = 30;
+  const width = window.innerWidth + screenMargin;
+  const height = window.innerHeight + screenMargin;
 
   //-- make the background black
   el.setAttribute('style', `background-color: ${data.backgroundColor};`);
