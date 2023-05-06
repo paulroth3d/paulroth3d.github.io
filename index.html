@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE HTML>
 
 <html><head>
@@ -447,6 +445,30 @@
 	    
 	        window.location.href = address;
 	    }
+	}
+    -->
+
+    <div class="jumbotron">
+        <a id="OPEN_GDRIVE_FOLDER" name="OPEN_GDRIVE_FOLDER"></a>
+        <div class="container">
+            <h1><a href="#OPEN_GDRIVE_FOLDER">Open Selected GDrive Folder In New Window</a></h1>
+            <p>Sometimes you want to open a GDrive folder, in a new window,</p>
+            <p> so you don&apos;t lose your place</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function()%7Bconst target=%5B...document.querySelectorAll('c-wiz div%5Brole=%22row%22%5D%5Baria-selected=%22true%22%5D')%5D;if(target.length&gt;0)%7Bfor(var i=0;i<target.length;i++)%7Bconst cTarget=target%5Bi%5D;const driveFolderId=cTarget.parentElement.getAttribute('data-id');window.open('https://drive.google.com/drive/folders/'+driveFolderId,'_blank');%7D%7Delse%7Bwindow.alert('No Folder Selected');%7D%7D)();">Open GFolder</a></p>
+        </div>
+    </div>
+
+    <!--
+	const target = [...document.querySelectorAll('c-wiz div[role="row"][aria-selected="true"]')];
+	console.log('hello');
+	if (target.length > 0) {
+		for ( var i = 0; i < target.length; i++) {
+			const cTarget = target[i];
+			const driveFolderId = cTarget.parentElement.getAttribute('data-id');
+			window.open("https://drive.google.com/drive/folders/" + driveFolderId, '_blank');
+		}
+	} else {
+		window.alert('No Folder Selected');
 	}
     -->
     
