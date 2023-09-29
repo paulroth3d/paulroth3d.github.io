@@ -149,7 +149,9 @@
 			<p>Then click the bookmarklet</p>
 			<p>Then go to a spreadsheet and paste. TADAH!</p>
             <p>To install, drag the link below to your bookmarks bar</p>
-			<p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function()%7Bfunction%20getSelectedNode()%7Bif(document.selection)return%20document.selection.createRange().parentElement()%3Belse%7Bvar%20selection%3Dwindow.getSelection()%3Bif(selection.rangeCount%3E0)return%20selection.getRangeAt(0).startContainer.parentNode%3B%7D%7Dfunction%20copyToClipboard(text)%7Btry%7Bif(window.clipboardData%26%26window.clipboardData.setData)%7Breturn%20clipboardData.setData(%27Text%27%2Ctext)%3B%7Delse%20if(document.queryCommandSupported%26%26document.queryCommandSupported(%27copy%27))%7Btry%7Bnavigator.clipboard.writeText(text)%3Breturn%3B%7Dcatch(ex)%7B%7Dvar%20textarea%3Ddocument.createElement(%27textarea%27)%3Btextarea.textContent%3Dtext%3Btextarea.style.position%3D%27fixed%27%3Btextarea.style.left%3D%27-999999px%27%3Btextarea.style.top%3D%27-999999px%27%3Bdocument.body.appendChild(textarea)%3Btextarea.focus()%3Btextarea.select()%3Breturn%20new%20Promise((response%2Creject)%3D%3E%7Btry%7Bdocument.execCommand(%27copy%27)%3Fresponse()%3Areject()%3Btextarea.remove()%3B%7Dcatch(err)%7Bconsole.warn(%27copy%20attempt%202%20failed%27%2Cerr)%3B%7D%7D)%3B%7Delse%7Balert(%27No%20copy%20feature%20available%20in%20this%20context%27)%3B%7D%7Dcatch(err)%7Bconsole.error(%27copy%20to%20clipboard%20failed%27%2Cerr)%3Balert(%27copy%20to%20clipboard%20failed%27)%3B%7D%7Dfunction%20tableToArray(currentTable)%7Breturn%20Array.from(currentTable.querySelectorAll(%27tr%27)).map(trEl%3D%3EArray.from(trEl.querySelectorAll(%27td%2Cth%27)).map(tdEl%3D%3EtdEl.innerText))%7Dfunction%20escapeCell(val)%7Blet%20val2%3D(val%7C%7C%27%27)%3Bval2%3Dval2.replace(%2F(%5B%5Ct%27%5D)%2Fg%2C%20%27%5C%5C%241%27)%3B%20val2%3Dval2.replace(%2F%22%2Fg%2C%27%22%22%27)%3Bval2%3Dval2.replace(%2F%5Cn%2Fg%2C%27%5C%5Cn%27)%3Breturn%20%60%22%24%7Bval2%7D%22%60%3B%7Dfunction%20tableToTSV(tableArray)%7Breturn%20tableArray.map(row%3D%3Erow.map(escapeCell).join(%27%5Ct%27)).join(%27%5Cn%27)%3B%7Dvar%20selectedElement%3DgetSelectedNode()%3Bvar%20selectedTable%3DselectedElement%3FselectedElement.closest(%27table%27)%3Anull%3Bif(!selectedTable)%7Balert(%27No%20selection%20found.%20Please%20select%20within%20the%20table%20to%20copy%27)%3B%7DcopyToClipboard(tableToTSV(tableToArray(selectedTable)))%3B%7D)()%3B" role="button">Copy Table</a></p>
+			<p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function()%7Bfunction%20getSelectedNode()%7Bif(document.selection)return%20document.selection.createRange().parentElement()%3Belse%7Bvar%20selection%3Dwindow.getSelection()%3Bif(selection.rangeCount%3E0)return%20selection.getRangeAt(0).startContainer.parentNode%3B%7D%7Dfunction%20copyToClipboard(text)%7Btry%7Bif(window.clipboardData%26%26window.clipboardData.setData)%7Breturn%20clipboardData.setData(%27Text%27%2Ctext)%3B%7Delse%20if(document.queryCommandSupported%26%26document.queryCommandSupported(%27copy%27))%7Btry%7Bnavigator.clipboard.writeText(text)%3Breturn%3B%7Dcatch(ex)%7B%7Dvar%20textarea%3Ddocument.createElement(%27textarea%27)%3Btextarea.textContent%3Dtext%3Btextarea.style.position%3D%27fixed%27%3Btextarea.style.left%3D%27-999999px%27%3Btextarea.style.top%3D%27-999999px%27%3Bdocument.body.appendChild(textarea)%3Btextarea.focus()%3Btextarea.select()%3Breturn%20new%20Promise((response%2Creject)%3D%3E%7Btry%7Bdocument.execCommand(%27copy%27)%3Fresponse()%3Areject()%3Btextarea.remove()%3B%7Dcatch(err)%7Bconsole.warn(%27copy%20attempt%202%20failed%27%2Cerr)%3B%7D%7D)%3B%7Delse%7Balert(%27No%20copy%20feature%20available%20in%20this%20context%27)%3B%7D%7Dcatch(err)%7Bconsole.error(%27copy%20to%20clipboard%20failed%27%2Cerr)%3Balert(%27copy%20to%20clipboard%20failed%27)%3B%7D%7Dfunction%20tableToArray(currentTable)%7Breturn%20Array.from(currentTable.querySelectorAll(%27tr%27)).map(trEl%3D%3EArray.from(trEl.querySelectorAll(%27td%2Cth%27)).map(tdEl%3D%3EtdEl.innerText))%7Dfunction%20escapeCell(val)%7Blet%20val2%3D(val%7C%7C%27%27)%3Bval2%3Dval2.replace(%2F(%5B%5Ct%27%5D)%2Fg%2C%20%27%5C%5C%241%27)%3B%20val2%3Dval2.replace(%2F%22%2Fg%2C%27%22%22%27)%3Bval2%3Dval2.replace(%2F%5Cn%2Fg%2C%27%5C%5Cn%27)%3Breturn%20%60%22%24%7Bval2%7D%22%60%3B%7Dfunction%20tableToTSV(tableArray)%7Breturn%20tableArray.map(row%3D%3Erow.map(escapeCell).join(%27%5Ct%27)).join(%27%5Cn%27)%3B%7Dvar%20selectedElement%3DgetSelectedNode()%3Bvar%20selectedTable%3DselectedElement%3FselectedElement.closest(%27table%27)%3Anull%3Bif(!selectedTable)%7Balert(%27No%20selection%20found.%20Please%20select%20within%20the%20table%20to%20copy%27)%3B%7DcopyToClipboard(tableToTSV(tableToArray(selectedTable)))%3B%7D)()%3B" 
+                role="button"
+            >Copy Table</a></p>
         </div>
     </div>
 	
@@ -162,7 +164,9 @@
 			<p>Sometimes you want to do a search within Lightning Experience but don&apos;t want to lose your current screen.</p>
 			<p>Launching this bookmarklet while on a Salesforce org will search for that topic in LEX in a new window.</p>
             <p>To install, drag the link below to your bookmarks bar</p>
-			<p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var searchReq=prompt('what do you want to search?');var searchObj={'componentDef':'forceSearch:search','attributes':{'term':searchReq,'scopeMap':{'type':'TOP_RESULTS'},'context':{'disableSpellCorrection':false,'permsAndPrefs':{'lvmEnabledForSearchResultsOn':true}}}};var searchStr=btoa(JSON.stringify(searchObj));window.open(window.location.protocol+'//'+window.location.host+'/one/one.app#'+searchStr,'_blank');})();" role="button">Search LEX</a></p>
+			<p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var searchReq=prompt('what do you want to search?');var searchObj={'componentDef':'forceSearch:search','attributes':{'term':searchReq,'scopeMap':{'type':'TOP_RESULTS'},'context':{'disableSpellCorrection':false,'permsAndPrefs':{'lvmEnabledForSearchResultsOn':true}}}};var searchStr=btoa(JSON.stringify(searchObj));window.open(window.location.protocol+'//'+window.location.host+'/one/one.app#'+searchStr,'_blank');})();" 
+                role="button"
+            >Search LEX</a></p>
         </div>
     </div>
 	
@@ -175,7 +179,9 @@
             <h1><a href="#SEARCH_SFDC">Search Salesforce Data</a></h1>
             <p>Searches Salesforce for your environment</p>
             <p>To install, drag the link below to your bookmarks bar</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var searchTerm=prompt('what should we search for?');window.open(window.location.protocol+'//'+window.location.host+'/_ui/search/ui/UnifiedSearchResults?searchType=2&amp;str='+searchTerm,'_blank');})();" role="button">Search SFDC</a></p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var searchTerm=prompt('what should we search for?');window.open(window.location.protocol+'//'+window.location.host+'/_ui/search/ui/UnifiedSearchResults?searchType=2&amp;str='+searchTerm,'_blank');})();" 
+                role="button"
+            >Search SFDC</a></p>
         </div>
     </div>
     
@@ -188,7 +194,9 @@
             <h1><a href="#SEARCH_SETUP">Search Setup</a></h1>
             <p>Searches Salesforce Setup for terms</p>
             <p>To install, drag the link below to your bookmarks bar</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var searchTerm=prompt('what should we search for?');window.open(window.location.protocol+'//'+window.location.host+'/ui/setup/SetupSearchResultsPage?setupSearch='+searchTerm,'_blank');})();" role="button">Search Setup</a></p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var searchTerm=prompt('what should we search for?');window.open(window.location.protocol+'//'+window.location.host+'/ui/setup/SetupSearchResultsPage?setupSearch='+searchTerm,'_blank');})();" 
+                role="button"
+            >Search Setup</a></p>
         </div>
     </div>
     
@@ -204,7 +212,9 @@
             <p>Navigates to the classic settings</p>
             <p>To install, drag the link below to your bookmarks bar</p>
             <p>Then simply tap the bookmarklet and enter your search term</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/p/setup/custent/CustomObjectsPage?setupid=CustomObjects';var win=window.open(url,'_blank');function checkWin(){if(win.document){win.document.title=UserContext.userName;}else{setTimeout(checkWin,5000);}}setTimeout(checkWin,5000);})();" role="button">Classic Setup</a></p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/p/setup/custent/CustomObjectsPage?setupid=CustomObjects';var win=window.open(url,'_blank');function checkWin(){if(win.document){win.document.title=UserContext.userName;}else{setTimeout(checkWin,5000);}}setTimeout(checkWin,5000);})();" 
+                role="button"
+            >Classic Setup</a></p>
         </div>
     </div>
     
@@ -217,7 +227,8 @@
             <p>Navigates to the Lightning Experience settings - assuming you're in Lightning Experience</p>
             <p>To install, drag the link below to your bookmarks bar</p>
             <p>Then simply tap the bookmarklet and enter your search term</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/one/one.app#/setup/home';var win=window.open(url,'_blank');})();" role="button">Lightning Setup</a></p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/one/one.app#/setup/home';var win=window.open(url,'_blank');})();" 
+                role="button">Lightning Setup</a></p>
         </div>
     </div>
     
@@ -230,7 +241,9 @@
             <p>Navigates to Salesforce Analytics Studio - assuming it is available in your org</p>
             <p>To install, drag the link below to your bookmarks bar</p>
             <p>Then simply tap the bookmarklet when somewhere in your salesforce org.</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/analytics/wave/wave.apexp#home';var win=window.open(url,'_blank');function checkWin(){if(win.document){win.document.title=UserContext.userName;}else{setTimeout(checkWin,5000);}}setTimeout(checkWin,5000);})();" role="button">Open AC Studio</a></p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/analytics/wave/wave.apexp#home';var win=window.open(url,'_blank');function checkWin(){if(win.document){win.document.title=UserContext.userName;}else{setTimeout(checkWin,5000);}}setTimeout(checkWin,5000);})();" 
+                role="button"
+            >Open AC Studio</a></p>
         </div>
     </div>
     
@@ -243,7 +256,9 @@
             <p>Navigates to the Lightning App Builder</p>
             <p>To install, drag the link below to your bookmarks bar</p>
             <p>Then navigate to an area in Salesforce with Lightning Experience enabled, and simply tap the bookmarklet</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/one/one.app#/setup/FlexiPageList/home';var win=window.open(url,'_blank');})();" role="button">App Builder</a></p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/one/one.app#/setup/FlexiPageList/home';var win=window.open(url,'_blank');})();" 
+                role="button"
+            >App Builder</a></p>
         </div>
     </div>
     
@@ -259,7 +274,9 @@
             <h3>Its a magical concept.</h3>
             <p>To install, drag the link below to your bookmarks bar</p>
             <p>Then, when you're on a rally story detail, click the button</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function()%7Burl2%3D&quot;http://mm-proth.s3.amazonaws.com/bookmarklets/rallyFixTarget.html&quot;%3BopenWindow%3Dwindow.open(url2%2B&quot;%3Ff1%3D&quot;%2Bwindow.location.href%2B&quot;%26f2%3D&quot;%2Bwindow.location.href%2B&quot;/tasks&quot;,&quot;RallyFix&quot;,&quot;&quot;)%3B%7D)()%3B" role="button">Rally Task Fix</a></p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function()%7Burl2%3D&quot;http://mm-proth.s3.amazonaws.com/bookmarklets/rallyFixTarget.html&quot;%3BopenWindow%3Dwindow.open(url2%2B&quot;%3Ff1%3D&quot;%2Bwindow.location.href%2B&quot;%26f2%3D&quot;%2Bwindow.location.href%2B&quot;/tasks&quot;,&quot;RallyFix&quot;,&quot;&quot;)%3B%7D)()%3B" 
+                role="button"
+            >Rally Task Fix</a></p>
         </div>
     </div>
     -->
@@ -272,7 +289,9 @@
             <p>Swaps betten the User Chatter page and their User Info page (used for login)</p>
             <p>To install, drag the link below to your bookmarks bar</p>
             <p>Then simply tap the bookmarklet and enter your search term</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){originalLocation = window.location.href.replace( '/UserProfilePage?', '/upp?' ); newLocation1=originalLocation.replace( /\/([a-zA-Z0-9]{15,18})[?&amp;].*/, '/_ui/core/userprofile/UserProfilePage?u=$1' ); newLocation2=originalLocation.replace( /[?&amp;]u=([a-zA-Z0-9]{15,})\&amp;.+/g, '%E2%80%A0$1?noredirect=1' ).replace( /\/_ui\/core\/[^%E2%80%A0]+%E2%80%A0/g, '/' ); if( newLocation1 != originalLocation ){   window.location.href=newLocation1; } else if( newLocation2 != originalLocation ){ window.location.href=newLocation2; } })()" role="button">Swap SFDC User</a></p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){originalLocation = window.location.href.replace( '/UserProfilePage?', '/upp?' ); newLocation1=originalLocation.replace( /\/([a-zA-Z0-9]{15,18})[?&amp;].*/, '/_ui/core/userprofile/UserProfilePage?u=$1' ); newLocation2=originalLocation.replace( /[?&amp;]u=([a-zA-Z0-9]{15,})\&amp;.+/g, '%E2%80%A0$1?noredirect=1' ).replace( /\/_ui\/core\/[^%E2%80%A0]+%E2%80%A0/g, '/' ); if( newLocation1 != originalLocation ){   window.location.href=newLocation1; } else if( newLocation2 != originalLocation ){ window.location.href=newLocation2; } })()" 
+                role="button"
+            >Swap SFDC User</a></p>
         </div>
     </div>
     
@@ -284,7 +303,9 @@
             <p>Helpful link to allow you to rename windows, so expos&eacute; shows windows in a way that you can tell what is what</p>
             <p>To install, drag the link below to your bookmarks bar</p>
             <p>Then simply tap the bookmarklet and enter your search term</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){window.document.title=window.prompt('New window title?');})()" role="button">Rename Window</a></p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){window.document.title=window.prompt('New window title?');})()" 
+                role="button"
+            >Rename Window</a></p>
         </div>
     </div>
     
@@ -295,7 +316,9 @@
             <h3>Opens SalesForce to a particular SalesForce ID</h3>
             <p>To install, drag the link below to your bookmarks bar</p>
             <p>Then simply tap the bookmarklet and enter your search term</p>
-            <p class='bkmklt'><a class="btn btn-primary btn-lg" role="button" href="javascript:(function(){var isLightning=(window.location.href.indexOf('/one/one.app')>-1);var isLEX=(typeof $A!=='undefined');var sfdcId=prompt('What is the SalesForce.com ID?');if(!sfdcId){return;}var apexPage=null;var apexMatches=apexMatches=sfdcId.match('(^|/)apex/([a-zA-Z0-9_+]+)');var targetURL='/'+sfdcId;if(isLEX){try{targetURL=targetURL.replace('//','/');var evt=$A.get('e.force:navigateToURL');evt.setParams({'url':targetURL});evt.fire();return;}catch(err){alert('In LEX, but cannot navigate to URL:'+targetURL);return;}}if(isLightning){if(apexMatches){targetURL='/one/one.app#/n/'+apexMatches[2];}else{targetURL='/one/one.app#/sObject/'+sfdcId+'/view'}}var resultURL=window.location.protocol+'//'+window.location.host+targetURL;window.open(resultURL,'_blank');})();">Open SFDC ID</a></p>
+            <p class='bkmklt'><a class="btn btn-primary btn-lg" href="javascript:(function(){var isLightning=(window.location.href.indexOf('/one/one.app')>-1);var isLEX=(typeof $A!=='undefined');var sfdcId=prompt('What is the SalesForce.com ID?');if(!sfdcId){return;}var apexPage=null;var apexMatches=apexMatches=sfdcId.match('(^|/)apex/([a-zA-Z0-9_+]+)');var targetURL='/'+sfdcId;if(isLEX){try{targetURL=targetURL.replace('//','/');var evt=$A.get('e.force:navigateToURL');evt.setParams({'url':targetURL});evt.fire();return;}catch(err){alert('In LEX, but cannot navigate to URL:'+targetURL);return;}}if(isLightning){if(apexMatches){targetURL='/one/one.app#/n/'+apexMatches[2];}else{targetURL='/one/one.app#/sObject/'+sfdcId+'/view'}}var resultURL=window.location.protocol+'//'+window.location.host+targetURL;window.open(resultURL,'_blank');})();"
+                role="button" 
+            >Open SFDC ID</a></p>
         </div>
     </div>
 	
@@ -310,7 +333,9 @@
 				as a couple pages in salesforce have special parameters (like the rowsperpage attribute)
 				that aren't shown until then.</p>
 			<p>This bookmarklet needs that parameter (and all the other hidden special ones) to work correctly</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var loc=window.location.href;var rowsPerPagePattern=/([%][2][6]rowsperpage[%][3][D])(\d+)([%][2][6])/i;var loc2=loc.replace(rowsPerPagePattern,function(matchStr,p1,p2,p3,offset,fullStr){return(p1+1000+p3);});window.location.href=loc2;})();" role="button">View All per Page</a></p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var loc=window.location.href;var rowsPerPagePattern=/([%][2][6]rowsperpage[%][3][D])(\d+)([%][2][6])/i;var loc2=loc.replace(rowsPerPagePattern,function(matchStr,p1,p2,p3,offset,fullStr){return(p1+1000+p3);});window.location.href=loc2;})();"
+                role="button"
+            >View All per Page</a></p>
         </div>
     </div>	
     
@@ -321,7 +346,9 @@
             <p>Navigates to a specific seconds offset in a vidyard video.</p>
 			<p>To install, drag the link below to your bookmarks bar</p>
 			<p>Then, click the bookmark when on a vidyard video, fill in the seconds offset</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var explorer=null;function getVidyardVideo(v){var result=null;for(var prop in v){if(v.hasOwnProperty(prop)&&typeof(v[prop])=='object'){return(v[prop]);}}return(null);}try{var vidPlayer=new Vidyard.players();window.vidyardExplorer=getVidyardVideo(vidPlayer);explorer=window.vidyardExplorer;}catch(err){alert('could not find vidyard explorer');}if(explorer){try{var timecodeStr=prompt('Video timestamp');var timecode=parseInt(timecodeStr);if(timecode){explorer.seek(timecode);}else{alert('invalid timecode:'+timecode);}}catch(err){alert('could not navigate video');}}})();" role="button">Vidyard Timestamp</a></p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var explorer=null;function getVidyardVideo(v){var result=null;for(var prop in v){if(v.hasOwnProperty(prop)&&typeof(v[prop])=='object'){return(v[prop]);}}return(null);}try{var vidPlayer=new Vidyard.players();window.vidyardExplorer=getVidyardVideo(vidPlayer);explorer=window.vidyardExplorer;}catch(err){alert('could not find vidyard explorer');}if(explorer){try{var timecodeStr=prompt('Video timestamp');var timecode=parseInt(timecodeStr);if(timecode){explorer.seek(timecode);}else{alert('invalid timecode:'+timecode);}}catch(err){alert('could not navigate video');}}})();"
+                role="button"
+            >Vidyard Timestamp</a></p>
         </div>
     </div>
 
@@ -330,7 +357,7 @@
         <div class="container">
             <h1><a href="#RAMDA">Inject Ramda</a></h1>
             <p>Injects <a href='https://ramdajs.com/docs/'>Ramda</a></p>
-            <p><a target='_blank' href='https://github.com/ramda/ramda/blob/master/BOOKMARKLET.md'>From Here</a></p>
+            <p><a target='_blank' href='https://github.com/ramda/ramda/blob/master/BOOKMARKLET.md' >From Here</a></p>
         </div>
     </div>
 	
@@ -344,7 +371,9 @@
             <p>Such as, you got a notification on certs you should handle later today...</p>
             <p>Even if you try closing the whole window and it is buried in one of the tabs, it can confirm before it does anything.</p>
             <p>To install, drag the link below to your bookmarks bar</p>
-			<p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){window.onbeforeunload=(evt)=>{return 'discard changes?';}})();" role="button">Confirm Close</a></p>
+			<p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){window.onbeforeunload=(evt)=>{return 'discard changes?';}})();"
+                role="button"
+            >Confirm Close</a></p>
         </div>
     </div>
 
@@ -356,7 +385,9 @@
 			<p>To install, drag the link below to your bookmarks bar</p>
 			<p>Then, click the bookmarklet when the Calendar Event is open, and copy the link</p>
 			<p>(either with details shown or in the edit screen)</p>
-    		<p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){loc%3Dwindow.location.href%2CopenPanel%3Ddocument.querySelector%28%22%5Bisfullscreen%5D%22%29%2CeventId%3D%22%22%2Cloc.indexOf%28%22%2Feventedit%2F%22%29%3E-1%3F%28eventId%3Dloc.split%28%22%2Feventedit%2F%22%29%5B1%5D%2CeventId%3DeventId.split%28%22%3F%22%29%5B0%5D%2CeventId%3DeventId.split%28%22%26%22%29%5B0%5D%29%3AopenPanel%26%26openPanel.querySelector%28%22%5Bdata-eventid%5D%22%29%3FeventId%3DopenPanel.querySelector%28%22%5Bdata-eventid%5D%22%29.getAttribute%28%22data-eventid%22%29%3Aalert%28%22Select%20an%20event%20in%20Google%20Calendar%20to%20begin%22%29%2CeventId%26%26%28address%3D%60https%3A%2F%2Fwww.google.com%2Fcalendar%2Fevent%3Feid%3D%24%7BeventId%7D%60%2Cwindow.prompt%28%22Share%20this%20URL%3A%22%2Caddress%29%29%3B})();">Share GCal Event</a></p>
+    		<p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){loc%3Dwindow.location.href%2CopenPanel%3Ddocument.querySelector%28%22%5Bisfullscreen%5D%22%29%2CeventId%3D%22%22%2Cloc.indexOf%28%22%2Feventedit%2F%22%29%3E-1%3F%28eventId%3Dloc.split%28%22%2Feventedit%2F%22%29%5B1%5D%2CeventId%3DeventId.split%28%22%3F%22%29%5B0%5D%2CeventId%3DeventId.split%28%22%26%22%29%5B0%5D%29%3AopenPanel%26%26openPanel.querySelector%28%22%5Bdata-eventid%5D%22%29%3FeventId%3DopenPanel.querySelector%28%22%5Bdata-eventid%5D%22%29.getAttribute%28%22data-eventid%22%29%3Aalert%28%22Select%20an%20event%20in%20Google%20Calendar%20to%20begin%22%29%2CeventId%26%26%28address%3D%60https%3A%2F%2Fwww.google.com%2Fcalendar%2Fevent%3Feid%3D%24%7BeventId%7D%60%2Cwindow.prompt%28%22Share%20this%20URL%3A%22%2Caddress%29%29%3B})();"
+                role="button" 
+            >Share GCal Event</a></p>
         </div>
     </div>
 
@@ -393,7 +424,9 @@
         	<p>This bookmark creates / navigates you to a search page url you can forward</p>
         	<p>This keeps security in mind, as the search will only find something if someone can see it.</p>
         	<p>(In other words, you can't link to an email someone can't see otherwise)</p>
-   	        <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){messageId%3D%22%22%2CmessageIdEl%3Ddocument.querySelector%28%22td.message_id%22%29%2C%22mail.google.com%22%21%3D%3Dwindow.location.host%3Falert%28%22Please%20go%20to%20an%20email%20within%20GMail%20to%20use.%22%29%3AmessageIdEl%3F%28messageId%3DmessageIdEl.innerText.replace%28%2F%5B%3C%3E%5D%2Fg%2C%22%22%29%2Caddress%3D%22https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F%23search%2F%22%2BencodeURIComponent%28%22rfc822msgid%3A%22%2BmessageId%29%2Cwindow.prompt%28%22Share%20this%20URL%5Cn%28NOTE%3A%20it%20is%20effectively%20a%20search%20link%2C%20to%20avoid%20security%20leaks%29%22%2Caddress%29%29%3Adocument.querySelector%28%22h2%5Bdata-thread-perm-id%5D%22%29%3Falert%28%22Within%20the%20%28%E2%8B%AE%29%20Menu%2C%20click%20SHOW%20ORIGINAL%20to%20continue%22%29%3Aalert%28%22Navigate%20to%20an%20Email%2C%20then%20Show%20Original%20to%20continue%22%29%3B})();">Share GMail</a></a>
+   	        <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){messageId%3D%22%22%2CmessageIdEl%3Ddocument.querySelector%28%22td.message_id%22%29%2C%22mail.google.com%22%21%3D%3Dwindow.location.host%3Falert%28%22Please%20go%20to%20an%20email%20within%20GMail%20to%20use.%22%29%3AmessageIdEl%3F%28messageId%3DmessageIdEl.innerText.replace%28%2F%5B%3C%3E%5D%2Fg%2C%22%22%29%2Caddress%3D%22https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F0%2F%23search%2F%22%2BencodeURIComponent%28%22rfc822msgid%3A%22%2BmessageId%29%2Cwindow.prompt%28%22Share%20this%20URL%5Cn%28NOTE%3A%20it%20is%20effectively%20a%20search%20link%2C%20to%20avoid%20security%20leaks%29%22%2Caddress%29%29%3Adocument.querySelector%28%22h2%5Bdata-thread-perm-id%5D%22%29%3Falert%28%22Within%20the%20%28%E2%8B%AE%29%20Menu%2C%20click%20SHOW%20ORIGINAL%20to%20continue%22%29%3Aalert%28%22Navigate%20to%20an%20Email%2C%20then%20Show%20Original%20to%20continue%22%29%3B})();"
+                role="button" 
+            >Share GMail</a></a>
         </div>
     </div>
 
@@ -423,7 +456,9 @@
             <p>And not have the search include every README.MD file ever to exist</p>
             <p>Navigate to a Google Drive Folder, and click the bookmarklet</p>
             <p>The search it takes you to filters to only that folder</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){loc%3Dwindow.location.href%2Cloc.indexOf%28%22%2Fdrive%2F%22%29%3C0%3Falert%28%22Navigate%20to%20a%20Google%20Drive%20Folder%20to%20begin%22%29%3Aloc.indexOf%28%22%2Ffolders%2F%22%29%3C0%3Falert%28%22Navigate%20to%20a%20Google%20Drive%20Folder%20to%20begin%22%29%3A%28fileName%3Dprompt%28%22Search%20within%20this%20Google%20Drive%20Folder%3A%22%2C%22%22%29%2Cnull%21%3D%3DfileName%26%26%28folderId%3Dloc.split%28%22%2Ffolders%2F%22%29%5B1%5D%2CfolderId%3DfolderId.split%28%22%3F%22%29%5B0%5D%2CfolderId%3DfolderId.split%28%22%26%22%29%5B0%5D%2Caddress%3D%22https%3A%2F%2Fdrive.google.com%2Fdrive%2Fsearch%3Fq%3D%22%2BencodeURIComponent%28%22parent%3A%22%2BfolderId%2B%22%20%22%2BfileName%29%2Cwindow.location.href%3Daddress%29%29%3B})();">Search GFolder</a></p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){loc%3Dwindow.location.href%2Cloc.indexOf%28%22%2Fdrive%2F%22%29%3C0%3Falert%28%22Navigate%20to%20a%20Google%20Drive%20Folder%20to%20begin%22%29%3Aloc.indexOf%28%22%2Ffolders%2F%22%29%3C0%3Falert%28%22Navigate%20to%20a%20Google%20Drive%20Folder%20to%20begin%22%29%3A%28fileName%3Dprompt%28%22Search%20within%20this%20Google%20Drive%20Folder%3A%22%2C%22%22%29%2Cnull%21%3D%3DfileName%26%26%28folderId%3Dloc.split%28%22%2Ffolders%2F%22%29%5B1%5D%2CfolderId%3DfolderId.split%28%22%3F%22%29%5B0%5D%2CfolderId%3DfolderId.split%28%22%26%22%29%5B0%5D%2Caddress%3D%22https%3A%2F%2Fdrive.google.com%2Fdrive%2Fsearch%3Fq%3D%22%2BencodeURIComponent%28%22parent%3A%22%2BfolderId%2B%22%20%22%2BfileName%29%2Cwindow.location.href%3Daddress%29%29%3B})();"
+                role="button" 
+            >Search GFolder</a></p>
         </div>
     </div>
 
@@ -454,7 +489,9 @@
             <h1><a href="#OPEN_GDRIVE_FOLDER">Open Selected GDrive Folder In New Window</a></h1>
             <p>Sometimes you want to open a GDrive folder, in a new window,</p>
             <p> so you don&apos;t lose your place</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function()%7Bconst target=%5B...document.querySelectorAll('c-wiz div%5Brole=%22row%22%5D%5Baria-selected=%22true%22%5D')%5D;if(target.length&gt;0)%7Bfor(var i=0;i<target.length;i++)%7Bconst cTarget=target%5Bi%5D;const driveFolderId=cTarget.parentElement.getAttribute('data-id');window.open('https://drive.google.com/drive/folders/'+driveFolderId,'_blank');%7D%7Delse%7Bwindow.alert('No Folder Selected');%7D%7D)();">Open GFolder</a></p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function()%7Bconst target=%5B...document.querySelectorAll('c-wiz div%5Brole=%22row%22%5D%5Baria-selected=%22true%22%5D')%5D;if(target.length&gt;0)%7Bfor(var i=0;i<target.length;i++)%7Bconst cTarget=target%5Bi%5D;const driveFolderId=cTarget.parentElement.getAttribute('data-id');window.open('https://drive.google.com/drive/folders/'+driveFolderId,'_blank');%7D%7Delse%7Bwindow.alert('No Folder Selected');%7D%7D)();"
+                role="button" 
+            >Open GFolder</a></p>
         </div>
     </div>
 
@@ -470,6 +507,50 @@
 	} else {
 		window.alert('No Folder Selected');
 	}
+    -->
+
+
+    <div class="jumbotron">
+        <a id="EVERY_TIMEZONE" name="EVERY_TIMEZONE"></a>
+        <div class="container">
+            <h1><a href="#EVERY_TIMEZONE">Every Timezone</a></h1>
+            <p>Prompts for a date time, and shows all the timezones for that time</p>
+			<p>To install, drag the link below to your bookmarks bar</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var str='%s';if(str==='%'+'s'){var defaultPrompt=new Date().toLocaleString();defaultPrompt=defaultPrompt.replace(/(\d+):(\d+):\d+/,'$1:$2');str=prompt('time?',defaultPrompt);}if(str){var%20d=new%20Date(Date.parse(str));var%20dTime=d.getTime();if(isNaN(dTime)){alert('String%20is%20not%20a%20valid%20date:'+str);}else{var%20offset=new%20Date().getTimezoneOffset();var%20baseTime=((dTime/1000)-((dTime/1000)%(24*60*60))).toString(16);var%20subTime=(((dTime/1000)%(24*60*60))/60).toString(16);var%20addr='https://everytimezone.com/?t='+baseTime+','+subTime;window.open(addr,'_blank');}}else{window.open('https://everytimezone.com','_blank');}})();"
+                role="button"
+            >Timestamp</a></p>
+        </div>
+    </div>
+
+    
+
+    <!--
+
+    
+    custom search string:
+    javascript:(function(){var str='%s';if(str){var d=new Date(Date.parse(str));var dTime=d.getTime();if(isNaN(dTime)){alert('String is not a valid date:'+str);}else{var offset=new Date().getTimezoneOffset();var baseTime=((dTime/1000)-((dTime/1000)%(24*60*60))).toString(16);var subTime=((((dTime)/1000)%(24*60*60))/60).toString(16);var addr='https://everytimezone.com/?t='+baseTime+','+subTime;window.open(addr,'_blank');}}else{window.open('https://everytimezone.com%27,%27_blank');}})();
+
+    var str = '%s';
+    if (str === '%' + 's') {
+    var defaultPrompt = new Date().toLocaleString();
+    defaultPrompt = defaultPrompt.replace(/(\d+):(\d+):\d+/, "$1:$2");
+    str = prompt('time?', defaultPrompt);
+    }
+    if (str) {
+        var d = new Date(Date.parse(str));
+        var dTime = d.getTime();
+        if (isNaN(dTime)) {
+            alert('String is not a valid date:' + str);
+        } else {
+            var offset = new Date().getTimezoneOffset();
+            var baseTime = ((dTime / 1000) - ((dTime / 1000) % (24 * 60 * 60))).toString(16);
+            var subTime = (((dTime / 1000) % (24 * 60 * 60)) / 60).toString(16);
+            var addr = 'https://everytimezone.com/?t=' + baseTime + ',' + subTime;
+            window.open(addr, '_blank');
+        }
+    } else {
+        window.open('https://everytimezone.com', '_blank');
+    }
     -->
     
     <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
