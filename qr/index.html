@@ -63,7 +63,7 @@
         .app-form label {
             display:block;
         }
-        .edit-btn {
+        .btn-edit {
             width: 100%;
             border: 1px solid #DDD;
             border-radius: 3px;
@@ -99,22 +99,26 @@
 			<div class="info-container container" hidden>
 				<div class="info-address-label">Target Address:</div>
 	        	<div class='info-address'></div>
-	            <button class='btn-visit btn btn-primary' onclick="handleButtonClicked(); false;">Visit Link</button>
+	            <button class='btn-visit btn btn-primary'>Visit Link</button>
 	            <hr />
 	            <div id="qrcode"></div>
 	            <div class='edit-container'>
 	                <hr />
-	                <div class='edit-btn' onclick="handleEditButtonClicked(); false;">- Edit -</div>
+	                <button class='btn-edit'>- Edit -</button>
 	            </div>
 	        </div>
 	        <div class="form-container container" hidden>
-	            <form action="" method="GET" class="app-form create-form">
+	            <form class="app-form create-form">
 	                <div class="form-input">
 	                    <label for="address">Please provide the address to go to.</label>
 	                    <textarea class="address-input" name="address" required></textarea>
 	                </div>
+                    <div class="form-input">
+	                    <span for="is-plain-text">Is Plain Text?</span>
+	                    <input type="checkbox" name="is-plain-text" class="is-plain-text-in"></input>
+	                </div>
 	                <div class="form-button">
-	                    <input type="submit" value="Submit" class="btn btn-secondary"></input>
+	                    <button id="btn-submit" class="btn btn-secondary">Submit</button>
 	                </div>
 	            </form>
 	        </div>
