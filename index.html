@@ -154,144 +154,26 @@
             >Copy Table</a></p>
         </div>
     </div>
-	
-    
+
     <div class="jumbotron">
-        <a id="SEARCH_LEX" name="SEARCH_LEX"></a>
+        <a id="FORMAT_SELECTION" name="FORMAT_SELECTION"></a>
         <div class="container">
-            <h1><a href="#SEARCH_LEX">Search Lightning Experience</a></h1>
-			<p>Searches within LEX of your current Salesforce org</p>
-			<p>Sometimes you want to do a search within Lightning Experience but don&apos;t want to lose your current screen.</p>
-			<p>Launching this bookmarklet while on a Salesforce org will search for that topic in LEX in a new window.</p>
-            <p>To install, drag the link below to your bookmarks bar</p>
-			<p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var searchReq=prompt('what do you want to search?');var searchObj={'componentDef':'forceSearch:search','attributes':{'term':searchReq,'scopeMap':{'type':'TOP_RESULTS'},'context':{'disableSpellCorrection':false,'permsAndPrefs':{'lvmEnabledForSearchResultsOn':true}}}};var searchStr=btoa(JSON.stringify(searchObj));window.open(window.location.protocol+'//'+window.location.host+'/one/one.app#'+searchStr,'_blank');})();" 
+            <h1><a href="#FORMAT_SELECTION">Web Page Highlighter / Formatter</a></h1>
+            <h3>Ever want to cross sections off on a webpage? Or want to take a highlighter to a section?</h3>
+			<p>For example:
+                <ul>
+                    <li>Want to cross off items in an online recipe that were done?</li>
+                    <li>Highlight particular phrases Red / Yellow / Green?</li>
+                    <li>Black out a word for a screenshot?</li>
+                </ul>
+            </p>
+            <p>To install, simply drag the Link / Button below to your bookmarks bar</p>
+            <p>Then click the bookmarklet on the page you want to mark up - to see the toolbar</p>
+            <p>Selecting text and then clicking on the style applies that style</p>
+			<p class="bkmklt"><a class="btn btn-primary btn-lg"
+                href="javascript:(function(){const%20getTextNodes%20=%20node%20=>%20%7B%0A%20%20switch%20(node.nodeType)%20%7B%0A%20%20case%20Node.TEXT_NODE:%0A%20%20return%20[node]%3B%0A%20%20case%20Node.ELEMENT_NODE:%0A%20%20case%20Node.DOCUMENT_NODE:%0A%20%20case%20Node.DOCUMENT_FRAGMENT_NODE:%0A%20%20return%20Array.prototype.map.call(%0A%20%20node.childNodes,%0A%20%20(childNode)%20=>%20getTextNodes(childNode)%0A%20%20).flat()%3B%0A%20%20default:%0A%20%20return%20[]%3B%0A%20%20%7D%0A%7D%3B%0A%0Aconst%20getNextClosestTextNode%20=%20(node,%20startOffset%20=%200)%20=>%20%7B%0A%20%20switch%20(node.nodeType)%20%7B%0A%20%20case%20Node.TEXT_NODE:%20%7B%0A%20%20if%20(startOffset%20<%20node.length)%20%7B%0A%20%20return%20node%3B%0A%20%20%7D%0A%20%20let%20nextClosestNode%20=%20null%3B%0A%20%20while%20(!(nextClosestNode%20=%20node.nextSibling)%20%26%26%20(node%20=%20node.parentNode))%3B%0A%20%20return%20nextClosestNode%20%3F%20getNextClosestTextNode(nextClosestNode)%20:%20null%3B%0A%20%20%7D%0A%20%20case%20Node.ELEMENT_NODE:%0A%20%20case%20Node.DOCUMENT_NODE:%0A%20%20case%20Node.DOCUMENT_FRAGMENT_NODE:%20%7B%0A%20%20const%20childNodes%20=%20node.childNodes%3B%0A%20%20const%20length%20=%20childNodes.length%3B%0A%20%20for%20(let%20i%20=%20startOffset%3B%20i%20<%20length%3B%20i%20+=%201)%20%7B%0A%20%20const%20textNode%20=%20getNextClosestTextNode(childNodes[i])%3B%0A%20%20if%20(textNode)%20%7B%0A%20%20return%20textNode%3B%0A%20%20%7D%0A%20%20%7D%0A%20%20let%20nextClosestNode%20=%20null%3B%0A%20%20while%20(!(nextClosestNode%20=%20node.nextSibling)%20%26%26%20(node%20=%20node.parentNode))%3B%0A%20%20return%20nextClosestNode%20%3F%20getNextClosestTextNode(nextClosestNode)%20:%20null%3B%0A%20%20%7D%0A%20%20default:%20%7B%0A%20%20let%20nextClosestNode%20=%20null%3B%0A%20%20while%20(!(nextClosestNode%20=%20node.nextSibling)%20%26%26%20(node%20=%20node.parentNode))%3B%0A%20%20return%20nextClosestNode%20%3F%20getNextClosestTextNode(nextClosestNode)%20:%20null%3B%0A%20%20%7D%0A%20%20%7D%0A%7D%3B%0A%0Aconst%20getPreviousClosestTextNode%20=%20(node,%20endOffset%20=%20node.length%20||%20node.childNodes.length)%20=>%20%7B%0A%20%20switch%20(node.nodeType)%20%7B%0A%20%20case%20Node.TEXT_NODE:%20%7B%0A%20%20if%20(endOffset%20>%200%20%26%26%20node.length%20>%200)%20%7B%0A%20%20return%20node%3B%0A%20%20%7D%0A%20%20let%20previousClosestNode%20=%20null%3B%0A%20%20while%20(!(previousClosestNode%20=%20node.previousSibling)%20%26%26%20(node%20=%20node.parentNode))%3B%0A%20%20return%20previousClosestNode%20%3F%20getPreviousClosestTextNode(previousClosestNode)%20:%20null%3B%0A%20%20%7D%0A%20%20case%20Node.ELEMENT_NODE:%0A%20%20case%20Node.DOCUMENT_NODE:%0A%20%20case%20Node.DOCUMENT_FRAGMENT_NODE:%20%7B%0A%20%20const%20childNodes%20=%20node.childNodes%3B%0A%20%20for%20(let%20i%20=%20endOffset%3B%20i%20>%200%3B%20i%20-=%201)%20%7B%0A%20%20const%20textNode%20=%20getPreviousClosestTextNode(childNodes[i])%3B%0A%20%20if%20(textNode)%20%7B%0A%20%20return%20textNode%3B%0A%20%20%7D%0A%20%20%7D%0A%20%20let%20previousClosestNode%20=%20null%3B%0A%20%20while%20(!(previousClosestNode%20=%20node.previousSibling)%20%26%26%20(node%20=%20node.parentNode))%3B%0A%20%20return%20previousClosestNode%20%3F%20getPreviousClosestTextNode(previousClosestNode)%20:%20null%3B%0A%20%20%7D%0A%20%20default:%20%7B%0A%20%20let%20previousClosestNode%20=%20null%3B%0A%20%20while%20(!(previousClosestNode%20=%20node.previousSibling)%20%26%26%20(node%20=%20node.parentNode))%3B%0A%20%20return%20previousClosestNode%20%3F%20getPreviousClosestTextNode(previousClosestNode)%20:%20null%3B%0A%20%20%7D%0A%20%20%7D%0A%7D%3B%0A%0Aconst%20splitContents%20=%20range%20=>%20%7B%0A%20%20const%20startContainer%20=%20range.startContainer%3B%0A%20%20const%20startOffset%20=%20range.startOffset%3B%0A%20%20switch%20(startContainer.nodeType)%20%7B%0A%20%20case%20Node.TEXT_NODE:%0A%20%20if%20(startOffset%20>%200)%20%7B%0A%20%20range.setStart(startContainer.splitText(startOffset),%200)%3B%0A%20%20%7D%0A%20%20break%3B%0A%20%20case%20Node.ELEMENT_NODE:%0A%20%20range.setStart(getNextClosestTextNode(startContainer,%20startOffset),%200)%3B%0A%20%20break%3B%0A%20%20default:%0A%20%20break%3B%0A%20%20%7D%0A%0A%20%20const%20endContainer%20=%20range.endContainer%3B%0A%20%20const%20endOffset%20=%20range.endOffset%3B%0A%20%20switch%20(endContainer.nodeType)%20%7B%0A%20%20case%20Node.TEXT_NODE:%0A%20%20if%20(endOffset%20<%20endContainer.length)%20%7B%0A%20%20endContainer.splitText(endOffset)%3B%0A%20%20%7D%0A%20%20break%3B%0A%20%20case%20Node.ELEMENT_NODE:%0A%20%20const%20textNode%20=%20getPreviousClosestTextNode(endContainer,%20endOffset)%3B%0A%20%20range.setEnd(textNode,%20textNode.length)%3B%0A%20%20break%3B%0A%20%20default:%0A%20%20break%3B%0A%20%20%7D%0A%7D%3B%0A%0Aconst%20createFormattedTextElement%20=%20(textNode,%20style)%20=>%20%7B%0A%20%20const%20formattedTextElement%20=%20document.createElement('formatted-text')%3B%0A%20%20Object.assign(formattedTextElement.style,%20style)%3B%0A%20%20textNode.parentNode.replaceChild(formattedTextElement,%20textNode)%3B%0A%20%20formattedTextElement.appendChild(textNode)%3B%0A%20%20return%20formattedTextElement%3B%0A%7D%3B%0A%0Aconst%20formatRange%20=%20(range,%20style)%20=>%20%7B%0A%20%20splitContents(range)%3B%0A%0A%20%20const%20commonAncestorContainer%20=%20range.commonAncestorContainer%3B%0A%20%20switch%20(commonAncestorContainer.nodeType)%20%7B%0A%20%20case%20Node.TEXT_NODE:%0A%20%20createFormattedTextElement(commonAncestorContainer,%20style)%3B%0A%20%20break%3B%0A%20%20case%20Node.ELEMENT_NODE:%0A%20%20const%20textNodes%20=%20getTextNodes(commonAncestorContainer)%3B%0A%20%20const%20textNodesEndOffset%20=%20textNodes.lastIndexOf(range.endContainer)%3B%0A%20%20for%20(let%20i%20=%20textNodes.indexOf(range.startContainer)%3B%20i%20<=%20textNodesEndOffset%3B%20i++)%20%7B%0A%20%20createFormattedTextElement(textNodes[i],%20style)%3B%0A%20%20%7D%0A%20%20break%3B%0A%20%20default:%0A%20%20break%3B%0A%20%20%7D%0A%7D%3B%0A%0Aconst%20getSelections%20=%20(frame%20=%20window)%20=>%20%7B%0A%20%20try%20%7B%0A%20%20const%20selection%20=%20frame.getSelection()%3B%0A%20%20return%20selection%20%26%26%20selection.rangeCount%20>%200%0A%20%20%3F%20[selection,%20...Array.prototype.flatMap.call(frame.frames,%20(frame2)%20=>%20getSelections(frame2))]%0A%20%20:%20Array.prototype.flatMap.call(frame.frames,%20(frame2)%20=>%20getSelections(frame2))%3B%0A%20%20%7D%20catch%20(error)%20%7B%0A%20%20return%20[]%3B%0A%20%20%7D%0A%7D%3B%0A%0Aconst%20formatSelections%20=%20(style)%20=>%20%7B%0A%20%20for%20(const%20selection%20of%20getSelections())%20%7B%0A%20%20const%20selectionRangeCount%20=%20selection.rangeCount%3B%0A%20%20for%20(let%20i%20=%200%3B%20i%20<%20selectionRangeCount%3B%20i++)%20%7B%0A%20%20try%20%7B%0A%20%20formatRange(selection.getRangeAt(i),%20style)%3B%0A%20%20%7D%20catch%20(error)%20%7B%0A%20%20console.error(error)%3B%0A%20%20%7D%0A%20%20%7D%0A%20%20selection.removeAllRanges()%3B%0A%20%20%7D%0A%7D%3B%0A%0Aconst%20createFormatUIIframeElement%20=%20()%20=>%20%7B%0A%20%20const%20iframeElement%20=%20document.createElement('iframe')%3B%0A%20%20document.body.appendChild(iframeElement)%3B%0A%20%20const%20iframeDocument%20=%20iframeElement.contentDocument%3B%0A%20%20iframeDocument.open()%3B%0A%20%20iframeDocument.write(%60%0A%20%20<!DOCTYPE%20html>%0A%20%20<html%20lang=%22en%22>%0A%20%20<head>%0A%20%20<meta%20charset=%22utf-8%22>%0A%20%20<meta%20name=%22viewport%22%20content=%22width=device-width,%20initial-scale=1,%20shrink-to-fit=no%22>%0A%20%20</head>%0A%20%20<body>%0A%20%20<main>%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-bold%22%20title=%22Bold%22%20aria-label=%22Bold%22%20data-text-format-picker-value=%22font-weight=bold%22><span%20aria-hidden=%22true%22>B</span></button>%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-italic%22%20title=%22Italic%22%20aria-label=%22Italic%22%20data-text-format-picker-value=%22font-style=italic%22><span%20aria-hidden=%22true%22>I</span></button>%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-underline%22%20title=%22Underline%22%20aria-label=%22Underline%22%20data-text-format-picker-value=%22text-decoration=underline%22><span%20aria-hidden=%22true%22>U</span></button>%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-strikethrough%22%20title=%22Strikethrough%22%20aria-label=%22Strikethrough%22%20data-text-format-picker-value=%22text-decoration=line-through%22><span%20aria-hidden=%22true%22>ab</span></button>%0A%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-color%20text-format-picker-item-color-black%22%20title=%22Black%22%20aria-label=%22Black%22%20data-text-format-picker-value=%22background-color=black%22></button>%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-color%20text-format-picker-item-color-gray%22%20title=%22Gray%22%20aria-label=%22Gray%22%20data-text-format-picker-value=%22background-color=gray%22></button>%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-color%20text-format-picker-item-color-silver%22%20title=%22Silver%22%20aria-label=%22Silver%22%20data-text-format-picker-value=%22background-color=silver%22></button>%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-color%20text-format-picker-item-color-white%22%20title=%22White%22%20aria-label=%22White%22%20data-text-format-picker-value=%22background-color=white%22></button>%0A%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-color-custom%22%20title=%22Custom%22%20aria-label=%22Custom%22%20data-text-format-picker-value=%22background-color=#b8faff%22%20style=%22background-color:rgb(184,255,255)%22></button>%0A%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-color%22%20title=%22Pink%22%20aria-label=%22Pink%22%20data-text-format-picker-value=%22background-color=rgb(253,138,129)%22></button>%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-color%22%20title=%22Red%22%20aria-label=%22Red%22%20data-text-format-picker-value=%22background-color=red%22></button>%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-color%22%20title=%22Orange%22%20aria-label=%22Orange%22%20data-text-format-picker-value=%22background-color=orange%22></button>%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-color%22%20title=%22Yellow%22%20aria-label=%22Yellow%22%20data-text-format-picker-value=%22background-color=yellow%22></button>%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-color%22%20title=%22Lime%22%20aria-label=%22Lime%22%20data-text-format-picker-value=%22background-color=lime%22></button>%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-color%22%20title=%22Aqua%22%20aria-label=%22Aqua%22%20data-text-format-picker-value=%22background-color=aqua%22></button>%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-color%22%20title=%22Blue%22%20aria-label=%22Blue%22%20data-text-format-picker-value=%22background-color=rgb(130,165,255)%22></button>%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-color%22%20title=%22Violet%22%20aria-label=%22Violet%22%20data-text-format-picker-value=%22background-color=rgb(171,130,248)%22></button>%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-color%22%20title=%22LightPurple%22%20aria-label=%22LightPurple%22%20data-text-format-picker-value=%22background-color=rgb(242,144,249)%22></button>%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-color%22%20title=%22Fuchsia%22%20aria-label=%22Fuchsia%22%20data-text-format-picker-value=%22background-color=fuchsia%22></button>%0A%0A%20%20<input%20class=%22text-format-picker-item%20text-format-picker-item-color-picker%22%20type=%22color%22%20value=%22#b8faff%22%20title=%22Color%20picker%22%20aria-label=%22Color%20picker%22>%0A%0A%20%20<button%20class=%22text-format-picker-item%20text-format-picker-item-cancel%22%20title=%22Cancel%22%20aria-label=%22Cancel%22>Cancel</button>%0A%20%20</main>%0A%20%20</body>%0A%20%20</html>%0A%20%20%60)%3B%0A%20%20iframeDocument.close()%3B%0A%0A%20%20let%20cssStyleSheet%20=%20null%3B%0A%20%20return%20new%20Promise((resolve,%20reject)%20=>%20%7B%0A%20%20if%20(document.readyState%20===%20'interactive'%20||%20document.readyState%20===%20'complete')%20%7B%0A%20%20resolve()%3B%0A%20%20%7D%20else%20%7B%0A%20%20iframeElement.addEventListener('load',%20resolve,%20%7B%20once:%20true%20%7D)%3B%0A%20%20iframeElement.addEventListener('error',%20reject,%20%7B%20once:%20true%20%7D)%3B%0A%20%20%7D%0A%20%20%7D)%0A%20%20.then(%0A%20%20()%20=>%20new%20Promise((resolve,%20reject)%20=>%20%7B%0A%20%20const%20styleElement%20=%20iframeDocument.head.appendChild(iframeDocument.createElement('style'))%3B%0A%20%20const%20styleElementSheet%20=%20styleElement.sheet%3B%0A%20%20if%20(styleElementSheet%20%26%26%20styleElementSheet.cssRules)%20%7B%0A%20%20cssStyleSheet%20=%20styleElementSheet%3B%0A%20%20resolve()%3B%0A%20%20%7D%20else%20%7B%0A%20%20styleElement.remove()%3B%0A%20%20reject()%3B%0A%20%20%7D%0A%20%20%7D)%0A%20%20.catch(%0A%20%20()%20=>%20new%20Promise((resolve,%20reject)%20=>%20%7B%0A%20%20let%20linkElement%20=%20null%3B%0A%20%20for%20(const%20styleSheet%20of%20document.styleSheets)%20%7B%0A%20%20try%20%7B%0A%20%20if%20(styleSheet.cssRules)%20%7B%0A%20%20linkElement%20=%20styleSheet.ownerNode%3B%0A%20%20break%3B%0A%20%20%7D%0A%20%20%7D%20catch%20(error)%20%7B%0A%20%20console.error(error)%3B%0A%20%20%7D%0A%20%20%7D%0A%20%20if%20(linkElement)%20%7B%0A%20%20linkElement%20=%20linkElement.cloneNode(true)%3B%0A%20%20linkElement.addEventListener('load',%20()%20=>%20%7B%20resolve(linkElement)%3B%20%7D,%20%7B%20once:%20true%20%7D)%3B%0A%20%20linkElement.addEventListener('error',%20reject,%20%7B%20once:%20true%20%7D)%3B%0A%20%20iframeDocument.head.appendChild(linkElement)%3B%0A%20%20%7D%20else%20%7B%0A%20%20reject()%3B%0A%20%20%7D%0A%20%20%7D)%0A%20%20.then(linkElement%20=>%20%7B%0A%20%20cssStyleSheet%20=%20linkElement.sheet%3B%0A%20%20%7D)%0A%20%20)%0A%20%20)%0A%20%20.then(()%20=>%20%7B%0A%20%20for%20(let%20i%20=%20cssStyleSheet.cssRules.length%3B%20i--%20>%200%3B%20)%20%7B%0A%20%20cssStyleSheet.deleteRule(i)%3B%0A%20%20%7D%0A%20%20const%20cssRules%20=%20[%0A%20%20%60*%20%7B%0A%20%20box-sizing:%20border-box%3B%0A%20%20%7D%60,%0A%20%20%60html%20%7B%0A%20%20font-size:%2012px%3B%0A%20%20%7D%60,%0A%20%20%60body%20%7B%0A%20%20display:%20inline-block%3B%0A%20%20font-family:%20system-ui,%20-apple-system,%20%22Segoe%20UI%22,%20Roboto,%20%22Helvetica%20Neue%22,%20Arial,%20%22Noto%20Sans%22,%20%22Liberation%20Sans%22,%20sans-serif%3B%0A%20%20font-size:%201rem%3B%0A%20%20line-height:%201.5%3B%0A%20%20margin:%200%3B%0A%20%20-webkit-tap-highlight-color:%20rgba(0,0,0,0)%3B%0A%20%20-webkit-text-size-adjust:%20100%%3B%0A%20%20%7D%60,%0A%20%20%60button,%20input%20%7B%0A%20%20font-family:%20inherit%3B%0A%20%20font-size:%20inherit%3B%0A%20%20line-height:%20inherit%3B%0A%20%20margin:%200%3B%0A%20%20%7D%60,%0A%20%20%60button%20%7B%0A%20%20-webkit-appearance:%20button%3B%0A%20%20border-radius:%200%3B%0A%20%20text-transform:%20none%3B%0A%20%20%7D%60,%0A%20%20%60button:focus:not(:focus-visible)%20%7B%0A%20%20outline:%200%3B%0A%20%20%7D%60,%0A%20%20%60main%20%7B%0A%20%20background:%20padding-box%20#fff%3B%0A%20%20border:%201px%20solid%20rgba(0,0,0,.15)%3B%0A%20%20border-radius:%20.25rem%3B%0A%20%20color:%20#212529%3B%0A%20%20display:%20inline-grid%3B%0A%20%20gap:%20.5rem%202px%3B%0A%20%20grid:%20[font-style%20grayscale]%202rem%20[color]%202rem%20[cancel]%202rem%20/%20repeat(12,%202rem)%3B%0A%20%20padding:%20.5rem%3B%0A%20%20%7D%60,%0A%20%20%60@media%20(prefers-color-scheme:%20dark)%20%7B%0A%20%20main%20%7B%0A%20%20background-color:%20#343a40%3B%0A%20%20color:%20#dee2e6%3B%0A%20%20%7D%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item%20%7B%0A%20%20background-color:%20#fff%3B%0A%20%20border:%201px%20solid%20#dee2e6%3B%0A%20%20border-radius:%201px%3B%0A%20%20padding:%200%3B%0A%20%20position:%20relative%3B%0A%20%20text-align:%20center%3B%0A%20%20transition:%20border-color%20.15s%20ease-in-out,%20box-shadow%20.15s%20ease-in-out%3B%0A%20%20vertical-align:%20middle%3B%0A%20%20%7D%60,%0A%20%20%60@media%20(prefers-reduced-motion:%20reduce)%20%7B%0A%20%20.text-format-picker-item%20%7B%0A%20%20transition:%20none%3B%0A%20%20%7D%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item:focus%20%7B%0A%20%20border-color:%20#ffc107%3B%0A%20%20box-shadow:%200%200%200%20.25rem%20rgba(255,193,7,.5)%3B%0A%20%20outline:%200%3B%0A%20%20z-index:%201%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item:hover%20%7B%0A%20%20border-color:%20#ffc107%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-bold,%0A%20%20.text-format-picker-item-italic,%0A%20%20.text-format-picker-item-underline,%0A%20%20.text-format-picker-item-strikethrough%20%7B%0A%20%20font-family:%20Verdana,%20system-ui,%20-apple-system,%20%22Segoe%20UI%22,%20Roboto,%20%22Helvetica%20Neue%22,%20Arial,%20%22Noto%20Sans%22,%20%22Liberation%20Sans%22,%20sans-serif%3B%0A%20%20grid-row-start:%20font-style%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-bold,%0A%20%20.text-format-picker-item-italic,%0A%20%20.text-format-picker-item-underline%20%7B%0A%20%20font-size:%201.166667rem%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-bold%20%7B%0A%20%20font-weight:%20bold%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-italic%20%7B%0A%20%20font-style:%20italic%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-underline%20%7B%0A%20%20text-decoration:%20underline%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-strikethrough%20%7B%0A%20%20text-decoration:%20line-through%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-color%20%7B%0A%20%20grid-row:%20color%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-color-black,%0A%20%20.text-format-picker-item-color-gray,%0A%20%20.text-format-picker-item-color-silver,%0A%20%20.text-format-picker-item-color-white,%0A%20%20.text-format-picker-item-color-custom%20%7B%0A%20%20grid-row:%20grayscale%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-color-black%20%7B%0A%20%20grid-column:%206%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-color-gray%20%7B%0A%20%20grid-column:%207%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-color-silver%20%7B%0A%20%20grid-column:%208%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-color-white%20%7B%0A%20%20grid-column:%209%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-color-custom%20%7B%0A%20%20grid-column:%2012%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-color-picker%20%7B%0A%20%20grid-area:%20color%20/%20auto%20/%20auto%20/%20span%202%3B%0A%20%20height:%20100%%3B%0A%20%20padding:%20.25rem%20.5rem%3B%0A%20%20width:%20100%%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-color-picker::-webkit-color-swatch%20%7B%0A%20%20border-radius:%201px%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-color-picker::-webkit-color-swatch-wrapper%20%7B%0A%20%20padding:%200%3B%0A%20%20%7D%60,%0A%20%20%60.text-format-picker-item-cancel%20%7B%0A%20%20color:%20#212529%3B%0A%20%20grid-area:%20cancel%20/%20auto%20/%20auto%20/%20span%2012%3B%0A%20%20%7D%60%0A%20%20]%3B%0A%20%20for%20(const%20cssRule%20of%20cssRules.reverse())%20%7B%0A%20%20try%20%7B%0A%20%20cssStyleSheet.insertRule(cssRule)%3B%0A%20%20%7D%20catch%20(error)%20%7B%0A%20%20console.error(error)%3B%0A%20%20%7D%0A%20%20%7D%0A%0A%20%20const%20%7B%20offsetHeight:%20iframeHeight,%20offsetWidth:%20iframeWidth%20%7D%20=%20iframeDocument.body%3B%0A%20%20const%20iframeElementStyle%20=%20iframeElement.style%3B%0A%20%20iframeElementStyle.border%20=%20'0'%3B%0A%20%20iframeElementStyle.height%20=%20iframeHeight%20+%20'px'%3B%0A%20%20iframeElementStyle.opacity%20=%20'1'%3B%0A%20%20iframeElementStyle.position%20=%20'fixed'%3B%0A%20%20const%20prefersReducedMotionReduce%20=%20matchMedia('(prefers-reduced-motion:%20reduce)').matches%3B%0A%20%20iframeElementStyle.transition%20=%20prefersReducedMotionReduce%20%3F%20'none'%20:%20'opacity%20500ms'%3B%0A%20%20iframeElementStyle.width%20=%20iframeWidth%20+%20'px'%3B%0A%20%20iframeElementStyle.zIndex%20=%20'9999'%3B%0A%20%20iframeElementStyle.right%20=%20'10px'%3B%0A%20%20iframeElementStyle.top%20=%20'50%'%3B%0A%20%20iframeElementStyle.transform%20=%20'translateY(-50%)'%3B%0A%0A%20%20const%20iframeMain%20=%20iframeDocument.getElementsByTagName('main')[0]%3B%0A%20%20function%20cleanMain()%20%7B%0A%20%20[...iframeMain.getElementsByTagName('formatted-text')].forEach((el)%20=>%20el.remove())%3B%0A%20%20%7D%0A%0A%20%20for%20(const%20textFormatPickerItemColor%20of%20iframeDocument.getElementsByClassName('text-format-picker-item-color'))%20%7B%0A%20%20const%20textFormatPickerValueKeyValuePairs%20=%20%7B%7D%3B%0A%20%20for%20(const%20keyValuePair%20of%20textFormatPickerItemColor.getAttribute('data-text-format-picker-value').trim().split(/\s*%26\s*/g))%20%7B%0A%20%20const%20%7B%200:%20key,%201:%20value%20%7D%20=%20keyValuePair.split(/\s*=\s*/g)%3B%0A%20%20textFormatPickerValueKeyValuePairs[key]%20=%20value%3B%0A%20%20%7D%0A%20%20textFormatPickerItemColor.style.backgroundColor%20=%20textFormatPickerValueKeyValuePairs['background-color']%3B%0A%20%20textFormatPickerItemColor.addEventListener('click',%20()%20=>%20%7B%0A%20%20formatSelections(textFormatPickerValueKeyValuePairs)%3B%0A%20%20cleanMain()%3B%0A%20%20%7D)%3B%0A%20%20%7D%0A%0A%20%20for%20(const%20textFormatPickerItem%20of%20iframeDocument.querySelectorAll('.text-format-picker-item-bold,%20.text-format-picker-item-italic,%20.text-format-picker-item-underline,%20.text-format-picker-item-strikethrough'))%20%7B%0A%20%20const%20textFormatPickerValueKeyValuePairs%20=%20%7B%7D%3B%0A%20%20for%20(const%20keyValuePair%20of%20textFormatPickerItem.getAttribute('data-text-format-picker-value').trim().split(/\s*%26\s*/g))%20%7B%0A%20%20const%20%7B%200:%20key,%201:%20value%20%7D%20=%20keyValuePair.split(/\s*=\s*/g)%3B%0A%20%20textFormatPickerValueKeyValuePairs[key]%20=%20value%3B%0A%20%20%7D%0A%20%20textFormatPickerItem.addEventListener('click',%20()%20=>%20%7B%0A%20%20formatSelections(textFormatPickerValueKeyValuePairs)%3B%0A%20%20%7D)%3B%0A%20%20%7D%0A%0A%20%20const%20textFormatPickerItemColorPicker%20=%20iframeDocument.getElementsByClassName('text-format-picker-item-color-picker')[0]%3B%0A%20%20textFormatPickerItemColorPicker.addEventListener('change',%20()%20=>%20%7B%0A%20%20formatSelections(%7B%20backgroundColor:%20textFormatPickerItemColorPicker.value%20%7D)%3B%0A%20%20%0A%20%20iframeDocument.getElementsByClassName('text-format-picker-item-color-custom')[0].style.backgroundColor%20=%20textFormatPickerItemColorPicker.value%3B%0A%20%20iframeDocument.getElementsByClassName('text-format-picker-item-color-custom')[0].dataset.textFormatPickerValue%20=%20textFormatPickerItemColorPicker.value%3B%0A%0A%20%20cleanMain()%3B%0A%20%20%7D)%3B%0A%0A%20%20const%20textFormatPickerItemCustomColor%20=%20iframeDocument.getElementsByClassName('text-format-picker-item-color-custom')[0]%3B%0A%20%20textFormatPickerItemCustomColor.addEventListener('click',%20(el)%20=>%20%7B%0A%20%20formatSelections(%7B%20backgroundColor:%20textFormatPickerItemCustomColor.style.backgroundColor%20%7D)%3B%0A%20%20cleanMain()%3B%0A%20%20%7D)%3B%0A%0A%20%20iframeDocument.getElementsByClassName('text-format-picker-item-cancel')[0].addEventListener('click',%20()%20=>%20%7B%0A%20%20iframeElement.remove()%3B%0A%20%20%7D)%3B%0A%0A%20%20iframeElement.focus()%3B%0A%0A%20%20return%20iframeElement%3B%0A%20%20%7D,%0A%20%20()%20=>%20%7B%0A%20%20iframeElement.remove()%3B%0A%20%20formatSelections(%7B%20backgroundColor:%20'yellow'%20%7D)%3B%0A%20%20%7D%0A%20%20)%3B%0A%7D%3B%0A%0AcreateFormatUIIframeElement()%3B%0A})();false;" 
                 role="button"
-            >Search LEX</a></p>
-        </div>
-    </div>
-	
-	
-	
-    
-    <div class="jumbotron">
-        <a id="SEARCH_SFDC" name="SEARCH_SFDC"></a>
-        <div class="container">
-            <h1><a href="#SEARCH_SFDC">Search Salesforce Data</a></h1>
-            <p>Searches Salesforce for your environment</p>
-            <p>To install, drag the link below to your bookmarks bar</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var searchTerm=prompt('what should we search for?');window.open(window.location.protocol+'//'+window.location.host+'/_ui/search/ui/UnifiedSearchResults?searchType=2&amp;str='+searchTerm,'_blank');})();" 
-                role="button"
-            >Search SFDC</a></p>
-        </div>
-    </div>
-    
-    
-    
-    
-    <div class="jumbotron">
-        <a id="SEARCH_SETUP" name="SEARCH_SETUP"></a>
-        <div class="container">
-            <h1><a href="#SEARCH_SETUP">Search Setup</a></h1>
-            <p>Searches Salesforce Setup for terms</p>
-            <p>To install, drag the link below to your bookmarks bar</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var searchTerm=prompt('what should we search for?');window.open(window.location.protocol+'//'+window.location.host+'/ui/setup/SetupSearchResultsPage?setupSearch='+searchTerm,'_blank');})();" 
-                role="button"
-            >Search Setup</a></p>
-        </div>
-    </div>
-    
-    
-    
-    
-    
-    
-    <div class="jumbotron">
-        <a id="SETUP" name="SETUP"></a>
-        <div class="container">
-            <h1><a href="#SETUP">Classic Setup</a></h1>
-            <p>Navigates to the classic settings</p>
-            <p>To install, drag the link below to your bookmarks bar</p>
-            <p>Then simply tap the bookmarklet and enter your search term</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/p/setup/custent/CustomObjectsPage?setupid=CustomObjects';var win=window.open(url,'_blank');function checkWin(){if(win.document){win.document.title=UserContext.userName;}else{setTimeout(checkWin,5000);}}setTimeout(checkWin,5000);})();" 
-                role="button"
-            >Classic Setup</a></p>
-        </div>
-    </div>
-    
-    
-    
-    <div class="jumbotron">
-        <a id="LIGHTNING_SETUP" name="LIGHTNING_SETUP"></a>
-        <div class="container">
-            <h1><a href="#LIGHTNING_SETUP">Lightning Setup</a></h1>
-            <p>Navigates to the Lightning Experience settings - assuming you're in Lightning Experience</p>
-            <p>To install, drag the link below to your bookmarks bar</p>
-            <p>Then simply tap the bookmarklet and enter your search term</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/one/one.app#/setup/home';var win=window.open(url,'_blank');})();" 
-                role="button">Lightning Setup</a></p>
-        </div>
-    </div>
-    
-    
-    
-    <div class="jumbotron">
-        <a id="AC_STUDIO" name="AC_STUDIO"></a>
-        <div class="container">
-            <h1><a href="#AC_STUDIO">Open AC Studio</a></h1>
-            <p>Navigates to Salesforce Analytics Studio - assuming it is available in your org</p>
-            <p>To install, drag the link below to your bookmarks bar</p>
-            <p>Then simply tap the bookmarklet when somewhere in your salesforce org.</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/analytics/wave/wave.apexp#home';var win=window.open(url,'_blank');function checkWin(){if(win.document){win.document.title=UserContext.userName;}else{setTimeout(checkWin,5000);}}setTimeout(checkWin,5000);})();" 
-                role="button"
-            >Open AC Studio</a></p>
-        </div>
-    </div>
-    
-    
-    
-    <div class="jumbotron">
-        <a id="LIGHTNING_SETUP" name="LIGHTNING_APP_BUILDER"></a>
-        <div class="container">
-            <h1><a href="#LIGHTNING_APP_BUILDER">Lightning App Builder</a></h1>
-            <p>Navigates to the Lightning App Builder</p>
-            <p>To install, drag the link below to your bookmarks bar</p>
-            <p>Then navigate to an area in Salesforce with Lightning Experience enabled, and simply tap the bookmarklet</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/one/one.app#/setup/FlexiPageList/home';var win=window.open(url,'_blank');})();" 
-                role="button"
-            >App Builder</a></p>
-        </div>
-    </div>
-    
-    
-    
-    <!--
-    <div class="jumbotron">
-        <a id="RALLY_TASK_STORY" name="SEARCH_RALLY"></a>
-        <div class="container">
-            <h1><a href="#RALLY_TASK_STORY">Rally Task Fix</a></h1>
-            <h1>UPDATE: this may not be needed anymore with recent rally update 1/24/2017. YAY!</h1>
-            <p>Rally Tasks and Story<br />at the SAME TIME</p>
-            <h3>Its a magical concept.</h3>
-            <p>To install, drag the link below to your bookmarks bar</p>
-            <p>Then, when you're on a rally story detail, click the button</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function()%7Burl2%3D&quot;http://mm-proth.s3.amazonaws.com/bookmarklets/rallyFixTarget.html&quot;%3BopenWindow%3Dwindow.open(url2%2B&quot;%3Ff1%3D&quot;%2Bwindow.location.href%2B&quot;%26f2%3D&quot;%2Bwindow.location.href%2B&quot;/tasks&quot;,&quot;RallyFix&quot;,&quot;&quot;)%3B%7D)()%3B" 
-                role="button"
-            >Rally Task Fix</a></p>
-        </div>
-    </div>
-    -->
-    
-    
-    <div class="jumbotron">
-        <a id="SWAP_SFDC_USER" name="SWAP_SFDC_USER"></a>
-        <div class="container">
-            <h1><a href="#SWAP_SFDC_USER">Swap SFDC User</a></h1>
-            <p>Swaps betten the User Chatter page and their User Info page (used for login)</p>
-            <p>To install, drag the link below to your bookmarks bar</p>
-            <p>Then simply tap the bookmarklet and enter your search term</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){originalLocation = window.location.href.replace( '/UserProfilePage?', '/upp?' ); newLocation1=originalLocation.replace( /\/([a-zA-Z0-9]{15,18})[?&amp;].*/, '/_ui/core/userprofile/UserProfilePage?u=$1' ); newLocation2=originalLocation.replace( /[?&amp;]u=([a-zA-Z0-9]{15,})\&amp;.+/g, '%E2%80%A0$1?noredirect=1' ).replace( /\/_ui\/core\/[^%E2%80%A0]+%E2%80%A0/g, '/' ); if( newLocation1 != originalLocation ){   window.location.href=newLocation1; } else if( newLocation2 != originalLocation ){ window.location.href=newLocation2; } })()" 
-                role="button"
-            >Swap SFDC User</a></p>
+            >Format Selection</a></p>
         </div>
     </div>
     
@@ -306,49 +188,6 @@
             <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){window.document.title=window.prompt('New window title?');})()" 
                 role="button"
             >Rename Window</a></p>
-        </div>
-    </div>
-    
-    <div class="jumbotron">
-        <a id="SFDC_ID" name="SFDC_ID"></a>
-        <div class="container">
-            <h1><a href="#SFDC_ID">Open SalesForce ID</a></h1>
-            <h3>Opens SalesForce to a particular SalesForce ID</h3>
-            <p>To install, drag the link below to your bookmarks bar</p>
-            <p>Then simply tap the bookmarklet and enter your search term</p>
-            <p class='bkmklt'><a class="btn btn-primary btn-lg" href="javascript:(function(){var isLightning=(window.location.href.indexOf('/one/one.app')>-1);var isLEX=(typeof $A!=='undefined');var sfdcId=prompt('What is the SalesForce.com ID?');if(!sfdcId){return;}var apexPage=null;var apexMatches=apexMatches=sfdcId.match('(^|/)apex/([a-zA-Z0-9_+]+)');var targetURL='/'+sfdcId;if(isLEX){try{targetURL=targetURL.replace('//','/');var evt=$A.get('e.force:navigateToURL');evt.setParams({'url':targetURL});evt.fire();return;}catch(err){alert('In LEX, but cannot navigate to URL:'+targetURL);return;}}if(isLightning){if(apexMatches){targetURL='/one/one.app#/n/'+apexMatches[2];}else{targetURL='/one/one.app#/sObject/'+sfdcId+'/view'}}var resultURL=window.location.protocol+'//'+window.location.host+targetURL;window.open(resultURL,'_blank');})();"
-                role="button" 
-            >Open SFDC ID</a></p>
-        </div>
-    </div>
-	
-    
-    <div class="jumbotron">
-        <a id="VIEW_ALL_PER_PAGE" name="VIEW_ALL_PER_PAGE"></a>
-        <div class="container">
-            <h1><a href="#VIEW_ALL_PER_PAGE">View All per Page</a></h1>
-            <p>If on a page that says 'see more', you want to see 1k per page instead - this bookmarklet is for you.</p>
-			<p>To install, drag the link below to your bookmarks bar</p>
-			<p>For now, you will have to click on the 'see more' link at least once before clicking,
-				as a couple pages in salesforce have special parameters (like the rowsperpage attribute)
-				that aren't shown until then.</p>
-			<p>This bookmarklet needs that parameter (and all the other hidden special ones) to work correctly</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var loc=window.location.href;var rowsPerPagePattern=/([%][2][6]rowsperpage[%][3][D])(\d+)([%][2][6])/i;var loc2=loc.replace(rowsPerPagePattern,function(matchStr,p1,p2,p3,offset,fullStr){return(p1+1000+p3);});window.location.href=loc2;})();"
-                role="button"
-            >View All per Page</a></p>
-        </div>
-    </div>	
-    
-    <div class="jumbotron">
-        <a id="VIDYARD_TIMESTAMP" name="VIDYARD_TIMESTAMP"></a>
-        <div class="container">
-            <h1><a href="#VIDYARD_TIMESTAMP">Vidyard Timestamp</a></h1>
-            <p>Navigates to a specific seconds offset in a vidyard video.</p>
-			<p>To install, drag the link below to your bookmarks bar</p>
-			<p>Then, click the bookmark when on a vidyard video, fill in the seconds offset</p>
-            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var explorer=null;function getVidyardVideo(v){var result=null;for(var prop in v){if(v.hasOwnProperty(prop)&&typeof(v[prop])=='object'){return(v[prop]);}}return(null);}try{var vidPlayer=new Vidyard.players();window.vidyardExplorer=getVidyardVideo(vidPlayer);explorer=window.vidyardExplorer;}catch(err){alert('could not find vidyard explorer');}if(explorer){try{var timecodeStr=prompt('Video timestamp');var timecode=parseInt(timecodeStr);if(timecode){explorer.seek(timecode);}else{alert('invalid timecode:'+timecode);}}catch(err){alert('could not navigate video');}}})();"
-                role="button"
-            >Vidyard Timestamp</a></p>
         </div>
     </div>
 
@@ -552,6 +391,188 @@
         window.open('https://everytimezone.com', '_blank');
     }
     -->
+    
+    <div class="jumbotron">
+        <a id="SFDC_ID" name="SFDC_ID"></a>
+        <div class="container">
+            <h1><a href="#SFDC_ID">Open SalesForce ID</a></h1>
+            <h3>Opens SalesForce to a particular SalesForce ID</h3>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p>Then simply tap the bookmarklet and enter your search term</p>
+            <p class='bkmklt'><a class="btn btn-primary btn-lg" href="javascript:(function(){var isLightning=(window.location.href.indexOf('/one/one.app')>-1);var isLEX=(typeof $A!=='undefined');var sfdcId=prompt('What is the SalesForce.com ID?');if(!sfdcId){return;}var apexPage=null;var apexMatches=apexMatches=sfdcId.match('(^|/)apex/([a-zA-Z0-9_+]+)');var targetURL='/'+sfdcId;if(isLEX){try{targetURL=targetURL.replace('//','/');var evt=$A.get('e.force:navigateToURL');evt.setParams({'url':targetURL});evt.fire();return;}catch(err){alert('In LEX, but cannot navigate to URL:'+targetURL);return;}}if(isLightning){if(apexMatches){targetURL='/one/one.app#/n/'+apexMatches[2];}else{targetURL='/one/one.app#/sObject/'+sfdcId+'/view'}}var resultURL=window.location.protocol+'//'+window.location.host+targetURL;window.open(resultURL,'_blank');})();"
+                role="button" 
+            >Open SFDC ID</a></p>
+        </div>
+    </div>
+    
+    <div class="jumbotron">
+        <a id="SEARCH_LEX" name="SEARCH_LEX"></a>
+        <div class="container">
+            <h1><a href="#SEARCH_LEX">Search Lightning Experience</a></h1>
+			<p>Searches within LEX of your current Salesforce org</p>
+			<p>Sometimes you want to do a search within Lightning Experience but don&apos;t want to lose your current screen.</p>
+			<p>Launching this bookmarklet while on a Salesforce org will search for that topic in LEX in a new window.</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+			<p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var searchReq=prompt('what do you want to search?');var searchObj={'componentDef':'forceSearch:search','attributes':{'term':searchReq,'scopeMap':{'type':'TOP_RESULTS'},'context':{'disableSpellCorrection':false,'permsAndPrefs':{'lvmEnabledForSearchResultsOn':true}}}};var searchStr=btoa(JSON.stringify(searchObj));window.open(window.location.protocol+'//'+window.location.host+'/one/one.app#'+searchStr,'_blank');})();" 
+                role="button"
+            >Search LEX</a></p>
+        </div>
+    </div>
+	
+	
+	
+    
+    <div class="jumbotron">
+        <a id="SEARCH_SFDC" name="SEARCH_SFDC"></a>
+        <div class="container">
+            <h1><a href="#SEARCH_SFDC">Search Salesforce Data</a></h1>
+            <p>Searches Salesforce for your environment</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var searchTerm=prompt('what should we search for?');window.open(window.location.protocol+'//'+window.location.host+'/_ui/search/ui/UnifiedSearchResults?searchType=2&amp;str='+searchTerm,'_blank');})();" 
+                role="button"
+            >Search SFDC</a></p>
+        </div>
+    </div>
+    
+    
+    
+    
+    <div class="jumbotron">
+        <a id="SEARCH_SETUP" name="SEARCH_SETUP"></a>
+        <div class="container">
+            <h1><a href="#SEARCH_SETUP">Search Setup</a></h1>
+            <p>Searches Salesforce Setup for terms</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var searchTerm=prompt('what should we search for?');window.open(window.location.protocol+'//'+window.location.host+'/ui/setup/SetupSearchResultsPage?setupSearch='+searchTerm,'_blank');})();" 
+                role="button"
+            >Search Setup</a></p>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    <div class="jumbotron">
+        <a id="SETUP" name="SETUP"></a>
+        <div class="container">
+            <h1><a href="#SETUP">Classic Setup</a></h1>
+            <p>Navigates to the classic settings</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p>Then simply tap the bookmarklet and enter your search term</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/p/setup/custent/CustomObjectsPage?setupid=CustomObjects';var win=window.open(url,'_blank');function checkWin(){if(win.document){win.document.title=UserContext.userName;}else{setTimeout(checkWin,5000);}}setTimeout(checkWin,5000);})();" 
+                role="button"
+            >Classic Setup</a></p>
+        </div>
+    </div>
+    
+    
+    
+    <div class="jumbotron">
+        <a id="LIGHTNING_SETUP" name="LIGHTNING_SETUP"></a>
+        <div class="container">
+            <h1><a href="#LIGHTNING_SETUP">Lightning Setup</a></h1>
+            <p>Navigates to the Lightning Experience settings - assuming you're in Lightning Experience</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p>Then simply tap the bookmarklet and enter your search term</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/one/one.app#/setup/home';var win=window.open(url,'_blank');})();" 
+                role="button">Lightning Setup</a></p>
+        </div>
+    </div>
+    
+    
+    
+    <div class="jumbotron">
+        <a id="AC_STUDIO" name="AC_STUDIO"></a>
+        <div class="container">
+            <h1><a href="#AC_STUDIO">Open AC Studio</a></h1>
+            <p>Navigates to Salesforce Analytics Studio - assuming it is available in your org</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p>Then simply tap the bookmarklet when somewhere in your salesforce org.</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/analytics/wave/wave.apexp#home';var win=window.open(url,'_blank');function checkWin(){if(win.document){win.document.title=UserContext.userName;}else{setTimeout(checkWin,5000);}}setTimeout(checkWin,5000);})();" 
+                role="button"
+            >Open AC Studio</a></p>
+        </div>
+    </div>
+    
+    
+    
+    <div class="jumbotron">
+        <a id="LIGHTNING_SETUP" name="LIGHTNING_APP_BUILDER"></a>
+        <div class="container">
+            <h1><a href="#LIGHTNING_APP_BUILDER">Lightning App Builder</a></h1>
+            <p>Navigates to the Lightning App Builder</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p>Then navigate to an area in Salesforce with Lightning Experience enabled, and simply tap the bookmarklet</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var url=window.location.protocol+'//'+window.location.host+'/one/one.app#/setup/FlexiPageList/home';var win=window.open(url,'_blank');})();" 
+                role="button"
+            >App Builder</a></p>
+        </div>
+    </div>
+    
+    
+    
+    <!--
+    <div class="jumbotron">
+        <a id="RALLY_TASK_STORY" name="SEARCH_RALLY"></a>
+        <div class="container">
+            <h1><a href="#RALLY_TASK_STORY">Rally Task Fix</a></h1>
+            <h1>UPDATE: this may not be needed anymore with recent rally update 1/24/2017. YAY!</h1>
+            <p>Rally Tasks and Story<br />at the SAME TIME</p>
+            <h3>Its a magical concept.</h3>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p>Then, when you're on a rally story detail, click the button</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function()%7Burl2%3D&quot;http://mm-proth.s3.amazonaws.com/bookmarklets/rallyFixTarget.html&quot;%3BopenWindow%3Dwindow.open(url2%2B&quot;%3Ff1%3D&quot;%2Bwindow.location.href%2B&quot;%26f2%3D&quot;%2Bwindow.location.href%2B&quot;/tasks&quot;,&quot;RallyFix&quot;,&quot;&quot;)%3B%7D)()%3B" 
+                role="button"
+            >Rally Task Fix</a></p>
+        </div>
+    </div>
+    -->
+    
+    
+    <div class="jumbotron">
+        <a id="SWAP_SFDC_USER" name="SWAP_SFDC_USER"></a>
+        <div class="container">
+            <h1><a href="#SWAP_SFDC_USER">Swap SFDC User</a></h1>
+            <p>Swaps betten the User Chatter page and their User Info page (used for login)</p>
+            <p>To install, drag the link below to your bookmarks bar</p>
+            <p>Then simply tap the bookmarklet and enter your search term</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){originalLocation = window.location.href.replace( '/UserProfilePage?', '/upp?' ); newLocation1=originalLocation.replace( /\/([a-zA-Z0-9]{15,18})[?&amp;].*/, '/_ui/core/userprofile/UserProfilePage?u=$1' ); newLocation2=originalLocation.replace( /[?&amp;]u=([a-zA-Z0-9]{15,})\&amp;.+/g, '%E2%80%A0$1?noredirect=1' ).replace( /\/_ui\/core\/[^%E2%80%A0]+%E2%80%A0/g, '/' ); if( newLocation1 != originalLocation ){   window.location.href=newLocation1; } else if( newLocation2 != originalLocation ){ window.location.href=newLocation2; } })()" 
+                role="button"
+            >Swap SFDC User</a></p>
+        </div>
+    </div>
+	
+    
+    <div class="jumbotron">
+        <a id="VIEW_ALL_PER_PAGE" name="VIEW_ALL_PER_PAGE"></a>
+        <div class="container">
+            <h1><a href="#VIEW_ALL_PER_PAGE">View All per Page</a></h1>
+            <p>If on a page that says 'see more', you want to see 1k per page instead - this bookmarklet is for you.</p>
+			<p>To install, drag the link below to your bookmarks bar</p>
+			<p>For now, you will have to click on the 'see more' link at least once before clicking,
+				as a couple pages in salesforce have special parameters (like the rowsperpage attribute)
+				that aren't shown until then.</p>
+			<p>This bookmarklet needs that parameter (and all the other hidden special ones) to work correctly</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var loc=window.location.href;var rowsPerPagePattern=/([%][2][6]rowsperpage[%][3][D])(\d+)([%][2][6])/i;var loc2=loc.replace(rowsPerPagePattern,function(matchStr,p1,p2,p3,offset,fullStr){return(p1+1000+p3);});window.location.href=loc2;})();"
+                role="button"
+            >View All per Page</a></p>
+        </div>
+    </div>	
+    
+    <div class="jumbotron">
+        <a id="VIDYARD_TIMESTAMP" name="VIDYARD_TIMESTAMP"></a>
+        <div class="container">
+            <h1><a href="#VIDYARD_TIMESTAMP">Vidyard Timestamp</a></h1>
+            <p>Navigates to a specific seconds offset in a vidyard video.</p>
+			<p>To install, drag the link below to your bookmarks bar</p>
+			<p>Then, click the bookmark when on a vidyard video, fill in the seconds offset</p>
+            <p class="bkmklt"><a class="btn btn-primary btn-lg" href="javascript:(function(){var explorer=null;function getVidyardVideo(v){var result=null;for(var prop in v){if(v.hasOwnProperty(prop)&&typeof(v[prop])=='object'){return(v[prop]);}}return(null);}try{var vidPlayer=new Vidyard.players();window.vidyardExplorer=getVidyardVideo(vidPlayer);explorer=window.vidyardExplorer;}catch(err){alert('could not find vidyard explorer');}if(explorer){try{var timecodeStr=prompt('Video timestamp');var timecode=parseInt(timecodeStr);if(timecode){explorer.seek(timecode);}else{alert('invalid timecode:'+timecode);}}catch(err){alert('could not navigate video');}}})();"
+                role="button"
+            >Vidyard Timestamp</a></p>
+        </div>
+    </div>
     
     <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
     
