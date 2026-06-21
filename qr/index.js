@@ -1,5 +1,7 @@
 /* eslint-disable no-return-assign, no-param-reassign */
 
+console.log('index.js ran');
+
 function getURLAddress() {
   const params = new URLSearchParams(document.location.search);
   const address = params.has('address')
@@ -190,5 +192,16 @@ document.querySelector('button.btn-visit').onclick = handleVisitButtonClicked;
 function handleEditButtonClicked(evt) {
   neuterEvent(evt);
   setEditContainerVisibility(true);
+  getAddressInput().select();
+}
+
+/**
+ * Handle if the reset button was clicked
+ */
+function handleResetButtonClicked(evt) {
+  neuterEvent(evt);
+  getAddressInput().value = '';
+  setEditContainerVisibility(true);
 }
 document.querySelector('button.btn-edit').onclick = handleEditButtonClicked;
+document.querySelector('button.btn-reset').onclick = handleResetButtonClicked;
